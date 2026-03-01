@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Dexys India</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-primary: #0B0F19;
+            --bg-secondary: #111827;
+            --accent: #8FB6CC;
+            --accent-soft: rgba(143,182,204,0.08);
+            --text-light: #E5E7EB;
+            --text-muted: #9CA3AF;
+            --border: rgba(143, 182, 204, 0.12);
+            --header-height: 80px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* HEADER (Updated to Secondary Color) */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            height: var(--header-height);
+            /* Changed to bg-secondary with opacity for glassmorphism */
+            background: rgba(17, 24, 39, 0.85); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-container {
+            width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 6%;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        /* LOGO FIX: Inverts black logo to pure white */
+        .logo-img { 
+            height: 24px; 
+            filter: brightness(0) invert(1); 
+            position: relative;
+            z-index: 1001;
+        }
+
+        /* MENU BUTTON */
+        .menu-btn {
+            background: none; border: none; cursor: pointer;
+            width: 40px; height: 40px;
+            display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 6px;
+            z-index: 1001; position: relative;
+        }
+        .menu-line {
+            height: 2px; background: var(--text-light); transition: 0.3s ease;
+        }
+        .menu-line:nth-child(1) { width: 24px; }
+        .menu-line:nth-child(2) { width: 16px; }
+        .menu-btn:hover .menu-line { width: 24px; background: var(--accent); }
+        
+        /* MENU OVERLAY */
+        .menu-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: var(--bg-primary); z-index: 999;
+            display: flex; flex-direction: column; justify-content: center; padding-left: 10%;
+            pointer-events: none; opacity: 0;
+        }
+        .menu-link {
+            font-size: clamp(3rem, 8vw, 6rem); font-weight: 800; color: var(--text-light);
+            text-decoration: none; letter-spacing: -0.04em; margin-bottom: 1rem;
+            opacity: 0; transform: translateY(40px); display: block; width: fit-content;
+        }
+        .menu-link:hover { color: var(--accent); }
+
+        /* GRID BACKGROUND */
+        #grid-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: grid; grid-template-columns: repeat(20, 1fr); z-index: -1; opacity: 0.15;
+        }
+        .grid-pixel { border: 0.5px solid var(--border); }
+
+        /* LAYOUT & TYPOGRAPHY */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 6%; }
+        section { padding: clamp(100px, 12vw, 160px) 0; border-bottom: 1px solid var(--border); }
+        .kicker { color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 1.5rem; display: block; }
+        h1 { font-size: clamp(3.5rem, 12vw, 7.5rem); font-weight: 900; letter-spacing: -0.06em; line-height: 0.9; margin-bottom: 2.5rem; }
+        h2 { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 700; letter-spacing: -0.04em; margin-bottom: 2rem; }
+        p { color: var(--text-muted); font-size: clamp(1rem, 2vw, 1.15rem); max-width: 60ch; }
+
+        /* BIG TECH METRICS SECTION */
+        .metrics-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-top: 5rem;
+        }
+        .metric-card { border-left: 2px solid var(--accent); padding-left: 1.5rem; }
+        .metric-val { font-size: 3.5rem; font-weight: 900; color: var(--text-light); line-height: 1; margin-bottom: 0.5rem; display: block; }
+        .metric-label { color: var(--accent); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; }
+
+        /* FOOTER */
+        footer { background: var(--bg-secondary); padding: 100px 0 40px 0; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 60px; }
+        .footer-col h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; color: var(--text-light); }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 0.75rem; }
+        .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+        .footer-col a:hover { color: var(--accent); }
+        .copyright { padding-top: 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.8rem; color: #4B5563; }
+
+        .reveal { opacity: 0; transform: translateY(30px); }
+
+        @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <img src="image_b1db0d.png" alt="Dexys Logo" class="logo-img">
+            <button class="menu-btn" id="menu-toggle">
+                <div class="menu-line" id="line1"></div>
+                <div class="menu-line" id="line2"></div>
+            </button>
+        </div>
+    </header>
+
+    <div class="menu-overlay" id="menu-overlay">
+        <span class="kicker" style="opacity: 0; transform: translateY(20px);" id="menu-kicker">Navigation</span>
+        <a href="#vision" class="menu-link">Vision</a>
+        <a href="#infrastructure" class="menu-link">Infrastructure</a>
+        <a href="#history" class="menu-link">History</a>
+        <a href="founder.html" class="menu-link">Leadership</a>
+    </div>
+
+    <div id="grid-container"></div>
+
+    <section class="hero" style="padding-top: 220px; border: none;">
+        <div class="container">
+            <span class="kicker reveal">Est. 2025</span>
+            <h1 class="reveal">Architecting<br><span style="color: var(--accent)">Resilience.</span></h1>
+            <p class="reveal">Dexys India is a multinational technology collective engineering the infrastructure of the global digital economy. Built on the principles of modular logic and uncompromising scale.</p>
+        </div>
+    </section>
+
+    <section id="infrastructure">
+        <div class="container">
+            <span class="kicker reveal">Scale</span>
+            <h2 class="reveal">Enterprise-Grade Performance.</h2>
+            <p class="reveal">We design systems that absorb complexity. By bridging advanced AI logic with bare-metal performance, Dexys ensures that enterprise architecture remains invisible, frictionless, and secure.</p>
+            
+            <div class="metrics-grid">
+                <div class="metric-card reveal">
+                    <span class="metric-val">99.9%</span>
+                    <span class="metric-label">Target Uptime</span>
+                    <p style="font-size: 0.9rem; margin-top: 1rem;">Architected for high-availability across distributed networks.</p>
+                </div>
+                <div class="metric-card reveal">
+                    <span class="metric-val">&lt;50<span style="font-size: 1.5rem">ms</span></span>
+                    <span class="metric-label">Latency Optimization</span>
+                    <p style="font-size: 0.9rem; margin-top: 1rem;">Precision-engineered data routing protocols.</p>
+                </div>
+                <div class="metric-card reveal">
+                    <span class="metric-val">∞</span>
+                    <span class="metric-label">Modular Scalability</span>
+                    <p style="font-size: 0.9rem; margin-top: 1rem;">Systems designed to scale horizontally without friction.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="history">
+        <div class="container">
+            <span class="kicker reveal">Provenance</span>
+            <h2 class="reveal">From VSBCETC<br>to the World.</h2>
+            <p class="reveal">Founded by Dharsan and Naveenkumar, Dexys originated as a rigorous academic research initiative in 2025. Treating software as a physical architecture, our founders transitioned from conceptual system design to deploying global enterprise solutions.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid reveal">
+                <div class="footer-col">
+                    <img src="image_b1db0d.png" alt="Dexys Logo" class="logo-img" style="margin-bottom: 1.5rem;">
+                    <p style="font-size: 0.9rem; max-width: 300px;">Architecting the resilient digital infrastructure of tomorrow. Headquartered in India, operating globally.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="founder.html">Leadership</a></li>
+                        <li><a href="#">Infrastructure</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright reveal">
+                <span>© 2026 Dexys India.</span>
+                <span>Bengaluru | Global</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- MENU ANIMATION LOGIC ---
+        const menuBtn = document.getElementById('menu-toggle');
+        const overlay = document.getElementById('menu-overlay');
+        const line1 = document.getElementById('line1');
+        const line2 = document.getElementById('line2');
+        let menuOpen = false;
+        let menuTimeline = anime.timeline({ autoplay: false });
+
+        menuTimeline
+            .add({
+                targets: overlay,
+                opacity: [0, 1],
+                duration: 400,
+                easing: 'easeInOutSine',
+                begin: () => { overlay.style.pointerEvents = 'auto'; }
+            })
+            .add({
+                targets: '#menu-kicker',
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 600,
+                easing: 'easeOutExpo'
+            }, '-=200')
+            .add({
+                targets: '.menu-link',
+                opacity: [0, 1],
+                translateY: [40, 0],
+                duration: 800,
+                delay: anime.stagger(100),
+                easing: 'easeOutExpo'
+            }, '-=500');
+
+        menuBtn.addEventListener('click', () => {
+            if (!menuOpen) {
+                // Open Menu
+                line1.style.transform = 'translateY(4px) rotate(45deg)';
+                line2.style.transform = 'translateY(-4px) rotate(-45deg)';
+                line1.style.width = '24px';
+                line2.style.width = '24px';
+                menuTimeline.play();
+                menuTimeline.finished.then(() => menuTimeline.reverse());
+            } else {
+                // Close Menu
+                line1.style.transform = 'none';
+                line2.style.transform = 'none';
+                line2.style.width = '16px';
+                menuTimeline.play();
+                menuTimeline.finished.then(() => {
+                    overlay.style.pointerEvents = 'none';
+                    menuTimeline.reverse();
+                });
+            }
+            menuOpen = !menuOpen;
+        });
+
+        // --- GRID ANIMATION ---
+        const grid = document.getElementById('grid-container');
+        for (let i = 0; i < 200; i++) {
+            const div = document.createElement('div');
+            div.classList.add('grid-pixel');
+            grid.appendChild(div);
+        }
+
+        anime({
+            targets: '.grid-pixel',
+            opacity: [0.1, 0.4, 0.1],
+            delay: anime.stagger(50, {grid: [20, 10], from: 'center'}),
+            loop: true,
+            easing: 'easeInOutQuad',
+            duration: 3000
+        });
+
+        // --- SCROLL REVEAL ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    anime({
+                        targets: entry.target.querySelectorAll('.reveal'),
+                        translateY: [40, 0],
+                        opacity: [0, 1],
+                        delay: anime.stagger(150),
+                        duration: 1000,
+                        easing: 'easeOutCubic'
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section, footer').forEach(s => observer.observe(s));
+    </script>
+</body>
+</html>
