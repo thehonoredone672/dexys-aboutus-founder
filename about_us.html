@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About | Dexys India</title>
+    <title>About Us | DEXYS Technologies</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
@@ -30,19 +30,13 @@
             line-height: 1.6;
         }
 
-        /* HEADER (Updated to Secondary Color) */
+        /* STICKY HEADER - Pure White (#fff) */
         header {
-            position: fixed;
-            top: 0; width: 100%;
-            height: var(--header-height);
-            /* Changed to bg-secondary with opacity for glassmorphism */
-            background: rgba(17, 24, 39, 0.85); 
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
+            position: fixed; top: 0; width: 100%; height: var(--header-height);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            z-index: 1000; display: flex; align-items: center;
         }
 
         .nav-container {
@@ -50,24 +44,31 @@
             display: flex; justify-content: space-between; align-items: center;
         }
 
-        /* LOGO FIX: Inverts black logo to pure white */
-        .logo-img { 
-            height: 24px; 
-            filter: brightness(0) invert(1); 
-            position: relative;
-            z-index: 1001;
-        }
+        /* Header Logo (Original colors on white bg) */
+        header .logo-img { height: 26px; position: relative; z-index: 1001; }
+        
+        /* Footer Logo (Inverted to white on dark bg) */
+        footer .logo-img { height: 26px; filter: brightness(0) invert(1); }
 
-        /* MENU BUTTON */
+        /* DESKTOP NAVIGATION */
+        .desktop-nav { display: flex; gap: 2.5rem; align-items: center; }
+        .desktop-nav a {
+            color: var(--bg-primary); 
+            text-decoration: none; 
+            font-size: 0.85rem; 
+            font-weight: 600; 
+            transition: color 0.3s;
+        }
+        .desktop-nav a:hover { color: var(--accent); }
+
+        /* HAMBURGER MENU (Mobile Only) */
         .menu-btn {
             background: none; border: none; cursor: pointer;
             width: 40px; height: 40px;
             display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 6px;
             z-index: 1001; position: relative;
         }
-        .menu-line {
-            height: 2px; background: var(--text-light); transition: 0.3s ease;
-        }
+        .menu-line { height: 2px; background: var(--bg-primary); transition: 0.3s ease; }
         .menu-line:nth-child(1) { width: 24px; }
         .menu-line:nth-child(2) { width: 16px; }
         .menu-btn:hover .menu-line { width: 24px; background: var(--accent); }
@@ -80,37 +81,51 @@
             pointer-events: none; opacity: 0;
         }
         .menu-link {
-            font-size: clamp(3rem, 8vw, 6rem); font-weight: 800; color: var(--text-light);
-            text-decoration: none; letter-spacing: -0.04em; margin-bottom: 1rem;
+            font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 800; color: var(--text-light);
+            text-decoration: none; letter-spacing: -0.04em; margin-bottom: 1.5rem;
             opacity: 0; transform: translateY(40px); display: block; width: fit-content;
         }
         .menu-link:hover { color: var(--accent); }
 
-        /* GRID BACKGROUND */
+        /* BACKGROUND GRID */
         #grid-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: grid; grid-template-columns: repeat(20, 1fr); z-index: -1; opacity: 0.15;
         }
         .grid-pixel { border: 0.5px solid var(--border); }
 
-        /* LAYOUT & TYPOGRAPHY */
+        /* TYPOGRAPHY & LAYOUT */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 6%; }
         section { padding: clamp(100px, 12vw, 160px) 0; border-bottom: 1px solid var(--border); }
+        .bg-secondary-section { background-color: var(--bg-secondary); }
+        
         .kicker { color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 1.5rem; display: block; }
         h1 { font-size: clamp(3.5rem, 12vw, 7.5rem); font-weight: 900; letter-spacing: -0.06em; line-height: 0.9; margin-bottom: 2.5rem; }
-        h2 { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 700; letter-spacing: -0.04em; margin-bottom: 2rem; }
-        p { color: var(--text-muted); font-size: clamp(1rem, 2vw, 1.15rem); max-width: 60ch; }
+        h2 { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 700; letter-spacing: -0.04em; margin-bottom: 2rem; line-height: 1.1; }
+        p { color: var(--text-muted); font-size: clamp(1rem, 2vw, 1.15rem); max-width: 65ch; }
 
-        /* BIG TECH METRICS SECTION */
-        .metrics-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-top: 5rem;
+        /* LEADERSHIP CARDS */
+        .leadership-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; margin-top: 5rem; }
+        .leader-card {
+            background: var(--bg-primary); padding: 4rem 3rem; border: 1px solid var(--border);
+            border-radius: 4px; transition: 0.4s; position: relative; overflow: hidden;
         }
-        .metric-card { border-left: 2px solid var(--accent); padding-left: 1.5rem; }
-        .metric-val { font-size: 3.5rem; font-weight: 900; color: var(--text-light); line-height: 1; margin-bottom: 0.5rem; display: block; }
-        .metric-label { color: var(--accent); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; }
+        .leader-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .leader-role { font-size: 0.8rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 0.5rem; }
+        .leader-name { font-size: 2.5rem; font-weight: 800; color: var(--text-light); margin-bottom: 1.5rem; letter-spacing: -0.03em; }
+
+        /* TIMELINE / HISTORY */
+        .history-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-top: 4rem; }
+        .timeline-box { border-left: 2px solid var(--border); padding-left: 2rem; position: relative; }
+        .timeline-item { margin-bottom: 3rem; position: relative; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -35px; top: 8px; width: 12px; height: 12px;
+            background: var(--bg-primary); border: 2px solid var(--accent); border-radius: 50%;
+        }
+        .timeline-year { color: var(--accent); font-weight: 700; font-size: 0.9rem; margin-bottom: 0.5rem; display: block; }
 
         /* FOOTER */
-        footer { background: var(--bg-secondary); padding: 100px 0 40px 0; }
+        footer { background: var(--bg-primary); padding: 100px 0 40px 0; border-top: 1px solid var(--border); }
         .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 60px; }
         .footer-col h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; color: var(--text-light); }
         .footer-col ul { list-style: none; }
@@ -121,14 +136,32 @@
 
         .reveal { opacity: 0; transform: translateY(30px); }
 
-        @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr; } }
+        /* RESPONSIVE TOGGLES */
+        @media (min-width: 901px) {
+            .menu-btn { display: none !important; }
+        }
+        @media (max-width: 900px) { 
+            .desktop-nav { display: none !important; }
+            .history-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .footer-grid { grid-template-columns: 1fr; } 
+        }
     </style>
 </head>
 <body>
 
     <header>
         <div class="nav-container">
-            <img src="image_b1db0d.png" alt="Dexys Logo" class="logo-img">
+            <a href="index.html">
+                <img src="image_b1db0d.png" alt="DEXYS Logo" class="logo-img">
+            </a>
+            
+            <nav class="desktop-nav">
+                <a href="#about">About Us</a>
+                <a href="#history">Our History</a>
+                <a href="#philosophy">Philosophy</a>
+                <a href="#leadership">Leadership</a>
+            </nav>
+
             <button class="menu-btn" id="menu-toggle">
                 <div class="menu-line" id="line1"></div>
                 <div class="menu-line" id="line2"></div>
@@ -138,53 +171,92 @@
 
     <div class="menu-overlay" id="menu-overlay">
         <span class="kicker" style="opacity: 0; transform: translateY(20px);" id="menu-kicker">Navigation</span>
-        <a href="#vision" class="menu-link">Vision</a>
-        <a href="#infrastructure" class="menu-link">Infrastructure</a>
-        <a href="#history" class="menu-link">History</a>
-        <a href="founder.html" class="menu-link">Leadership</a>
+        <a href="#about" class="menu-link">About Us</a>
+        <a href="#history" class="menu-link">Our History</a>
+        <a href="#philosophy" class="menu-link">Philosophy</a>
+        <a href="#leadership" class="menu-link">Leadership</a>
     </div>
 
     <div id="grid-container"></div>
 
-    <section class="hero" style="padding-top: 220px; border: none;">
+    <section class="hero" id="about" style="padding-top: 220px; border: none;">
         <div class="container">
-            <span class="kicker reveal">Est. 2025</span>
-            <h1 class="reveal">Architecting<br><span style="color: var(--accent)">Resilience.</span></h1>
-            <p class="reveal">Dexys India is a multinational technology collective engineering the infrastructure of the global digital economy. Built on the principles of modular logic and uncompromising scale.</p>
+            <span class="kicker reveal">The Company</span>
+            <h1 class="reveal">Architecting<br><span style="color: var(--accent)">Tomorrow.</span></h1>
+            <p class="reveal">DEXYS Technologies is a visionary organization driven by the pursuit of engineering perfection. We are a collective of technologists, architects, and system thinkers dedicated to redefining how global infrastructure is built, scaled, and sustained.</p>
         </div>
     </section>
 
-    <section id="infrastructure">
+    <section id="history" class="bg-secondary-section">
         <div class="container">
-            <span class="kicker reveal">Scale</span>
-            <h2 class="reveal">Enterprise-Grade Performance.</h2>
-            <p class="reveal">We design systems that absorb complexity. By bridging advanced AI logic with bare-metal performance, Dexys ensures that enterprise architecture remains invisible, frictionless, and secure.</p>
+            <span class="kicker reveal">Provenance</span>
+            <h2 class="reveal">Academic Roots.<br>Global Scale.</h2>
             
-            <div class="metrics-grid">
-                <div class="metric-card reveal">
-                    <span class="metric-val">99.9%</span>
-                    <span class="metric-label">Target Uptime</span>
-                    <p style="font-size: 0.9rem; margin-top: 1rem;">Architected for high-availability across distributed networks.</p>
+            <div class="history-grid">
+                <div class="reveal">
+                    <p style="margin-bottom: 1.5rem;">DEXYS was not born in a corporate boardroom. The vision took shape in 2025 while founders Dharsan and Naveenkumar were pursuing their engineering studies at VSB College of Engineering & Technical Campus, Coimbatore.</p>
+                    <p>What began as an independent exploration into structural system limits and late-night architectural debates quickly evolved into a fully realized technological enterprise. Today, that foundational discipline—a refusal to accept the status quo of fragile software—remains embedded in our corporate DNA.</p>
                 </div>
-                <div class="metric-card reveal">
-                    <span class="metric-val">&lt;50<span style="font-size: 1.5rem">ms</span></span>
-                    <span class="metric-label">Latency Optimization</span>
-                    <p style="font-size: 0.9rem; margin-top: 1rem;">Precision-engineered data routing protocols.</p>
-                </div>
-                <div class="metric-card reveal">
-                    <span class="metric-val">∞</span>
-                    <span class="metric-label">Modular Scalability</span>
-                    <p style="font-size: 0.9rem; margin-top: 1rem;">Systems designed to scale horizontally without friction.</p>
+                
+                <div class="timeline-box reveal">
+                    <div class="timeline-item">
+                        <span class="timeline-year">2025</span>
+                        <h4 style="color: var(--text-light); font-size: 1.1rem; margin-bottom: 0.5rem;">The Genesis</h4>
+                        <p style="font-size: 0.95rem;">While studying at VSB College of Engineering & Technical Campus, founders Dharsan and Naveenkumar conceptualize the core framework for DEXYS during their first year.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">Early Development</span>
+                        <h4 style="color: var(--text-light); font-size: 1.1rem; margin-bottom: 0.5rem;">Architectural Prototyping</h4>
+                        <p style="font-size: 0.95rem;">Transitioning theoretical system design into scalable, modular logic capable of supporting enterprise-grade operations independently of their academic coursework.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">The Future</span>
+                        <h4 style="color: var(--text-light); font-size: 1.1rem; margin-bottom: 0.5rem;">Multinational Vision</h4>
+                        <p style="font-size: 0.95rem;">Expanding DEXYS Technologies from a specialized engineering collective into a global technology powerhouse.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="history">
+    <section id="philosophy">
         <div class="container">
-            <span class="kicker reveal">Provenance</span>
-            <h2 class="reveal">From VSBCETC<br>to the World.</h2>
-            <p class="reveal">Founded by Dharsan and Naveenkumar, Dexys originated as a rigorous academic research initiative in 2025. Treating software as a physical architecture, our founders transitioned from conceptual system design to deploying global enterprise solutions.</p>
+            <span class="kicker reveal">Core Philosophy</span>
+            <h2 class="reveal">Engineering over Marketing.</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; margin-top: 3rem;">
+                <div class="reveal" style="border-top: 1px solid var(--border); padding-top: 2rem;">
+                    <h3 style="color: var(--text-light); margin-bottom: 1rem;">Modular Resilience</h3>
+                    <p style="font-size: 0.95rem;">We believe technology should absorb complexity, not create it. Every system we conceptualize is built with fail-safes and horizontal scalability in mind.</p>
+                </div>
+                <div class="reveal" style="border-top: 1px solid var(--border); padding-top: 2rem;">
+                    <h3 style="color: var(--text-light); margin-bottom: 1rem;">Absolute Integrity</h3>
+                    <p style="font-size: 0.95rem;">Our word is our architecture. We operate with complete transparency, replacing industry buzzwords with mathematically sound, provable results.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="leadership" class="bg-secondary-section" style="border-bottom: none;">
+        <div class="container">
+            <span class="kicker reveal">The Founders</span>
+            <h2 class="reveal">Visionary Leadership.</h2>
+            <p class="reveal">The uncompromising standards of DEXYS Technologies are driven directly by our founding team, deeply rooted in technical excellence and strategic foresight.</p>
+            
+            <div class="leadership-grid">
+                <div class="leader-card reveal">
+                    <span class="leader-role">Founder & Chief Architect</span>
+                    <h3 class="leader-name">Dharsan</h3>
+                    <p style="font-size: 0.95rem; margin-bottom: 2rem;">Spearheading the technological roadmap of DEXYS, Dharsan focuses on high-level system logic, cloud sovereignty, and the long-term architectural integrity of the company's ecosystem.</p>
+                    <a href="founder.html" style="color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">View Profile &rarr;</a>
+                </div>
+
+                <div class="leader-card reveal">
+                    <span class="leader-role">Co-Founder & Head of Operations</span>
+                    <h3 class="leader-name">Naveenkumar</h3>
+                    <p style="font-size: 0.95rem; margin-bottom: 2rem;">Driving the execution and strategic deployment of DEXYS initiatives. Naveenkumar bridges the gap between complex engineering concepts and seamless operational scaling.</p>
+                    <a href="founder.html" style="color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">View Profile &rarr;</a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -192,29 +264,30 @@
         <div class="container">
             <div class="footer-grid reveal">
                 <div class="footer-col">
-                    <img src="image_b1db0d.png" alt="Dexys Logo" class="logo-img" style="margin-bottom: 1.5rem;">
+                    <img src="image_b1db0d.png" alt="DEXYS Logo" class="logo-img" style="margin-bottom: 1.5rem;">
                     <p style="font-size: 0.9rem; max-width: 300px;">Architecting the resilient digital infrastructure of tomorrow. Headquartered in India, operating globally.</p>
                 </div>
                 <div class="footer-col">
-                    <h4>Company</h4>
+                    <h4>Organization</h4>
                     <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="founder.html">Leadership</a></li>
-                        <li><a href="#">Infrastructure</a></li>
+                        <li><a href="#about">Company Overview</a></li>
+                        <li><a href="#history">Our Origins</a></li>
+                        <li><a href="#philosophy">Philosophy</a></li>
+                        <li><a href="#leadership">Founders</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4>Legal</h4>
+                    <h4>Corporate</h4>
                     <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Ethics & Compliance</a></li>
                         <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Compliance</a></li>
                     </ul>
                 </div>
             </div>
             <div class="copyright reveal">
-                <span>© 2026 Dexys India.</span>
-                <span>Bengaluru | Global</span>
+                <span>© 2026 DEXYS Technologies. All rights reserved.</span>
+                <span>India | Global</span>
             </div>
         </div>
     </footer>
@@ -223,6 +296,7 @@
         // --- MENU ANIMATION LOGIC ---
         const menuBtn = document.getElementById('menu-toggle');
         const overlay = document.getElementById('menu-overlay');
+        const menuLinks = document.querySelectorAll('.menu-link');
         const line1 = document.getElementById('line1');
         const line2 = document.getElementById('line2');
         let menuOpen = false;
@@ -252,20 +326,23 @@
                 easing: 'easeOutExpo'
             }, '-=500');
 
-        menuBtn.addEventListener('click', () => {
+        function toggleMenu() {
             if (!menuOpen) {
-                // Open Menu
+                // Change hamburger to "X" and make it white to contrast with dark overlay
                 line1.style.transform = 'translateY(4px) rotate(45deg)';
                 line2.style.transform = 'translateY(-4px) rotate(-45deg)';
-                line1.style.width = '24px';
-                line2.style.width = '24px';
+                line1.style.width = '24px'; line2.style.width = '24px';
+                line1.style.backgroundColor = '#fff'; line2.style.backgroundColor = '#fff';
+                
                 menuTimeline.play();
                 menuTimeline.finished.then(() => menuTimeline.reverse());
             } else {
-                // Close Menu
+                // Revert hamburger to default state (dark color for white header)
                 line1.style.transform = 'none';
                 line2.style.transform = 'none';
                 line2.style.width = '16px';
+                line1.style.backgroundColor = 'var(--bg-primary)'; line2.style.backgroundColor = 'var(--bg-primary)';
+                
                 menuTimeline.play();
                 menuTimeline.finished.then(() => {
                     overlay.style.pointerEvents = 'none';
@@ -273,7 +350,12 @@
                 });
             }
             menuOpen = !menuOpen;
-        });
+        }
+
+        if(menuBtn) {
+            menuBtn.addEventListener('click', toggleMenu);
+        }
+        menuLinks.forEach(link => link.addEventListener('click', toggleMenu));
 
         // --- GRID ANIMATION ---
         const grid = document.getElementById('grid-container');
