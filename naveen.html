@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naveenkumar - Head of Operations | DEXYS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-primary: #0B0F19; --bg-secondary: #111827;
+            --accent: #8FB6CC; --accent-soft: rgba(143,182,204,0.15);
+            --text-light: #E5E7EB; --text-muted: #9CA3AF;
+            --border: rgba(143, 182, 204, 0.12); --header-height: 80px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        body { background-color: var(--bg-primary); color: var(--text-light); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; }
+
+        /* CUSTOM CURSOR */
+        .cursor-dot { width: 8px; height: 8px; background-color: var(--accent); position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s; }
+        .cursor-outline { width: 32px; height: 32px; border: 1px solid var(--accent); position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s; }
+        body.hovering .cursor-outline { width: 50px; height: 50px; background-color: var(--accent-soft); }
+        body.hovering .cursor-dot { width: 0; height: 0; }
+        .scroll-progress { position: fixed; top: var(--header-height); left: 0; width: 0%; height: 2px; background: var(--accent); z-index: 999; }
+
+        /* HEADER */
+        header { position: fixed; top: 0; width: 100%; height: var(--header-height); background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); z-index: 1000; display: flex; align-items: center; }
+        .nav-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 6%; display: flex; justify-content: space-between; align-items: center; }
+        header .logo-img { height: 26px; z-index: 1001; }
+        .desktop-nav { display: flex; gap: 3rem; align-items: center; }
+        .desktop-nav a { position: relative; color: var(--bg-primary); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 0.5rem 0; transition: color 0.3s ease; }
+        .desktop-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .desktop-nav a:hover, .desktop-nav a.active { color: var(--accent); }
+        .desktop-nav a:hover::after, .desktop-nav a.active::after { transform: scaleX(1); transform-origin: left; }
+        
+        /* BACKGROUND GRID */
+        #grid-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: grid; grid-template-columns: repeat(20, 1fr); z-index: -2; opacity: 0.15; }
+        .grid-pixel { border: 0.5px solid var(--border); }
+
+        /* TYPOGRAPHY & LAYOUT */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 6%; }
+        section { padding: clamp(80px, 10vw, 120px) 0; }
+        .kicker { color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 1rem; display: block; }
+        h1 { font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 900; letter-spacing: -0.05em; line-height: 1; margin-bottom: 1.5rem; }
+        p { color: var(--text-muted); font-size: 1.05rem; max-width: 60ch; margin-bottom: 1.5rem; }
+
+        /* TERMINAL UI */
+        .profile-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: center; margin-top: 2rem; }
+        .ide-window { background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
+        .ide-header { background: rgba(255,255,255,0.05); padding: 12px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.r { background: #FF5F56; } .dot.y { background: #FFBD2E; } .dot.g { background: #27C93F; }
+        .ide-title { margin: 0 auto; color: #888; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 500; }
+        .ide-body { padding: 2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.8; color: var(--text-light); min-height: 250px; }
+        .prompt { color: #98C379; font-weight: 700; }
+        .dir { color: #61AFEF; font-weight: 700; }
+        .success { color: #98C379; }
+        .blink { animation: blinker 1s step-end infinite; }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+        /* OPS STATS */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 3rem; }
+        .stat-card { background: var(--bg-secondary); padding: 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: border-color 0.3s; }
+        .stat-card:hover { border-color: var(--accent); }
+        .stat-val { font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--accent); display: block; margin-bottom: 0.25rem; }
+        .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+
+        /* PIPELINE UI */
+        .pipeline-wrapper { margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--border); }
+        .pipeline { display: flex; align-items: center; justify-content: space-between; margin-top: 2rem; position: relative; }
+        .pipeline::before { content: ''; position: absolute; left: 0; top: 50%; width: 100%; height: 2px; background: rgba(143,182,204,0.2); z-index: 1; }
+        .node { position: relative; z-index: 2; background: var(--bg-primary); padding: 0.5rem 1rem; border: 1px solid var(--accent); border-radius: 50px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+        .node.active { background: var(--accent); color: var(--bg-primary); }
+        .node-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+
+        .reveal { opacity: 0; transform: translateY(30px); }
+        @media (max-width: 900px) { .profile-grid { grid-template-columns: 1fr; } .desktop-nav { display: none; } .pipeline { flex-direction: column; gap: 1rem; } .pipeline::before { display: none; } }
+    </style>
+</head>
+<body>
+    <div class="cursor-outline" id="cursor-outline"></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <header>
+        <div class="nav-container">
+            <a href="about.html" class="hover-target"><img src="image_b1db0d.png" alt="DEXYS Logo" class="logo-img"></a>
+            <nav class="desktop-nav">
+                <a href="about.html#about" class="hover-target">Company</a>
+                <a href="about.html#philosophy" class="hover-target">Logic</a>
+                <a href="founder.html" class="hover-target active">Leadership</a>
+            </nav>
+        </div>
+    </header>
+
+    <div id="grid-container"></div>
+
+    <section style="padding-top: 140px; min-height: 100vh;">
+        <div class="container">
+            
+            <a href="founder.html" class="hover-target" style="color: var(--text-muted); text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; display: inline-block; margin-bottom: 2rem;">&larr; cd ../leadership</a>
+            
+            <div class="profile-grid">
+                <div>
+                    <span class="kicker reveal">Co-Founder & Head of Operations</span>
+                    <h1 class="reveal">Naveenkumar</h1>
+                    <p class="reveal">Naveenkumar operates at the critical intersection of complex technical logic and real-world execution. He translates high-level architectural visions into deployable, enterprise-grade realities without losing fidelity.</p>
+                    <p class="reveal">He is the operational anchor of DEXYS. Naveenkumar ensures that the team scales not just in codebase, but in business impact, managing deployment pipelines and ensuring smooth handoffs from development to production.</p>
+                    
+                    <div class="stats-grid reveal">
+                        <div class="stat-card hover-target">
+                            <span class="stat-val">100%</span><span class="stat-label">Deploy Success</span>
+                        </div>
+                        <div class="stat-card hover-target">
+                            <span class="stat-val">0</span><span class="stat-label">Critical Failures</span>
+                        </div>
+                        <div class="stat-card hover-target">
+                            <span class="stat-val">24/7</span><span class="stat-label">System Monitored</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ide-window reveal hover-target">
+                    <div class="ide-header">
+                        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+                        <span class="ide-title">naveen@ops: ~/dexys/production</span>
+                    </div>
+                    <div class="ide-body" id="term-text">
+                        <span class="prompt">naveen@ops</span>:<span class="dir">~/production$</span> ./execute_deployment.sh<br><br>
+                        <div id="typewriter"></div>
+                        <span class="prompt">naveen@ops</span>:<span class="dir">~/production$</span> <span class="blink">_</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pipeline-wrapper reveal">
+                <h3 style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--accent);">> Current Ops Pipeline: Active</h3>
+                <div class="pipeline">
+                    <div class="node"><div class="node-dot"></div> Build Passing</div>
+                    <div class="node"><div class="node-dot"></div> Tests Verified</div>
+                    <div class="node"><div class="node-dot"></div> Docker Image Pushed</div>
+                    <div class="node active"><div class="node-dot" style="background: var(--bg-primary);"></div> Live in Production</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+        // Custom Cursor
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+        window.addEventListener('mousemove', e => {
+            cursorDot.style.left = `${e.clientX}px`; cursorDot.style.top = `${e.clientY}px`;
+            cursorOutline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 150, fill: "forwards" });
+        });
+        document.querySelectorAll('a, .hover-target').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById("scroll-progress").style.width = (winScroll / height) * 100 + "%";
+        });
+
+        // Generate Grid Background
+        const grid = document.getElementById('grid-container');
+        for(let i=0; i<200; i++) { let d = document.createElement('div'); d.className='grid-pixel'; grid.appendChild(d); }
+        anime({ targets: '.grid-pixel', opacity: [0.1, 0.4, 0.1], delay: anime.stagger(50, {grid: [20, 10], from: 'center'}), loop: true, easing: 'easeInOutQuad', duration: 3000 });
+
+        // Terminal Typewriter Effect
+        const textToType = [
+            "[INFO] Bridging engineering and reality...",
+            "[INFO] Verifying architectural integrity...",
+            "[INFO] Initializing scaling protocols...",
+            "[SUCCESS] Operations stable. Systems online."
+        ];
+        let tIndex = 0; let cIndex = 0; const target = document.getElementById('typewriter');
+        function typeWriter() {
+            if (tIndex < textToType.length) {
+                if (cIndex < textToType[tIndex].length) {
+                    let char = textToType[tIndex].charAt(cIndex);
+                    // Add syntax coloring to the tags
+                    if(char === '[' && textToType[tIndex].includes('INFO')) { target.innerHTML += '<span style="color: #61AFEF;">['; }
+                    else if(char === '[' && textToType[tIndex].includes('SUCCESS')) { target.innerHTML += '<span style="color: #98C379;">['; }
+                    else if(char === ']') { target.innerHTML += ']</span>'; }
+                    else { target.innerHTML += char; }
+                    cIndex++; setTimeout(typeWriter, 30);
+                } else {
+                    target.innerHTML += "<br>"; tIndex++; cIndex = 0; setTimeout(typeWriter, 400);
+                }
+            }
+        }
+        setTimeout(typeWriter, 1000);
+
+        // Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    anime({ targets: entry.target.querySelectorAll('.reveal'), translateY: [40, 0], opacity: [0, 1], delay: anime.stagger(150), duration: 1000, easing: 'easeOutCubic' });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('section').forEach(s => observer.observe(s));
+    </script>
+</body>
+</html>
