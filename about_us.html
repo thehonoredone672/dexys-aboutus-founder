@@ -21,7 +21,7 @@
             --header-height: 80px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Hide default cursor */ }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         
         body {
             background-color: var(--bg-primary);
@@ -44,14 +44,12 @@
             pointer-events: none; z-index: 9998; transform: translate(-50%, -50%);
             transition: width 0.2s, height 0.2s, background-color 0.2s;
         }
-        /* Expand cursor on hoverable elements */
         body.hovering .cursor-outline { width: 50px; height: 50px; background-color: var(--accent-soft); }
         body.hovering .cursor-dot { width: 0; height: 0; }
 
         /* SCROLL PROGRESS BAR UI */
         .scroll-progress {
-            position: fixed; top: var(--header-height); left: 0;
-            width: 0%; height: 2px; background: var(--accent); z-index: 999;
+            position: fixed; top: var(--header-height); left: 0; width: 0%; height: 2px; background: var(--accent); z-index: 999;
         }
 
         /* STICKY HEADER - Pure White */
@@ -64,13 +62,38 @@
         }
 
         .nav-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 6%; display: flex; justify-content: space-between; align-items: center; }
-        header .logo-img { height: 26px; position: relative; z-index: 1001; }
+        header .logo-img { height: 26px; position: relative; z-index: 1001; transition: transform 0.3s ease; }
+        header .logo-img:hover { transform: scale(1.05); }
         footer .logo-img { height: 26px; filter: brightness(0) invert(1); }
 
-        /* DESKTOP NAVIGATION */
-        .desktop-nav { display: flex; gap: 2.5rem; align-items: center; }
-        .desktop-nav a { color: var(--bg-primary); text-decoration: none; font-size: 0.85rem; font-weight: 600; transition: color 0.3s; }
+        /* DESKTOP NAVIGATION & CLEAN HOVER ANIMATION */
+        .desktop-nav { display: flex; gap: 3rem; align-items: center; }
+        .desktop-nav a { 
+            position: relative;
+            color: var(--bg-primary); 
+            text-decoration: none; 
+            font-size: 0.85rem; 
+            font-weight: 600; 
+            padding: 0.5rem 0;
+            transition: color 0.3s ease; 
+        }
+        
+        /* Sweeping Underline Animation */
+        .desktop-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 2px;
+            background-color: var(--accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
         .desktop-nav a:hover { color: var(--accent); }
+        .desktop-nav a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
 
         /* HAMBURGER MENU (Mobile Only) */
         .menu-btn {
@@ -128,11 +151,8 @@
         .cursor-blink { animation: blink 1s step-end infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* SCROLLING MARQUEE UI */
-        .marquee {
-            background: var(--accent); color: var(--bg-primary); padding: 1rem 0;
-            overflow: hidden; white-space: nowrap; display: flex; align-items: center;
-        }
+        /* SAAS MARQUEE UI */
+        .marquee { background: var(--accent); color: var(--bg-primary); padding: 1rem 0; overflow: hidden; white-space: nowrap; display: flex; align-items: center; }
         .marquee-content { display: flex; animation: scrollText 20s linear infinite; font-weight: 800; font-size: 0.9rem; letter-spacing: 0.1em; }
         .marquee-content span { padding: 0 2rem; }
         @keyframes scrollText { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -162,14 +182,14 @@
 
         .reveal { opacity: 0; transform: translateY(30px); }
 
-        /* RESPONSIVE */
+        /* RESPONSIVE TOGGLES */
         @media (min-width: 901px) { .menu-btn { display: none !important; } }
         @media (max-width: 900px) { 
             .desktop-nav { display: none !important; }
             .hero-layout { grid-template-columns: 1fr; }
             .history-grid { grid-template-columns: 1fr; gap: 2rem; }
             .footer-grid { grid-template-columns: 1fr; } 
-            .cursor-dot, .cursor-outline { display: none; /* Hide custom cursor on mobile */ }
+            .cursor-dot, .cursor-outline { display: none; }
             * { cursor: auto; }
         }
     </style>
@@ -186,10 +206,10 @@
             </a>
             
             <nav class="desktop-nav">
-                <a href="#about" class="hover-target">About Us</a>
-                <a href="#history" class="hover-target">Our History</a>
-                <a href="#philosophy" class="hover-target">Philosophy</a>
-                <a href="#leadership" class="hover-target">Leadership</a>
+                <a href="#about" class="hover-target">Company</a>
+                <a href="#history" class="hover-target">Origins</a>
+                <a href="#philosophy" class="hover-target">Logic</a>
+                <a href="#leadership" class="hover-target">Founders</a>
             </nav>
 
             <button class="menu-btn hover-target" id="menu-toggle">
@@ -202,10 +222,10 @@
 
     <div class="menu-overlay" id="menu-overlay">
         <span class="kicker" style="opacity: 0; transform: translateY(20px);" id="menu-kicker">Navigation</span>
-        <a href="#about" class="menu-link hover-target">About Us</a>
-        <a href="#history" class="menu-link hover-target">Our History</a>
-        <a href="#philosophy" class="menu-link hover-target">Philosophy</a>
-        <a href="#leadership" class="menu-link hover-target">Leadership</a>
+        <a href="#about" class="menu-link hover-target">Company</a>
+        <a href="#history" class="menu-link hover-target">Origins</a>
+        <a href="#philosophy" class="menu-link hover-target">Logic</a>
+        <a href="#leadership" class="menu-link hover-target">Founders</a>
     </div>
 
     <div id="grid-container"></div>
@@ -300,7 +320,6 @@
                     <p style="font-size: 0.95rem; margin-bottom: 2rem;">Primary converter of caffeine into enterprise-grade system logic. Dharsan focuses on high-level architecture, cloud sovereignty, and ensuring the ecosystem scales flawlessly.</p>
                     <a href="founder.html" style="color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; pointer-events: none;">View Profile &rarr;</a>
                 </div>
-
                 <div class="leader-card reveal hover-target">
                     <span class="leader-role">Co-Founder & Head of Operations</span>
                     <h3 class="leader-name">Naveenkumar</h3>
@@ -346,23 +365,10 @@
         // --- CUSTOM CURSOR LOGIC ---
         const cursorDot = document.getElementById('cursor-dot');
         const cursorOutline = document.getElementById('cursor-outline');
-        
         window.addEventListener('mousemove', function(e) {
-            const posX = e.clientX;
-            const posY = e.clientY;
-            
-            // Dot follows instantly
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-            
-            // Outline follows with slight animation (using standard CSS transform for performance)
-            cursorOutline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 150, fill: "forwards" });
+            cursorDot.style.left = `${e.clientX}px`; cursorDot.style.top = `${e.clientY}px`;
+            cursorOutline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 150, fill: "forwards" });
         });
-
-        // Add hover state to custom cursor
         document.querySelectorAll('a, button, .hover-target').forEach(el => {
             el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
             el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
@@ -384,28 +390,21 @@
             "> Status: 200 OK.",
             "> Ready to scale."
         ];
-        let typeIndex = 0;
-        let charIndex = 0;
+        let typeIndex = 0; let charIndex = 0;
         const typeTarget = document.getElementById('typewriter');
-
         function typeWriter() {
             if (typeIndex < textToType.length) {
                 if (charIndex < textToType[typeIndex].length) {
                     typeTarget.innerHTML += textToType[typeIndex].charAt(charIndex);
-                    charIndex++;
-                    setTimeout(typeWriter, 40); // typing speed
+                    charIndex++; setTimeout(typeWriter, 40);
                 } else {
-                    typeTarget.innerHTML += "<br>";
-                    typeIndex++;
-                    charIndex = 0;
-                    setTimeout(typeWriter, 500); // pause between lines
+                    typeTarget.innerHTML += "<br>"; typeIndex++; charIndex = 0; setTimeout(typeWriter, 500);
                 }
             }
         }
-        // Start typing after a short delay
         setTimeout(typeWriter, 1500);
 
-        // --- MENU ANIMATION LOGIC ---
+        // --- MENU ANIMATION LOGIC (Mobile) ---
         const menuBtn = document.getElementById('menu-toggle');
         const overlay = document.getElementById('menu-overlay');
         const menuLinks = document.querySelectorAll('.menu-link');
@@ -439,18 +438,15 @@
         // --- BACKGROUND GRID ANIMATION ---
         const grid = document.getElementById('grid-container');
         for (let i = 0; i < 200; i++) {
-            const div = document.createElement('div');
-            div.classList.add('grid-pixel');
-            grid.appendChild(div);
+            const div = document.createElement('div'); div.classList.add('grid-pixel'); grid.appendChild(div);
         }
-
         anime({
             targets: '.grid-pixel', opacity: [0.1, 0.4, 0.1],
             delay: anime.stagger(50, {grid: [20, 10], from: 'center'}),
             loop: true, easing: 'easeInOutQuad', duration: 3000
         });
 
-        // --- SCROLL REVEAL (Anime.js) ---
+        // --- SCROLL REVEAL ---
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -462,7 +458,6 @@
                 }
             });
         }, { threshold: 0.1 });
-
         document.querySelectorAll('section, footer').forEach(s => observer.observe(s));
     </script>
 </body>
