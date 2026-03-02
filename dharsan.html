@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dharsan - Chief Architect | DEXYS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-primary: #0B0F19; --bg-secondary: #111827;
+            --accent: #8FB6CC; --accent-soft: rgba(143,182,204,0.15);
+            --text-light: #E5E7EB; --text-muted: #9CA3AF;
+            --border: rgba(143, 182, 204, 0.12); --header-height: 80px;
+            /* Syntax Theme */
+            --syn-kw: #C678DD; --syn-fn: #61AFEF; --syn-st: #98C379; 
+            --syn-cm: #5C6370; --syn-cl: #E5C07B; --syn-nm: #D19A66;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        body { background-color: var(--bg-primary); color: var(--text-light); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; }
+
+        /* CUSTOM CURSOR */
+        .cursor-dot { width: 8px; height: 8px; background-color: var(--accent); position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s; }
+        .cursor-outline { width: 32px; height: 32px; border: 1px solid var(--accent); position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s; }
+        body.hovering .cursor-outline { width: 50px; height: 50px; background-color: var(--accent-soft); }
+        body.hovering .cursor-dot { width: 0; height: 0; }
+        .scroll-progress { position: fixed; top: var(--header-height); left: 0; width: 0%; height: 2px; background: var(--accent); z-index: 999; }
+
+        /* HEADER (White Glassmorphism) */
+        header { position: fixed; top: 0; width: 100%; height: var(--header-height); background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); z-index: 1000; display: flex; align-items: center; }
+        .nav-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 6%; display: flex; justify-content: space-between; align-items: center; }
+        header .logo-img { height: 26px; z-index: 1001; }
+        .desktop-nav { display: flex; gap: 3rem; align-items: center; }
+        .desktop-nav a { position: relative; color: var(--bg-primary); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 0.5rem 0; transition: color 0.3s ease; }
+        .desktop-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .desktop-nav a:hover, .desktop-nav a.active { color: var(--accent); }
+        .desktop-nav a:hover::after, .desktop-nav a.active::after { transform: scaleX(1); transform-origin: left; }
+        
+        /* BACKGROUND GRID */
+        #grid-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: grid; grid-template-columns: repeat(20, 1fr); z-index: -2; opacity: 0.15; }
+        .grid-pixel { border: 0.5px solid var(--border); }
+
+        /* TYPOGRAPHY & LAYOUT */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 6%; }
+        section { padding: clamp(80px, 10vw, 120px) 0; }
+        .kicker { color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 1rem; display: block; }
+        h1 { font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 900; letter-spacing: -0.05em; line-height: 1; margin-bottom: 1.5rem; }
+        p { color: var(--text-muted); font-size: 1.05rem; max-width: 60ch; margin-bottom: 1.5rem; }
+
+        /* IDE UI WINDOW */
+        .profile-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: center; margin-top: 2rem; }
+        .ide-window { background: #1E1E1E; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
+        .ide-header { background: #2D2D2D; padding: 12px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #111; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.r { background: #FF5F56; } .dot.y { background: #FFBD2E; } .dot.g { background: #27C93F; }
+        .ide-title { margin: 0 auto; color: #888; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 500; }
+        .ide-body { padding: 2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.7; overflow-x: auto; color: #abb2bf; }
+        
+        /* SYNTAX HIGHLIGHTING CLASSES */
+        .kw { color: var(--syn-kw); } .fn { color: var(--syn-fn); } .st { color: var(--syn-st); } 
+        .cl { color: var(--syn-cl); } .cm { color: var(--syn-cm); font-style: italic; } .nm { color: var(--syn-nm); }
+
+        /* DEV STATS */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 3rem; }
+        .stat-card { background: var(--bg-secondary); padding: 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: border-color 0.3s; }
+        .stat-card:hover { border-color: var(--accent); }
+        .stat-val { font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--accent); display: block; margin-bottom: 0.25rem; }
+        .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+
+        /* GITHUB-STYLE GRAPH */
+        .graph-wrapper { margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--border); }
+        .commit-grid { display: grid; grid-template-columns: repeat(32, 1fr); gap: 4px; margin-top: 1.5rem; }
+        .commit-cell { aspect-ratio: 1; border-radius: 2px; background: rgba(255,255,255,0.05); }
+        
+        .reveal { opacity: 0; transform: translateY(30px); }
+
+        @media (max-width: 900px) { .profile-grid { grid-template-columns: 1fr; } .desktop-nav { display: none; } }
+    </style>
+</head>
+<body>
+    <div class="cursor-outline" id="cursor-outline"></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <header>
+        <div class="nav-container">
+            <a href="about.html" class="hover-target"><img src="image_b1db0d.png" alt="DEXYS Logo" class="logo-img"></a>
+            <nav class="desktop-nav">
+                <a href="about.html#about" class="hover-target">Company</a>
+                <a href="about.html#philosophy" class="hover-target">Logic</a>
+                <a href="founder.html" class="hover-target active">Leadership</a>
+            </nav>
+        </div>
+    </header>
+
+    <div id="grid-container"></div>
+
+    <section style="padding-top: 140px; min-height: 100vh;">
+        <div class="container">
+            
+            <a href="founder.html" class="hover-target" style="color: var(--text-muted); text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; display: inline-block; margin-bottom: 2rem;">&larr; cd ../leadership</a>
+            
+            <div class="profile-grid">
+                <div>
+                    <span class="kicker reveal">Founder & Chief Architect</span>
+                    <h1 class="reveal">Dharsan</h1>
+                    <p class="reveal">Dharsan doesn't just write code; he architects scalable logic. As the technical visionary behind DEXYS, he ensures that every system deployed is resilient, modular, and optimized to the microsecond.</p>
+                    <p class="reveal">If a system crashes, it's a bug. If it doesn't scale horizontally, it's a fundamental architectural flaw. Dharsan fixes the latter before the former even has a chance to occur.</p>
+                    
+                    <div class="stats-grid reveal">
+                        <div class="stat-card hover-target">
+                            <span class="stat-val">99.9%</span><span class="stat-label">Uptime SLA</span>
+                        </div>
+                        <div class="stat-card hover-target">
+                            <span class="stat-val">0<span style="font-size: 1rem;">ms</span></span><span class="stat-label">Latency Tolerance</span>
+                        </div>
+                        <div class="stat-card hover-target">
+                            <span class="stat-val">∞</span><span class="stat-label">Scale Factor</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ide-window reveal hover-target">
+                    <div class="ide-header">
+                        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+                        <span class="ide-title">dharsan_core.ts</span>
+                    </div>
+                    <div class="ide-body" id="code-block">
+<span class="cm">// DEXYS Primary Architecture Logic</span>
+<span class="kw">import</span> { Infrastructure } <span class="kw">from</span> <span class="st">'@dexys/core'</span>;
+
+<span class="kw">export class</span> <span class="cl">DexysArchitecture</span> <span class="kw">extends</span> <span class="cl">Infrastructure</span> {
+    <span class="kw">private</span> scaleFactor: <span class="cl">number</span> = <span class="nm">Infinity</span>;
+    <span class="kw">private</span> legacyCode: <span class="cl">null</span> = <span class="kw">null</span>;
+
+    <span class="kw">constructor</span>() {
+        <span class="kw">super</span>({ resilience: <span class="st">'Maximum'</span> });
+    }
+
+    <span class="kw">public</span> <span class="fn">deploySystem</span>(): <span class="cl">void</span> {
+        <span class="kw">try</span> {
+            <span class="kw">while</span> (<span class="kw">true</span>) {
+                <span class="kw">this</span>.<span class="fn">scaleHorizontally</span>();
+                <span class="kw">this</span>.<span class="fn">optimizeLatency</span>();
+            }
+        } <span class="kw">catch</span> (error) {
+            <span class="cm">// Unreachable code. Dexys systems don't crash.</span>
+            <span class="kw">throw new</span> <span class="cl">ImpossibleError</span>();
+        }
+    }
+}
+                    </div>
+                </div>
+            </div>
+
+            <div class="graph-wrapper reveal">
+                <h3 style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--accent);">> System Contributions (Last Year)</h3>
+                <div class="commit-grid" id="commit-graph"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+        // Custom Cursor
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+        window.addEventListener('mousemove', e => {
+            cursorDot.style.left = `${e.clientX}px`; cursorDot.style.top = `${e.clientY}px`;
+            cursorOutline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 150, fill: "forwards" });
+        });
+        document.querySelectorAll('a, .hover-target').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById("scroll-progress").style.width = (winScroll / height) * 100 + "%";
+        });
+
+        // Generate Grid Background
+        const grid = document.getElementById('grid-container');
+        for(let i=0; i<200; i++) { let d = document.createElement('div'); d.className='grid-pixel'; grid.appendChild(d); }
+        anime({ targets: '.grid-pixel', opacity: [0.1, 0.4, 0.1], delay: anime.stagger(50, {grid: [20, 10], from: 'center'}), loop: true, easing: 'easeInOutQuad', duration: 3000 });
+
+        // Generate Commit Graph (Tech UI Element)
+        const commitGraph = document.getElementById('commit-graph');
+        const colors = ['rgba(255,255,255,0.05)', '#0e4429', '#006d32', '#26a641', '#39d353'];
+        for(let i=0; i<160; i++) {
+            let cell = document.createElement('div');
+            cell.className = 'commit-cell hover-target';
+            // Randomly assign a green "commit" color based on probability
+            let colorIndex = Math.random() > 0.4 ? Math.floor(Math.random() * 4) + 1 : 0;
+            cell.style.backgroundColor = colors[colorIndex];
+            commitGraph.appendChild(cell);
+        }
+
+        // Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    anime({ targets: entry.target.querySelectorAll('.reveal'), translateY: [40, 0], opacity: [0, 1], delay: anime.stagger(150), duration: 1000, easing: 'easeOutCubic' });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('section').forEach(s => observer.observe(s));
+    </script>
+</body>
+</html>
