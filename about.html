@@ -15,6 +15,7 @@
         .dexys-svg-logo:hover { transform: scale(1.05); }
         header .dexys-svg-logo { color: var(--bg-primary); } footer .dexys-svg-logo { color: var(--text-light); }
 
+<<<<<<< HEAD
         #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 99999; display: flex; align-items: center; justify-content: center; flex-direction: column; display: none;}
         .loader-text { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 2rem; }
         .loader-line-container { width: 1px; height: 100px; background: rgba(255,255,255,0.05); overflow: hidden; position: relative; } .loader-line { width: 100%; height: 0%; background: var(--accent); position: absolute; bottom: 0; }
@@ -33,6 +34,24 @@
         .container { max-width: 1100px; margin: 0 auto; padding: 0 5%; position: relative; } section { padding: clamp(100px, 12vw, 160px) 0; border-bottom: 1px solid var(--border); position: relative; } .bg-secondary-section { background-color: var(--bg-secondary); } .kicker { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 1.5rem; display: block; } h1 { font-size: clamp(3.5rem, 8vw, 6.5rem); font-weight: 900; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 1.5rem; } h2 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1.5rem; line-height: 1.1; color: var(--text-light); } p { color: var(--text-muted); font-size: clamp(1.05rem, 2vw, 1.2rem); max-width: 65ch; margin-bottom: 2rem; line-height: 1.7; } .text-gradient { background: linear-gradient(135deg, #FFF 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         
         .timeline-wrapper { margin-top: 5rem; position: relative; padding-left: 2rem; max-width: 800px;} .timeline-line { position: absolute; left: 0; top: 0; width: 2px; height: 100%; background: linear-gradient(to bottom, var(--accent) 0%, rgba(143,182,204,0.1) 100%); border-radius: 2px; } .timeline-card { position: relative; background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 3rem; margin-bottom: 3rem; transition: transform 0.4s, border-color 0.4s; overflow: hidden; } .timeline-card:hover { transform: translateY(-5px); border-color: rgba(143,182,204,0.3); } .timeline-dot { position: absolute; left: -2.35rem; top: 3.5rem; width: 14px; height: 14px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent); z-index: 2; box-shadow: 0 0 10px var(--accent); } .timeline-year { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--bg-primary); background: var(--accent); padding: 4px 12px; border-radius: 50px; font-weight: 700; margin-bottom: 1rem; } .timeline-card h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-light); }
+=======
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 99999; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        .loader-text { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 2rem; }
+        .loader-line-container { width: 1px; height: 100px; background: rgba(255,255,255,0.05); overflow: hidden; position: relative; } .loader-line { width: 100%; height: 0%; background: var(--accent); position: absolute; bottom: 0; }
+        .cursor-dot { width: 6px; height: 6px; background-color: var(--accent); position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s; }
+        .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(143,182,204,0.5); position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: 0.3s; }
+        body.hovering .cursor-outline { width: 60px; height: 60px; background-color: rgba(143,182,204,0.1); border-color: transparent; backdrop-filter: blur(2px); } body.hovering .cursor-dot { width: 0; height: 0; }
+
+        header { position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height); background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); z-index: 1000; display: flex; align-items: center; }
+        .nav-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 6%; display: flex; justify-content: space-between; align-items: center; }
+        .desktop-nav { display: flex; gap: 3rem; align-items: center; } .desktop-nav a { position: relative; color: var(--bg-primary); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 0.5rem 0; transition: color 0.3s ease; } .desktop-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); } .desktop-nav a:hover, .desktop-nav a.active { color: var(--accent); } .desktop-nav a:hover::after, .desktop-nav a.active::after { transform: scaleX(1); transform-origin: left; }
+        .menu-btn { background: none; border: none; width: 40px; height: 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 6px; z-index: 1001; position: relative; } .menu-line { height: 2px; background: var(--bg-primary); transition: 0.3s ease; } .menu-line:nth-child(1) { width: 24px; } .menu-line:nth-child(2) { width: 16px; } .menu-btn:hover .menu-line { width: 24px; background: var(--accent); } .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 999; display: flex; flex-direction: column; justify-content: center; padding-left: 10%; pointer-events: none; opacity: 0; } .menu-link { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 800; color: var(--text-light); text-decoration: none; letter-spacing: -0.04em; margin-bottom: 1.5rem; opacity: 0; transform: translateY(40px); display: block; width: fit-content; } .menu-link:hover { color: var(--accent); }
+        
+        .ambient-glow { position: absolute; top: 10%; left: 50%; transform: translateX(-50%); width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(143,182,204,0.08) 0%, transparent 70%); z-index: -1; pointer-events: none; } #grid-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: grid; grid-template-columns: repeat(20, 1fr); z-index: -2; opacity: 0.15; mask-image: radial-gradient(ellipse at center, black 40%, transparent 100%); } .grid-pixel { border: 0.5px solid var(--border); }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 5%; position: relative; } section { padding: clamp(100px, 12vw, 160px) 0; border-bottom: 1px solid var(--border); position: relative; } .bg-secondary-section { background-color: var(--bg-secondary); } .kicker { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 1.5rem; display: block; } h1 { font-size: clamp(3.5rem, 8vw, 6.5rem); font-weight: 900; letter-spacing: -0.05em; line-height: 1.05; margin-bottom: 1.5rem; } h2 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; letter-spacing: -0.04em; margin-bottom: 1.5rem; line-height: 1.1; color: var(--text-light); } p { color: var(--text-muted); font-size: clamp(1.05rem, 2vw, 1.2rem); max-width: 65ch; margin-bottom: 2rem; line-height: 1.7; } .text-gradient { background: linear-gradient(135deg, #FFF 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        
+        .timeline-wrapper { margin-top: 5rem; position: relative; padding-left: 2rem; max-width: 800px;} .timeline-line { position: absolute; left: 0; top: 0; width: 2px; height: 100%; background: linear-gradient(to bottom, var(--accent) 0%, rgba(143,182,204,0.1) 100%); border-radius: 2px; } .timeline-card { position: relative; background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 3rem; margin-bottom: 3rem; transition: transform 0.4s, border-color 0.4s; overflow: hidden; } .timeline-card:hover { transform: translateY(-5px); border-color: rgba(143,182,204,0.3); } .timeline-dot { position: absolute; left: -2.35rem; top: 3.5rem; width: 14px; height: 14px; border-radius: 50%; background: var(--bg-primary); border: 2px solid var(--accent); z-index: 2; } .timeline-year { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--bg-primary); background: var(--accent); padding: 4px 12px; border-radius: 50px; font-weight: 700; margin-bottom: 1rem; } .timeline-card h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-light); }
+>>>>>>> bd679e70015c809527e3fb58e0f6333d7914eb27
         .leadership-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; margin-top: 5rem; } .leader-card { background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 100%); padding: 4rem 3rem; border: 1px solid var(--border); border-radius: 16px; transition: 0.4s; position: relative; } .leader-card:hover { border-color: var(--accent); transform: translateY(-8px); box-shadow: 0 30px 60px rgba(0,0,0,0.5); background: linear-gradient(180deg, rgba(143,182,204,0.05) 0%, rgba(255,255,255,0) 100%); } .leader-role { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 1rem; } .leader-name { font-size: 2.5rem; font-weight: 800; color: var(--text-light); margin-bottom: 1.5rem; letter-spacing: -0.04em; }
 
         footer { background: var(--bg-primary); padding: 80px 0 40px 0; border-top: 1px solid var(--border); } .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 60px; } .footer-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; color: var(--text-light); } .footer-col ul { list-style: none; } .footer-col li { margin-bottom: 0.75rem; } .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: color 0.3s; } .footer-col a:hover { color: var(--accent); } .copyright { padding-top: 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.85rem; color: #4B5563; } 
@@ -41,7 +60,11 @@
         @media (max-width: 900px) { .desktop-nav { display: none; } * { cursor: auto; } .cursor-dot, .cursor-outline { display: none; } .footer-grid { grid-template-columns: 1fr; } .timeline-wrapper { padding-left: 1.5rem; } .timeline-dot { left: -1.85rem; } .timeline-card { padding: 2rem; } }
     </style>
 </head>
+<<<<<<< HEAD
 <body style="overflow: hidden;">
+=======
+<body>
+>>>>>>> bd679e70015c809527e3fb58e0f6333d7914eb27
     <div id="loader"><div class="loader-text">DEXYS</div><div class="loader-line-container"><div class="loader-line" id="loader-line"></div></div></div>
     <div class="cursor-outline" id="cursor-outline"></div><div class="cursor-dot" id="cursor-dot"></div>
 
@@ -74,7 +97,11 @@
         <a href="about.html" class="menu-link hover-target">About Us</a>
     </div>
 
+<<<<<<< HEAD
     <div class="ambient-glow"></div><div class="bg-grid"></div>
+=======
+    <div class="ambient-glow"></div><div id="grid-container"></div>
+>>>>>>> bd679e70015c809527e3fb58e0f6333d7914eb27
 
     <section id="about" style="padding-top: 200px;">
         <div class="container">
@@ -155,10 +182,17 @@
                     </svg>
                     <p style="font-size: 0.95rem; max-width: 300px;">Architecting the resilient digital infrastructure of tomorrow.</p>
                 </div>
+<<<<<<< HEAD
                 <div class="footer-col"><h4>Company</h4><ul><li><a href="index.html" class="hover-target">Home</a></li><li><a href="products-services.html" class="hover-target">Products & Services</a></li><li><a href="contact.html" class="hover-target">Contact Us</a></li><li><a href="about.html" class="hover-target">About Us</a></li></ul></div>
                 <div class="footer-col"><h4>Connect</h4><ul><li><a href="contact.html" class="hover-target">Contact Us</a></li><li><a href="#" class="hover-target">Privacy Policy</a></li></ul></div>
             </div>
             <div class="copyright reveal"><span>© 2026 DEXYS Technologies. All rights reserved.</span></div>
+=======
+                <div class="footer-col"><h4>Navigation</h4><ul><li><a href="index.html" class="hover-target">Home</a></li><li><a href="products-services.html" class="hover-target">Products & Services</a></li><li><a href="contact.html" class="hover-target">Contact Us</a></li><li><a href="about.html" class="hover-target">About Us</a></li></ul></div>
+                <div class="footer-col"><h4>Connect</h4><ul><li><a href="contact.html" class="hover-target">Contact Us</a></li><li><a href="#" class="hover-target">Privacy Policy</a></li></ul></div>
+            </div>
+            <div class="copyright reveal"><span>© 2026 DEXYS Technologies. All rights reserved.</span><span></span></div>
+>>>>>>> bd679e70015c809527e3fb58e0f6333d7914eb27
         </div>
     </footer>
 
@@ -166,6 +200,7 @@
         const menuBtn = document.getElementById('menu-toggle'); const overlay = document.getElementById('menu-overlay'); const line1 = document.getElementById('line1'); const line2 = document.getElementById('line2'); let menuOpen = false; let menuTimeline = anime.timeline({ autoplay: false });
         menuTimeline.add({ targets: overlay, opacity: [0, 1], duration: 400, easing: 'easeInOutSine', begin: () => { overlay.style.pointerEvents = 'auto'; } }).add({ targets: '#menu-kicker', opacity: [0, 1], translateY: [20, 0], duration: 600, easing: 'easeOutExpo' }, '-=200').add({ targets: '.menu-link', opacity: [0, 1], translateY: [40, 0], duration: 800, delay: anime.stagger(100), easing: 'easeOutExpo' }, '-=500');
         if(menuBtn){ menuBtn.addEventListener('click', () => { if(!menuOpen){ line1.style.transform = 'translateY(4px) rotate(45deg)'; line2.style.transform = 'translateY(-4px) rotate(-45deg)'; line1.style.width = '24px'; line2.style.width = '24px'; line1.style.backgroundColor = '#fff'; line2.style.backgroundColor = '#fff'; menuTimeline.play(); menuTimeline.finished.then(() => menuTimeline.reverse()); } else { line1.style.transform = 'none'; line2.style.transform = 'none'; line2.style.width = '16px'; line1.style.backgroundColor = 'var(--bg-primary)'; line2.style.backgroundColor = 'var(--bg-primary)'; menuTimeline.play(); menuTimeline.finished.then(() => { overlay.style.pointerEvents = 'none'; menuTimeline.reverse(); }); } menuOpen = !menuOpen; }); }
+<<<<<<< HEAD
         
         document.getElementById('loader').style.display = 'flex';
         anime({ targets: '#loader-line', height: ['0%', '100%'], easing: 'easeInOutExpo', duration: 800, complete: function() { 
@@ -180,3 +215,12 @@
     </script>
 </body>
 </html>
+=======
+        anime({ targets: '#loader-line', height: ['0%', '100%'], easing: 'easeInOutExpo', duration: 1200, complete: function() { anime({ targets: '#loader', opacity: 0, duration: 600, easing: 'linear', complete: () => document.getElementById('loader').style.display = 'none' }); anime({ targets: '#about .reveal', translateY: [30, 0], opacity: [0, 1], delay: anime.stagger(100), duration: 1000, easing: 'easeOutExpo' }); }});
+        const cDot = document.getElementById('cursor-dot'); const cOut = document.getElementById('cursor-outline'); window.addEventListener('mousemove', e => { if(window.innerWidth > 900) { cDot.style.left = `${e.clientX}px`; cDot.style.top = `${e.clientY}px`; cOut.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 150, fill: "forwards" }); } }); document.querySelectorAll('.hover-target').forEach(el => { el.addEventListener('mouseenter', () => document.body.classList.add('hovering')); el.addEventListener('mouseleave', () => document.body.classList.remove('hovering')); });
+        const grid = document.getElementById('grid-container'); for(let i=0; i<300; i++) { let d = document.createElement('div'); d.className='grid-pixel'; grid.appendChild(d); } anime({ targets: '.grid-pixel', opacity: [0.1, 0.4, 0.1], delay: anime.stagger(40, {grid: [20, 15], from: 'center'}), loop: true, easing: 'easeInOutQuad', duration: 4000 });
+        const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { anime({ targets: e.target.querySelectorAll('.reveal'), translateY: [40, 0], opacity: [0, 1], delay: anime.stagger(150), duration: 1200, easing: 'easeOutExpo' }); observer.unobserve(e.target); } }); }, { threshold: 0.15 }); document.querySelectorAll('section, footer').forEach(s => observer.observe(s));
+    </script>
+</body>
+</html>
+>>>>>>> bd679e70015c809527e3fb58e0f6333d7914eb27
