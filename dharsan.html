@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dharsan - Founder | DEXYS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <style>
+        :root { --bg-primary: #0B0F19; --bg-secondary: #111827; --accent: #8FB6CC; --accent-soft: rgba(143,182,204,0.15); --text-light: #E5E7EB; --text-muted: #9CA3AF; --border: rgba(143, 182, 204, 0.2); --header-height: 80px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        body { background-color: var(--bg-primary); color: var(--text-light); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; }
+
+        /* PRELOADER */
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 99999; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        .loader-text { font-family: 'JetBrains Mono', monospace; font-size: 3rem; font-weight: 700; color: var(--accent); }
+        .loader-bar-container { width: 200px; height: 2px; background: rgba(255,255,255,0.1); margin-top: 1rem; overflow: hidden; }
+        .loader-bar { width: 0%; height: 100%; background: var(--accent); }
+
+        /* CURSOR & HEADER */
+        .cursor-dot { width: 8px; height: 8px; background-color: var(--accent); position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s; }
+        .cursor-outline { width: 32px; height: 32px; border: 1px solid var(--accent); position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s; }
+        body.hovering .cursor-outline { width: 50px; height: 50px; background-color: var(--accent-soft); } body.hovering .cursor-dot { width: 0; height: 0; }
+        header { position: fixed; top: 0; width: 100%; height: var(--header-height); background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); z-index: 1000; display: flex; align-items: center; }
+        .nav-container { width: 100%; max-width: 1300px; margin: 0 auto; padding: 0 5%; display: flex; justify-content: space-between; align-items: center; }
+        header .logo-img { height: 26px; z-index: 1001; }
+        .desktop-nav { display: flex; gap: 3rem; align-items: center; }
+        .desktop-nav a { position: relative; color: var(--bg-primary); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 0.5rem 0; transition: color 0.3s ease; }
+        .desktop-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .desktop-nav a:hover, .desktop-nav a.active { color: var(--accent); } .desktop-nav a:hover::after, .desktop-nav a.active::after { transform: scaleX(1); transform-origin: left; }
+
+        /* MINIMALIST SIDE-BY-SIDE LAYOUT */
+        .container { max-width: 1300px; margin: 0 auto; padding: 140px 5% 80px; }
+        .split-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; align-items: start; }
+        
+        /* LEFT COL: PHOTO & BIO */
+        .photo-box { width: 100%; aspect-ratio: 4/5; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; }
+        /* Placeholder for real image */
+        .photo-box img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 0; }
+        .photo-fallback { font-size: 5rem; font-weight: 900; color: rgba(255,255,255,0.05); letter-spacing: -0.05em; }
+        
+        h1 { font-size: clamp(3rem, 5vw, 4.5rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-bottom: 0.5rem; }
+        .role-tag { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.85rem; margin-bottom: 1.5rem; display: inline-block; padding: 6px 12px; background: var(--accent-soft); border-radius: 4px; }
+        p { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 1.5rem; }
+
+        /* RIGHT COL: CODE UI & STARTUPS */
+        .code-window { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 2.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: #abb2bf; }
+        .c-kw { color: #C678DD; } .c-str { color: #98C379; } .c-prop { color: #E5C07B; } .c-punc { color: var(--text-muted); }
+        
+        .json-block { margin-top: 1rem; padding-left: 1.5rem; border-left: 1px solid rgba(255,255,255,0.05); }
+        .json-item { margin-bottom: 1rem; transition: transform 0.3s ease; }
+        .json-item:hover { transform: translateX(10px); color: var(--text-light); }
+
+        /* HUMOR UI: COFFEE SLIDER */
+        .humor-box { margin-top: 3rem; padding: 2rem; border: 1px dashed var(--border); border-radius: 12px; }
+        .slider-container { margin-top: 1.5rem; }
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; cursor: none; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: var(--border); border-radius: 2px; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: var(--accent); margin-top: -8px; box-shadow: 0 0 15px var(--accent-soft); }
+        .status-output { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 700; color: var(--accent); margin-top: 1rem; height: 24px; }
+
+        .reveal { opacity: 0; transform: translateY(20px); }
+        @media (max-width: 900px) { .split-layout { grid-template-columns: 1fr; gap: 3rem; } .desktop-nav { display: none; } * { cursor: auto; } .cursor-dot, .cursor-outline { display: none; } }
+    </style>
+</head>
+<body>
+    <div id="loader"><div class="loader-text"><span id="loader-progress">0</span>%</div><div class="loader-bar-container"><div class="loader-bar" id="loader-bar"></div></div></div>
+    <div class="cursor-outline" id="cursor-outline"></div><div class="cursor-dot" id="cursor-dot"></div>
+
+    <header>
+        <div class="nav-container">
+            <a href="about.html" class="hover-target"><img src="image_b1db0d.png" alt="DEXYS Logo" class="logo-img"></a>
+            <nav class="desktop-nav">
+                <a href="about.html#about" class="hover-target">Company</a>
+                <a href="dharsan.html" class="hover-target active">Dharsan</a>
+                <a href="naveenkumar.html" class="hover-target">Naveenkumar</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="split-layout">
+            
+            <div class="left-col">
+                <div class="photo-box reveal hover-target">
+                    <span class="photo-fallback">DH</span>
+                    <img src="" alt="Dharsan Photo"> 
+                </div>
+                <h1 class="reveal">Dharsan</h1>
+                <span class="role-tag reveal">Founder & Chief Architect</span>
+                <p class="reveal">Operating at the intersection of complex code and capital. Dharsan builds scalable engineering infrastructure while simultaneously navigating the equally complex architecture of business growth.</p>
+                <p class="reveal">He approaches software as a structural engineering discipline—where resilience, fail-safes, and elegant logic are not just features, but foundational requirements.</p>
+
+                <div class="humor-box reveal hover-target">
+                    <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: var(--text-light);">Caffeine to Code Capacity</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Adjust the coffee intake to see current architectural output.</p>
+                    <div class="slider-container">
+                        <input type="range" min="0" max="4" value="2" id="coffee-slider">
+                        <div class="status-output" id="status-text">> Status: Writing Features</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-col reveal">
+                <div class="code-window hover-target">
+                    <span class="c-kw">const</span> <span class="c-prop">dharsanVentures</span> <span class="c-punc">=</span> <span class="c-punc">[</span>
+                    
+                    <div class="json-block">
+                        <div class="json-item">
+                            <span class="c-punc">{</span> <br>
+                            &nbsp;&nbsp;<span class="c-prop">company</span><span class="c-punc">:</span> <span class="c-str">"DEXYS Technologies"</span><span class="c-punc">,</span><br>
+                            &nbsp;&nbsp;<span class="c-prop">role</span><span class="c-punc">:</span> <span class="c-str">"Founder & Chief Architect"</span><br>
+                            <span class="c-punc">},</span>
+                        </div>
+                        <div class="json-item">
+                            <span class="c-punc">{</span> <br>
+                            &nbsp;&nbsp;<span class="c-prop">company</span><span class="c-punc">:</span> <span class="c-str">"QuantumFlow Logic"</span><span class="c-punc">,</span><br>
+                            &nbsp;&nbsp;<span class="c-prop">role</span><span class="c-punc">:</span> <span class="c-str">"CEO & Tech Co-Founder"</span><br>
+                            <span class="c-punc">},</span>
+                        </div>
+                        <div class="json-item">
+                            <span class="c-punc">{</span> <br>
+                            &nbsp;&nbsp;<span class="c-prop">company</span><span class="c-punc">:</span> <span class="c-str">"Nexus Infrastructure"</span><span class="c-punc">,</span><br>
+                            &nbsp;&nbsp;<span class="c-prop">role</span><span class="c-punc">:</span> <span class="c-str">"CTO"</span><br>
+                            <span class="c-punc">},</span>
+                        </div>
+                        <div class="json-item">
+                            <span class="c-punc">{</span> <br>
+                            &nbsp;&nbsp;<span class="c-prop">company</span><span class="c-punc">:</span> <span class="c-str">"CodePulse Analytics"</span><span class="c-punc">,</span><br>
+                            &nbsp;&nbsp;<span class="c-prop">role</span><span class="c-punc">:</span> <span class="c-str">"Lead Engineer"</span><br>
+                            <span class="c-punc">},</span>
+                        </div>
+                        <div class="json-item">
+                            <span class="c-punc">{</span> <br>
+                            &nbsp;&nbsp;<span class="c-prop">company</span><span class="c-punc">:</span> <span class="c-str">"Apex Systems"</span><span class="c-punc">,</span><br>
+                            &nbsp;&nbsp;<span class="c-prop">role</span><span class="c-punc">:</span> <span class="c-str">"Board Member & Advisor"</span><br>
+                            <span class="c-punc">},</span>
+                        </div>
+                        <div class="json-item">
+                            <span class="c-punc">{</span> <br>
+                            &nbsp;&nbsp;<span class="c-prop">company</span><span class="c-punc">:</span> <span class="c-str">"AutomataX Protocol"</span><span class="c-punc">,</span><br>
+                            &nbsp;&nbsp;<span class="c-prop">role</span><span class="c-punc">:</span> <span class="c-str">"Co-Founder"</span><br>
+                            <span class="c-punc">}</span>
+                        </div>
+                    </div>
+                    
+                    <span class="c-punc">];</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Loader
+        const progressObj = { val: 0 };
+        anime({ targets: progressObj, val: 100, round: 1, easing: 'easeInOutExpo', duration: 1500, update: function() { document.getElementById('loader-progress').innerHTML = progressObj.val; document.getElementById('loader-bar').style.width = progressObj.val + '%'; }, complete: function() { anime({ targets: '#loader', translateY: '-100%', duration: 800, easing: 'easeInOutExpo' }); }});
+        
+        // Cursor
+        const cursorDot = document.getElementById('cursor-dot'); const cursorOutline = document.getElementById('cursor-outline');
+        window.addEventListener('mousemove', e => { cursorDot.style.left = `${e.clientX}px`; cursorDot.style.top = `${e.clientY}px`; cursorOutline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 150, fill: "forwards" }); });
+        document.querySelectorAll('.hover-target, input').forEach(el => { el.addEventListener('mouseenter', () => document.body.classList.add('hovering')); el.addEventListener('mouseleave', () => document.body.classList.remove('hovering')); });
+        
+        // Reveal
+        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { anime({ targets: entry.target, translateY: [40, 0], opacity: [0, 1], duration: 1000, easing: 'easeOutCubic' }); observer.unobserve(entry.target); } }); }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(s => { s.style.opacity = 0; observer.observe(s); });
+
+        // Humor Interactive Logic
+        const slider = document.getElementById('coffee-slider');
+        const statusText = document.getElementById('status-text');
+        const statuses = [
+            "> Status: Generating Syntax Errors",
+            "> Status: Writing Spaghetti Code",
+            "> Status: Writing Clean Features",
+            "> Status: Architecting Ecosystems",
+            "> Status: Refactoring the Universe"
+        ];
+        slider.addEventListener('input', (e) => {
+            statusText.innerText = statuses[e.target.value];
+            anime({ targets: statusText, opacity: [0, 1], translateX: [-10, 0], duration: 300, easing: 'easeOutQuad' });
+        });
+    </script>
+</body>
+</html>
