@@ -3,118 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEXYS Technologies | Enterprise IT Solutions</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 5 18 L 15 8 L 21 8 L 11 18 L 21 28 L 15 28 Z' fill='%238FB6CC' /%3E%3Cpath d='M 15 18 L 25 8 L 31 8 L 21 18 L 31 28 L 25 28 Z' fill='%23F9FAFB' /%3E%3C/svg%3E">
+    <meta name="description" content="DEXYS Technologies: An emerging IT startup in Tamil Nadu ready to engineer intelligent digital ecosystems.">
+    <title>DEXYS Technologies | IT Solutions Startup</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='150 -10 200 140' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='200' height='140' x='150' y='-10' fill='%23ffffff' rx='24'/%3E%3Cpolygon points='170,10 210,10 330,110 290,110' fill='%23cfd8df'/%3E%3Cpolygon points='290,10 330,10 210,110 170,110' fill='%231a1a1a'/%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <style>
-        :root { 
-            --bg-primary: #0B0F19; --bg-secondary: #111827; 
-            --accent: #8FB6CC; --accent-soft: rgba(143,182,204,0.1); 
-            --text-light: #F9FAFB; --text-muted: #9CA3AF; 
-            --border: rgba(143, 182, 204, 0.15); --header-height: 80px; 
-        }
+    
+    <script>
+        (function() {
+            const isInternal = document.referrer.includes(location.hostname) && document.referrer !== "";
+            const isReload = performance.navigation.type === 1 || (performance.getEntriesByType && performance.getEntriesByType("navigation")[0]?.type === "reload");
+            if (!isInternal || isReload) { document.documentElement.classList.add('fresh-route'); } 
+            else { document.documentElement.classList.add('internal-route'); }
+        })();
+    </script>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+    <style>
+        :root { --bg-primary: #0B0F19; --bg-secondary: #111827; --accent: #8FB6CC; --text-light: #F9FAFB; --text-muted: #9CA3AF; --border: rgba(143, 182, 204, 0.15); --header-height: 80px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: var(--bg-primary); color: var(--text-light); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; -webkit-font-smoothing: antialiased; }
         body.intro-locked { overflow: hidden; height: 100vh; }
+        a, button { cursor: pointer; }
 
-        /* SVG LOGO */
-        .dexys-svg-logo { height: 26px; width: auto; display: block; transition: transform 0.3s ease; }
-        .dexys-svg-logo:hover { transform: scale(1.05); }
-        header .dexys-svg-logo { color: var(--bg-primary); } 
-        footer .dexys-svg-logo { color: var(--text-light); }
+        html.internal-route #intro-overlay { display: none !important; }
+        html.fresh-route #loader { display: none !important; }
 
-        /* PRELOADERS & INTROS */
-        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 99999; display: flex; align-items: center; justify-content: center; flex-direction: column; display: none; }
-        .loader-text { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 2rem; }
-        .loader-line-container { width: 1px; height: 100px; background: rgba(255,255,255,0.05); overflow: hidden; position: relative; }
-        .loader-line { width: 100%; height: 0%; background: var(--accent); position: absolute; bottom: 0; }
-
-        /* HORIZON SLIT INTRO ANIMATION */
-        #intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 99999; pointer-events: none; }
-        .intro-shutter { position: absolute; left: 0; width: 100%; height: 50%; background: var(--bg-primary); z-index: 10; will-change: transform; }
-        #intro-shutter-top { top: 0; border-bottom: 1px solid rgba(143,182,204,0.05); }
-        #intro-shutter-bottom { bottom: 0; border-top: 1px solid rgba(143,182,204,0.05); }
-        #intro-line { position: absolute; top: 50%; left: 50%; width: 0%; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); z-index: 20; transform: translate(-50%, -50%); box-shadow: 0 0 20px var(--accent); opacity: 0; }
-        #intro-logo-wrapper { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 5; display: flex; align-items: center; justify-content: center; width: 100%; overflow: visible; }
-        #intro-logo-wrapper svg { height: 50px; width: auto; color: var(--text-light); opacity: 0; transform: translateY(40px); filter: drop-shadow(0 0 20px rgba(143,182,204,0.4)); }
-        #intro-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 200px; background: radial-gradient(ellipse at center, rgba(143,182,204,0.15) 0%, transparent 70%); z-index: 1; opacity: 0; }
-
-        /* CUSTOM CURSOR */
-        .cursor-dot { width: 6px; height: 6px; background-color: var(--accent); position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 999999; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s; box-shadow: 0 0 10px var(--accent); }
-        .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(143,182,204,0.4); position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 999998; transform: translate(-50%, -50%); transition: 0.15s ease-out; }
-        body.hovering .cursor-outline { width: 60px; height: 60px; background-color: rgba(143,182,204,0.1); border-color: transparent; backdrop-filter: blur(2px); } body.hovering .cursor-dot { width: 0; height: 0; }
-
-        /* WHITE STICKY HEADER */
-        header { position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height); background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); z-index: 1000; display: flex; align-items: center; opacity: 0; transform: translateY(-100%); }
-        .nav-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 6%; display: flex; justify-content: space-between; align-items: center; }
+        /* PURE CSS SMOOTH SCROLL ANIMATIONS */
+        .reveal-up { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
+        .reveal-right { opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
+        .reveal-scale { opacity: 0; transform: scale(0.95) translateY(20px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
+        .is-visible { opacity: 1 !important; transform: translate(0) scale(1) !important; }
         
-        .desktop-nav { display: flex; gap: 3rem; align-items: center; }
-        .desktop-nav a { position: relative; color: var(--bg-primary); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 0.5rem 0; transition: color 0.3s ease; }
-        .desktop-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform 0.4s ease; }
-        .desktop-nav a:hover, .desktop-nav a.active { color: var(--accent); }
-        .desktop-nav a:hover::after, .desktop-nav a.active::after { transform: scaleX(1); transform-origin: left; }
+        .delay-1 { transition-delay: 0.1s; } 
+        .delay-2 { transition-delay: 0.2s; } 
+        .delay-3 { transition-delay: 0.3s; } 
+        .delay-4 { transition-delay: 0.4s; }
 
+        /* BACKGROUND */
+        .bg-grid { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; background-image: radial-gradient(rgba(143,182,204,0.15) 1px, transparent 1px); background-size: 30px 30px; mask-image: linear-gradient(to bottom, black 0%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%); pointer-events: none; }
+        .ambient-glow { position: absolute; top: -10%; left: 50%; transform: translateX(-50%); width: 80vw; height: 80vw; background: radial-gradient(circle, rgba(143,182,204,0.06) 0%, transparent 60%); z-index: -1; pointer-events: none; }
+
+        /* LOGO STYLES */
+        .dexys-svg-logo { height: 28px; width: auto; display: block; transition: transform 0.3s ease; } 
+        .dexys-svg-logo:hover { transform: scale(1.05); }
+        .logo-light-plate { background-color: #F9FAFB; padding: 10px 18px; border-radius: 8px; display: inline-block; transition: transform 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); } 
+        .logo-light-plate svg { height: 24px; width: auto; display: block; } 
+
+        /* INTERNAL LOADER */
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 999999; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        .loader-text { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 500; color: var(--text-light); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 2rem; opacity: 0; transform: translateY(10px); }
+        .loader-line-container { width: 1px; height: 100px; background: rgba(255,255,255,0.05); overflow: hidden; position: relative; } .loader-line { width: 100%; height: 0%; background: var(--accent); position: absolute; bottom: 0; }
+        
+        /* FRESH LOAD GREETING OVERLAY */
+        #intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 999999; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        #intro-logo-wrapper { position: relative; z-index: 3; opacity: 0; transform: scale(1.1); display: flex; flex-direction: column; align-items: center;}
+        #intro-logo-wrapper .logo-light-plate { padding: 15px 30px; border-radius: 12px; }
+        #intro-logo-wrapper .logo-light-plate svg { height: 40px; }
+        .intro-progress-bar { width: 120px; height: 2px; background: rgba(255,255,255,0.1); margin-top: 40px; border-radius: 2px; overflow: hidden; position: relative;}
+        .intro-progress-fill { width: 0%; height: 100%; background: var(--accent); position: absolute; left: 0; top: 0;}
+
+        /* HEADER & NAV */
+        header { position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height); background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); z-index: 1000; display: flex; align-items: center; opacity: 0; transform: translateY(-100%); }
+        .nav-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 6%; display: flex; justify-content: space-between; align-items: center; color: var(--bg-primary);}
+        .desktop-nav { display: flex; gap: 3rem; align-items: center; } .desktop-nav a { position: relative; color: var(--bg-primary); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 0.5rem 0; transition: color 0.3s ease; } .desktop-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); } .desktop-nav a:hover, .desktop-nav a.active { color: var(--accent); } .desktop-nav a:hover::after, .desktop-nav a.active::after { transform: scaleX(1); transform-origin: left; }
+        
         /* MOBILE MENU */
-        .menu-btn { background: none; border: none; width: 40px; height: 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 6px; z-index: 1001; position: relative; }
-        .menu-line { height: 2px; background: var(--bg-primary); transition: 0.3s ease; }
-        .menu-line:nth-child(1) { width: 24px; } .menu-line:nth-child(2) { width: 16px; }
-        .menu-btn:hover .menu-line { width: 24px; background: var(--accent); }
-        .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 999; display: flex; flex-direction: column; justify-content: center; padding-left: 10%; pointer-events: none; opacity: 0; }
-        .menu-link { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 800; color: var(--text-light); text-decoration: none; letter-spacing: -0.04em; margin-bottom: 1.5rem; opacity: 0; transform: translateY(40px); display: block; width: fit-content; transition: color 0.3s; } .menu-link:hover { color: var(--accent); }
-
-        /* BACKGROUND GLOW & GRID */
-        .ambient-glow { position: absolute; top: -10%; left: 50%; transform: translateX(-50%); width: 70vw; height: 70vw; background: radial-gradient(circle, rgba(143,182,204,0.06) 0%, transparent 60%); z-index: -1; pointer-events: none; }
-        .bg-grid { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; background-image: radial-gradient(rgba(143,182,204,0.15) 1px, transparent 1px); background-size: 30px 30px; mask-image: radial-gradient(ellipse at center, black 0%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 80%); pointer-events: none; }
+        .menu-btn { background: none; border: none; width: 40px; height: 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 6px; z-index: 1001; position: relative; display: none;} .menu-line { height: 2px; background: var(--bg-primary); transition: 0.3s ease; } .menu-line:nth-child(1) { width: 24px; } .menu-line:nth-child(2) { width: 16px; } .menu-btn:hover .menu-line { width: 24px; background: var(--accent); } .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 999; display: flex; flex-direction: column; justify-content: center; padding-left: 10%; pointer-events: none; opacity: 0; } .menu-link { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 800; color: var(--text-light); text-decoration: none; letter-spacing: -0.04em; margin-bottom: 1.5rem; opacity: 0; transform: translateY(40px); display: block; width: fit-content; transition: color 0.3s; } .menu-link:hover { color: var(--accent); }
 
         /* TYPOGRAPHY & LAYOUT */
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 5%; position: relative; }
-        section { padding: clamp(100px, 12vw, 160px) 0; border-bottom: 1px solid var(--border); position: relative; }
-        .bg-secondary-section { background-color: var(--bg-secondary); }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 5%; position: relative; } section { padding: clamp(100px, 12vw, 160px) 0; border-bottom: 1px solid var(--border); position: relative; } .bg-secondary-section { background-color: var(--bg-secondary); } .kicker { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 1.5rem; display: block; } h1 { font-size: clamp(3.5rem, 8vw, 6.5rem); font-weight: 900; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 1.5rem; } h2 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1.5rem; line-height: 1.1; color: var(--text-light); } p { color: var(--text-muted); font-size: clamp(1.05rem, 2vw, 1.15rem); max-width: 70ch; margin-bottom: 1.5rem; line-height: 1.8; } .text-gradient { background: linear-gradient(135deg, #FFF 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         
-        .kicker { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 1.5rem; display: block; }
-        h1 { font-size: clamp(3.5rem, 8vw, 6rem); font-weight: 900; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 1.5rem; color: var(--text-light); }
-        h2 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1.5rem; line-height: 1.1; color: var(--text-light); }
-        p { color: var(--text-muted); font-size: clamp(1.05rem, 2vw, 1.2rem); max-width: 65ch; margin-bottom: 2rem; line-height: 1.7; }
-        .text-gradient { background: linear-gradient(135deg, #FFF 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .btn-group { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 2.5rem; } .btn { display: inline-flex; align-items: center; justify-content: center; padding: 14px 28px; font-weight: 600; font-size: 0.95rem; border-radius: 6px; transition: all 0.3s ease; text-decoration: none; font-family: 'JetBrains Mono', monospace; letter-spacing: -0.02em; } .btn-primary { background: var(--text-light); color: var(--bg-primary); border: 1px solid var(--text-light); } .btn-primary:hover { background: transparent; color: var(--text-light); transform: translateY(-2px); } .btn-secondary { background: transparent; color: var(--text-light); border: 1px solid rgba(255,255,255,0.2); } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); background: rgba(143,182,204,0.05); }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 3rem; margin-top: 5rem; padding-top: 4rem; border-top: 1px solid var(--border); width: 100%; text-align: left; } .stat-item { border-left: 2px solid var(--accent); padding-left: 1.5rem; transition: transform 0.4s ease; } .stat-item:hover { transform: translateX(10px); } .stat-val { font-family: 'JetBrains Mono', monospace; font-size: 3.5rem; font-weight: 900; color: var(--text-light); line-height: 1; display: block; margin-bottom: 0.5rem; } .stat-label { color: var(--accent); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
 
-        /* BUTTONS */
-        .btn-group { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 2.5rem; }
-        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 14px 28px; font-weight: 600; font-size: 0.95rem; border-radius: 6px; transition: all 0.3s ease; text-decoration: none; font-family: 'JetBrains Mono', monospace; letter-spacing: -0.02em; }
-        .btn-primary { background: var(--text-light); color: var(--bg-primary); border: 1px solid var(--text-light); }
-        .btn-primary:hover { background: transparent; color: var(--text-light); }
-        .btn-secondary { background: transparent; color: var(--text-light); border: 1px solid rgba(255,255,255,0.2); }
-        .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-
-        /* STATS GRID */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 3rem; margin-top: 5rem; padding-top: 4rem; border-top: 1px solid var(--border); width: 100%; text-align: left; }
-        .stat-item { border-left: 2px solid var(--accent); padding-left: 1.5rem; }
-        .stat-val { font-family: 'JetBrains Mono', monospace; font-size: 3.5rem; font-weight: 900; color: var(--text-light); line-height: 1; display: block; margin-bottom: 0.5rem; }
-        .stat-label { color: var(--accent); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
-
-        /* GLASS CARDS */
-        .grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-top: 4rem; }
-        .glass-card { position: relative; background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 3rem; transition: transform 0.4s, border-color 0.4s; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; }
-        .glass-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(143,182,204,0.06), transparent 40%); z-index: 0; pointer-events: none; opacity: 0; transition: opacity 0.4s; }
-        .glass-card:hover::before { opacity: 1; } .glass-card:hover { transform: translateY(-5px); border-color: rgba(143,182,204,0.3); }
-        .glass-card > * { position: relative; z-index: 1; }
-        .glass-card h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-light); }
-        .glass-card p { font-size: 0.95rem; margin-bottom: 0; max-width: 100%; }
-        .card-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; border: 1px solid rgba(143,182,204,0.2); color: var(--accent); font-size: 1.5rem; font-family: 'JetBrains Mono', monospace;}
-
-        /* FOOTER */
-        footer { background: var(--bg-primary); padding: 80px 0 40px 0; border-top: 1px solid var(--border); }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 60px; }
-        .footer-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; color: var(--text-light); }
-        .footer-col ul { list-style: none; } .footer-col li { margin-bottom: 0.75rem; }
-        .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: color 0.3s; }
-        .footer-col a:hover { color: var(--accent); }
-        .copyright { padding-top: 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.85rem; color: #4B5563; }
-
-        .reveal { opacity: 0; transform: translateY(40px); }
-        @media (min-width: 901px) { .menu-btn { display: none !important; } }
-        @media (max-width: 900px) { .desktop-nav { display: none; } * { cursor: auto; } .cursor-dot, .cursor-outline { display: none; } .footer-grid { grid-template-columns: 1fr; } }
+        footer { background: var(--bg-primary); padding: 80px 0 40px 0; border-top: 1px solid var(--border); } .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 60px; } .footer-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; color: var(--text-light); } .footer-col ul { list-style: none; } .footer-col li { margin-bottom: 0.75rem; } .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: color 0.3s; } .footer-col a:hover { color: var(--accent); } .copyright { padding-top: 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.85rem; color: #4B5563; }
+        
+        @media (max-width: 900px) { .menu-btn { display: flex; } .desktop-nav { display: none; } .footer-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body class="intro-locked">
@@ -123,109 +88,127 @@
         <div class="loader-text">DEXYS</div>
         <div class="loader-line-container"><div class="loader-line" id="loader-line"></div></div>
     </div>
-
+    
     <div id="intro-overlay">
-        <div id="intro-shutter-top" class="intro-shutter"></div>
-        <div id="intro-shutter-bottom" class="intro-shutter"></div>
-        <div id="intro-line"></div>
-        <div id="intro-glow"></div>
         <div id="intro-logo-wrapper">
-            <svg viewBox="0 0 170 40" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 5 20 L 15 10 L 21 10 L 11 20 L 21 30 L 15 30 Z" fill="var(--accent)" />
-                <path d="M 15 20 L 25 10 L 31 10 L 21 20 L 31 30 L 25 30 Z" fill="currentColor" />
-                <text x="45" y="28" font-family="'Inter', sans-serif" font-weight="900" font-size="24" fill="currentColor" letter-spacing="-0.01em">DEXYS</text>
-            </svg>
+            <div class="logo-light-plate">
+                <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+                    <style>.text{font-family: Arial, Helvetica, sans-serif;font-weight: 700;font-size: 90px;fill: #1a1a1a;}</style>
+                    <text x="0" y="90" class="text">DE</text>
+                    <polygon points="170,10 210,10 330,110 290,110" fill="var(--accent)"/>
+                    <polygon points="290,10 330,10 210,110 170,110" fill="#1a1a1a"/>
+                    <text x="340" y="90" class="text">YS</text>
+                </svg>
+            </div>
+            <div class="intro-progress-bar"><div class="intro-progress-fill" id="intro-progress"></div></div>
         </div>
     </div>
 
-    <div class="cursor-outline" id="cursor-outline"></div>
-    <div class="cursor-dot" id="cursor-dot"></div>
-
     <header id="main-header">
         <div class="nav-container">
-            <a href="index.html" class="hover-target">
-                <svg viewBox="0 0 170 40" class="dexys-svg-logo" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M 5 20 L 15 10 L 21 10 L 11 20 L 21 30 L 15 30 Z" fill="var(--accent)" />
-                    <path d="M 15 20 L 25 10 L 31 10 L 21 20 L 31 30 L 25 30 Z" fill="currentColor" />
-                    <text x="45" y="28" font-family="'Inter', sans-serif" font-weight="900" font-size="24" fill="currentColor" letter-spacing="-0.01em">DEXYS</text>
+            <a href="index.html" class="dexys-svg-logo">
+                <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+                    <style>.header-text{font-family: Arial, Helvetica, sans-serif;font-weight: 700;font-size: 90px;fill: #0B0F19;}</style>
+                    <text x="0" y="90" class="header-text">DE</text>
+                    <polygon points="170,10 210,10 330,110 290,110" fill="var(--accent)"/>
+                    <polygon points="290,10 330,10 210,110 170,110" fill="#0B0F19"/>
+                    <text x="340" y="90" class="header-text">YS</text>
                 </svg>
             </a>
-            
             <nav class="desktop-nav">
-                <a href="index.html" class="hover-target active">Home</a>
-                <a href="products-services.html" class="hover-target">Products & Services</a>
-                <a href="contact.html" class="hover-target">Contact Us</a>
-                <a href="about.html" class="hover-target">About Us</a>
+                <a href="index.html" class="active">Home</a>
+                <a href="products-services.html">Capabilities</a>
+                <a href="contact.html">Contact Us</a>
+                <a href="about.html">About Us</a>
             </nav>
-
-            <button class="menu-btn hover-target" id="menu-toggle">
-                <div class="menu-line" id="line1"></div>
-                <div class="menu-line" id="line2"></div>
-            </button>
+            <button class="menu-btn" id="menu-toggle"><div class="menu-line" id="line1"></div><div class="menu-line" id="line2"></div></button>
         </div>
     </header>
 
     <div class="menu-overlay" id="menu-overlay">
         <span class="kicker" style="opacity: 0; transform: translateY(20px);" id="menu-kicker">Navigation</span>
-        <a href="index.html" class="menu-link hover-target">Home</a>
-        <a href="products-services.html" class="menu-link hover-target">Products & Services</a>
-        <a href="contact.html" class="menu-link hover-target">Contact Us</a>
-        <a href="about.html" class="menu-link hover-target">About Us</a>
+        <a href="index.html" class="menu-link">Home</a>
+        <a href="products-services.html" class="menu-link">Capabilities</a>
+        <a href="contact.html" class="menu-link">Contact Us</a>
+        <a href="about.html" class="menu-link">About Us</a>
     </div>
 
-    <div class="ambient-glow"></div>
-    <div class="bg-grid"></div>
+    <div class="ambient-glow"></div><div class="bg-grid"></div>
 
-    <section id="hero" style="padding-top: 180px; border: none; min-height: 90vh; display: flex; align-items: center;">
+    <section id="hero" style="padding-top: 180px; border: none; min-height: 90vh; display: flex; align-items: center;" class="reveal-zone">
         <div class="container">
-            <span class="kicker reveal" style="text-align: center;">Enterprise IT Solutions</span>
-            <h1 class="reveal" style="text-align: center;">Engineering the<br><span class="text-gradient">Digital Future.</span></h1>
-            <p class="reveal" style="text-align: center; margin-inline: auto;">DEXYS delivers enterprise-grade IT solutions. From architecting distributed cloud environments to deploying proprietary deep-tech algorithms, we build resilient infrastructure for forward-thinking organizations.</p>
+            <span class="kicker reveal-up" style="text-align: center;">Tamil Nadu's Emerging IT collective</span>
+            <h1 class="reveal-up delay-1" style="text-align: center;">Ready to Architect the<br><span class="text-gradient">Digital Standard.</span></h1>
+            <p class="reveal-up delay-2" style="text-align: center; margin-inline: auto;">Based in Chennai, DEXYS is a specialized R&D and software engineering startup. After intense architectural prototyping, we are now ready to build intelligent AI logic and highly scalable IT ecosystems for our founding enterprise partners.</p>
             
-            <div class="btn-group reveal" style="justify-content: center;">
-                <a href="products-services.html" class="btn btn-primary hover-target">Explore Platform</a>
-                <a href="contact.html" class="btn btn-secondary hover-target">Contact Us</a>
+            <div class="btn-group reveal-up delay-3" style="justify-content: center;">
+                <a href="products-services.html" class="btn btn-primary">View Capabilities</a>
+                <a href="contact.html" class="btn btn-secondary">Become a Founding Partner</a>
             </div>
 
-            <div class="stats-grid reveal">
-                <div class="stat-item hover-target">
-                    <span class="stat-val">99.9%</span>
-                    <span class="stat-label">Uptime Architecture</span>
+            <div class="stats-grid reveal-up delay-4">
+                <div class="stat-item">
+                    <span class="stat-val count-up" data-val="14" data-suffix="+">0</span>
+                    <span class="stat-label">Core Services Ready</span>
                 </div>
-                <div class="stat-item hover-target">
-                    <span class="stat-val"><50<span style="font-size: 1.5rem;">ms</span></span>
-                    <span class="stat-label">Latency Optimization</span>
+                <div class="stat-item">
+                    <span class="stat-val count-up" data-val="100" data-suffix="%">0</span>
+                    <span class="stat-label">In-House Engineering</span>
                 </div>
-                <div class="stat-item hover-target">
-                    <span class="stat-val">∞</span>
-                    <span class="stat-label">Horizontal Scale</span>
+                <div class="stat-item">
+                    <span class="stat-val count-up" data-val="0">100</span>
+                    <span class="stat-label">Tolerance for Tech Debt</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="methodology" class="bg-secondary-section" style="border-bottom: none;">
+    <section id="methodology" class="bg-secondary-section reveal-zone">
         <div class="container">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
-                <div class="reveal">
-                    <span class="kicker">The DEXYS Advantage</span>
-                    <h2 style="font-size: clamp(2.5rem, 4vw, 3.5rem);">Built to Scale.<br>Built to Last.</h2>
-                    <p>We do not believe in temporary fixes or technical debt. Every solution engineered by DEXYS is subjected to rigorous stress-testing and logic mapping.</p>
-                    <p>Our agile delivery model ensures that we deploy features rapidly without sacrificing the architectural integrity required for enterprise security and compliance.</p>
+                <div>
+                    <span class="kicker reveal-up">The DEXYS Promise</span>
+                    <h2 class="reveal-up delay-1" style="font-size: clamp(2.5rem, 4vw, 3.5rem);">Quality over<br>Volume.</h2>
+                    <p class="reveal-up delay-2">As an emerging startup, we do not operate as a mass-production IT factory. To ensure absolute architectural integrity, DEXYS is seeking a highly selective portfolio of forward-thinking businesses.</p>
+                    <p class="reveal-up delay-3">This dedicated approach guarantees that your project receives our complete computational focus, resulting in a system built to absorb complexity and scale flawlessly across India's demanding digital landscape.</p>
                 </div>
-                <div class="reveal" style="border-left: 1px solid var(--border); padding-left: 3rem;">
-                    <div style="margin-bottom: 2rem;">
-                        <h4 style="color: var(--text-light); margin-bottom: 0.5rem; font-size: 1.1rem; font-family: 'JetBrains Mono', monospace; letter-spacing: -0.02em;">> System Integration</h4>
-                        <p style="font-size: 0.95rem;">Seamlessly merging modern frameworks with your existing legacy infrastructure.</p>
+                <div style="border-left: 1px solid var(--border); padding-left: 3rem;">
+                    <div class="reveal-right delay-1" style="margin-bottom: 2rem;">
+                        <h4 style="color: var(--text-light); margin-bottom: 0.5rem; font-size: 1.1rem; font-family: 'JetBrains Mono', monospace; letter-spacing: -0.02em;">> Foundational Logic</h4>
+                        <p style="font-size: 0.95rem;">We strip complex problems down to their root computational requirements rather than patching symptoms.</p>
                     </div>
-                    <div style="margin-bottom: 2rem;">
-                        <h4 style="color: var(--text-light); margin-bottom: 0.5rem; font-size: 1.1rem; font-family: 'JetBrains Mono', monospace; letter-spacing: -0.02em;">> Security First</h4>
-                        <p style="font-size: 0.95rem;">Military-grade encryption protocols and continuous vulnerability monitoring.</p>
+                    <div class="reveal-right delay-2" style="margin-bottom: 2rem;">
+                        <h4 style="color: var(--text-light); margin-bottom: 0.5rem; font-size: 1.1rem; font-family: 'JetBrains Mono', monospace; letter-spacing: -0.02em;">> Unmatched Dedication</h4>
+                        <p style="font-size: 0.95rem;">By taking on limited initial mandates, our founders are directly and deeply integrated into your deployment pipeline.</p>
                     </div>
-                    <div>
-                        <h4 style="color: var(--text-light); margin-bottom: 0.5rem; font-size: 1.1rem; font-family: 'JetBrains Mono', monospace; letter-spacing: -0.02em;">> Proprietary Deep Tech</h4>
-                        <p style="font-size: 0.95rem;">Leveraging our custom algorithms like .dex compression to outpace standard industry benchmarks.</p>
+                    <div class="reveal-right delay-3">
+                        <h4 style="color: var(--text-light); margin-bottom: 0.5rem; font-size: 1.1rem; font-family: 'JetBrains Mono', monospace; letter-spacing: -0.02em;">> Sovereign Architecture</h4>
+                        <p style="font-size: 0.95rem;">Systems built specifically to navigate India's evolving data localization (DPDP) frameworks.</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="global" style="border-bottom: none;" class="reveal-zone">
+        <div class="container">
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <span class="kicker reveal-up" style="text-align: center;">Digital India</span>
+                <h2 class="reveal-up delay-1">Architected for the Subcontinent.</h2>
+                <p class="reveal-up delay-2" style="margin-inline: auto;">Our infrastructure is designed to operate flawlessly from Tier-1 tech hubs to deep rural networks. By utilizing dynamic edge-computing and global CDN deployments, DEXYS ensures absolute data sovereignty and zero-latency delivery.</p>
+            </div>
+            <div class="stats-grid" style="margin-top: 3rem; border-top: none; padding-top: 0; text-align: center;">
+                <div class="stat-item reveal-scale delay-1" style="border: none; padding: 0;">
+                    <span class="stat-val count-up" data-val="6" data-suffix="+">0</span>
+                    <span class="stat-label">Target Cloud Regions</span>
+                </div>
+                <div class="stat-item reveal-scale delay-2" style="border: none; padding: 0;">
+                    <span class="stat-val count-up" data-val="24" data-suffix="/7">0</span>
+                    <span class="stat-label">Active Monitoring Prep</span>
+                </div>
+                <div class="stat-item reveal-scale delay-3" style="border: none; padding: 0;">
+                    <span class="stat-val count-up" data-val="100" data-suffix="%">0</span>
+                    <span class="stat-label">Scalability Guarantee</span>
                 </div>
             </div>
         </div>
@@ -233,88 +216,110 @@
 
     <footer>
         <div class="container">
-            <div class="footer-grid reveal">
-                <div class="footer-col">
-                    <svg viewBox="0 0 170 40" class="dexys-svg-logo" style="margin-bottom: 1.5rem;" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M 5 20 L 15 10 L 21 10 L 11 20 L 21 30 L 15 30 Z" fill="var(--accent)" />
-                        <path d="M 15 20 L 25 10 L 31 10 L 21 20 L 31 30 L 25 30 Z" fill="currentColor" />
-                        <text x="45" y="28" font-family="'Inter', sans-serif" font-weight="900" font-size="24" fill="currentColor" letter-spacing="-0.01em">DEXYS</text>
-                    </svg>
-                    <p style="font-size: 0.95rem; max-width: 300px;">Architecting the resilient digital infrastructure of tomorrow.</p>
+            <div class="footer-grid reveal-zone">
+                <div class="footer-col reveal-up">
+                    <div class="logo-light-plate" style="margin-bottom: 1.5rem; width: fit-content;">
+                        <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+                            <style>.footer-text{font-family: Arial, Helvetica, sans-serif;font-weight: 700;font-size: 90px;fill: #1a1a1a;}</style>
+                            <text x="0" y="90" class="footer-text">DE</text>
+                            <polygon points="170,10 210,10 330,110 290,110" fill="var(--accent)"/>
+                            <polygon points="290,10 330,10 210,110 170,110" fill="#1a1a1a"/>
+                            <text x="340" y="90" class="footer-text">YS</text>
+                        </svg>
+                    </div>
+                    <p style="font-size: 0.95rem; max-width: 300px;">Architecting the resilient digital infrastructure for India's enterprises.</p>
                 </div>
-                <div class="footer-col">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="index.html" class="hover-target">Home</a></li>
-                        <li><a href="products-services.html" class="hover-target">Products & Services</a></li>
-                        <li><a href="contact.html" class="hover-target">Contact Us</a></li>
-                        <li><a href="about.html" class="hover-target">About Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Connect</h4>
-                    <ul>
-                        <li><a href="contact.html" class="hover-target">Contact Us</a></li>
-                        <li><a href="#" class="hover-target">Privacy Policy</a></li>
-                    </ul>
-                </div>
+                <div class="footer-col reveal-up delay-1"><h4>Company</h4><ul><li><a href="index.html">Home</a></li><li><a href="products-services.html">Capabilities</a></li><li><a href="contact.html">Contact Us</a></li><li><a href="about.html">About Us</a></li></ul></div>
+                <div class="footer-col reveal-up delay-2"><h4>Connect</h4><ul><li><a href="contact.html">Partnerships</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
             </div>
-            <div class="copyright reveal">
-                <span>© 2026 DEXYS Technologies. All rights reserved.</span>
-            </div>
+            <div class="copyright reveal-zone"><span class="reveal-up delay-3">© 2026 DEXYS Technologies. Engineered in Chennai.</span></div>
         </div>
     </footer>
 
     <script>
+        // HARD FAILSAFE: Always unlock scrolling no matter what
+        window.addEventListener('load', () => { setTimeout(() => { document.body.classList.remove('intro-locked'); }, 2000); });
+
         document.addEventListener("DOMContentLoaded", () => {
-            // Determine if the user arrived via internal link or fresh load/refresh
-            const isInternalNav = document.referrer.includes(window.location.hostname) && document.referrer !== "";
-            const navEntry = performance.getEntriesByType("navigation")[0];
-            const isReload = navEntry && navEntry.type === "reload";
-
-            if (!isInternalNav || isReload) {
-                // PLAY HORIZON SLIT INTRO ANIMATION
+            const isInternal = document.documentElement.classList.contains('internal-route');
+            
+            if (!isInternal) {
+                // FRESH LOAD: CINEMATIC FOCUS REVEAL
                 document.getElementById('loader').style.display = 'none';
-                
                 const tl = anime.timeline({ easing: 'easeOutExpo' });
-                
-                tl.add({ targets: '#intro-line', width: ['0%', '60%'], opacity: [0, 1], duration: 800, easing: 'easeInOutCubic' })
-                  .add({ targets: '#intro-line', width: '100%', duration: 600, easing: 'easeOutExpo' })
-                  .add({ targets: '#intro-shutter-top', translateY: '-100%', duration: 1400, easing: 'easeInOutQuart' }, '-=400')
-                  .add({ targets: '#intro-shutter-bottom', translateY: '100%', duration: 1400, easing: 'easeInOutQuart' }, '-=1400')
-                  .add({ targets: '#intro-logo-wrapper svg', opacity: [0, 1], scale: [0.85, 1], translateY: [20, 0], duration: 1200, easing: 'easeOutExpo' }, '-=1200')
-                  .add({ targets: '#intro-glow', opacity: [0, 0.6], duration: 1000 }, '-=1200')
-                  .add({ targets: '#intro-line', opacity: 0, duration: 400 }, '-=1000')
-                  .add({ targets: '#intro-overlay', opacity: 0, duration: 800, easing: 'linear', complete: () => { document.getElementById('intro-overlay').style.display = 'none'; document.body.classList.remove('intro-locked'); } }, '+=200')
-                  .add({ targets: '#main-header', translateY: ['-100%', '0%'], opacity: [0,1], duration: 800, easing: 'easeOutExpo' }, '-=600')
-                  .add({ targets: '.reveal', translateY: [30,0], opacity: [0,1], delay: anime.stagger(100), duration: 1000, easing: 'easeOutExpo' }, '-=600');
-
+                tl.add({ targets: '#intro-logo-wrapper', opacity: [0, 1], scale: [0.95, 1], duration: 1200 })
+                  .add({ targets: '#intro-progress', width: ['0%', '100%'], duration: 800, easing: 'easeInOutSine' }, '-=400')
+                  .add({ targets: '#intro-overlay', opacity: 0, duration: 600, delay: 200, easing: 'linear', complete: () => { 
+                      document.getElementById('intro-overlay').style.display = 'none'; 
+                      document.body.classList.remove('intro-locked'); 
+                  }})
+                  .add({ targets: '#main-header', translateY: ['-100%', '0%'], opacity: [0,1], duration: 1000 }, '-=600')
+                  .add({ 
+                      targets: '#hero', duration: 10, complete: function() { 
+                          document.querySelectorAll('#hero .reveal-up, #hero .reveal-scale, #hero .reveal-right').forEach(a => a.classList.add('is-visible'));
+                          
+                          // Trigger Hero Counters
+                          document.querySelectorAll('#hero .count-up').forEach(el => {
+                              let val = { v: 0 }; let target = parseFloat(el.getAttribute('data-val')); let isFloat = target % 1 !== 0; let prefix = el.getAttribute('data-prefix') || ''; let suffix = el.getAttribute('data-suffix') || '';
+                              anime({ targets: val, v: target, duration: 2500, easing: 'easeOutExpo', update: function() { el.innerHTML = prefix + (isFloat ? val.v.toFixed(1) : Math.round(val.v)) + suffix; } });
+                              el.classList.remove('count-up');
+                          });
+                      } 
+                  }, '-=800');
             } else {
-                // INTERNAL NAV: PLAY FAST LINE LOADER
+                // INTERNAL NAV: PAGE SWITCH LOADER
                 document.getElementById('intro-overlay').style.display = 'none';
                 document.getElementById('loader').style.display = 'flex';
                 
-                anime({ targets: '#loader-line', height: ['0%', '100%'], easing: 'easeInOutExpo', duration: 800, complete: function() { 
-                    anime({ targets: '#loader', opacity: 0, duration: 400, easing: 'linear', complete: () => document.getElementById('loader').style.display = 'none' }); 
-                    anime({ targets: '#main-header', translateY: ['-100%', '0%'], opacity: [0, 1], duration: 800, easing: 'easeOutExpo' });
-                    anime({ targets: '.reveal', translateY: [30, 0], opacity: [0, 1], delay: anime.stagger(80), duration: 800, easing: 'easeOutExpo',
-                        complete: function() { document.body.classList.remove('intro-locked'); }
-                    }); 
-                }});
+                anime.timeline({ easing: 'easeInOutExpo' })
+                    .add({ targets: '.loader-text', opacity: [0, 1], translateY: [10, 0], duration: 400, easing: 'easeOutSine' })
+                    .add({ targets: '#loader-line', height: ['0%', '100%'], duration: 600 }, '-=200')
+                    .add({ targets: '#loader', opacity: 0, duration: 300, easing: 'linear', complete: () => { 
+                        document.getElementById('loader').style.display = 'none'; 
+                        document.body.classList.remove('intro-locked'); 
+                    }})
+                    .add({ targets: '#main-header', translateY: ['-100%', '0%'], opacity: [0, 1], duration: 800, easing: 'easeOutExpo' }, '-=100')
+                    .add({ 
+                        targets: '#hero', duration: 10, complete: function() { 
+                            document.querySelectorAll('#hero .reveal-up, #hero .reveal-scale, #hero .reveal-right').forEach(a => a.classList.add('is-visible'));
+                            
+                            // Trigger Hero Counters
+                            document.querySelectorAll('#hero .count-up').forEach(el => {
+                                let val = { v: 0 }; let target = parseFloat(el.getAttribute('data-val')); let isFloat = target % 1 !== 0; let prefix = el.getAttribute('data-prefix') || ''; let suffix = el.getAttribute('data-suffix') || '';
+                                anime({ targets: val, v: target, duration: 2500, easing: 'easeOutExpo', update: function() { el.innerHTML = prefix + (isFloat ? val.v.toFixed(1) : Math.round(val.v)) + suffix; } });
+                                el.classList.remove('count-up');
+                            });
+                        } 
+                    }, '-=600');
             }
         });
 
-        // MENU LOGIC
+        // Mobile Menu
         const menuBtn = document.getElementById('menu-toggle'); const overlay = document.getElementById('menu-overlay'); const line1 = document.getElementById('line1'); const line2 = document.getElementById('line2'); let menuOpen = false; let menuTimeline = anime.timeline({ autoplay: false });
         menuTimeline.add({ targets: overlay, opacity: [0, 1], duration: 400, easing: 'easeInOutSine', begin: () => { overlay.style.pointerEvents = 'auto'; } }).add({ targets: '#menu-kicker', opacity: [0, 1], translateY: [20, 0], duration: 600, easing: 'easeOutExpo' }, '-=200').add({ targets: '.menu-link', opacity: [0, 1], translateY: [40, 0], duration: 800, delay: anime.stagger(100), easing: 'easeOutExpo' }, '-=500');
         if(menuBtn){ menuBtn.addEventListener('click', () => { if(!menuOpen){ line1.style.transform = 'translateY(4px) rotate(45deg)'; line2.style.transform = 'translateY(-4px) rotate(-45deg)'; line1.style.width = '24px'; line2.style.width = '24px'; line1.style.backgroundColor = '#fff'; line2.style.backgroundColor = '#fff'; menuTimeline.play(); menuTimeline.finished.then(() => menuTimeline.reverse()); } else { line1.style.transform = 'none'; line2.style.transform = 'none'; line2.style.width = '16px'; line1.style.backgroundColor = 'var(--bg-primary)'; line2.style.backgroundColor = 'var(--bg-primary)'; menuTimeline.play(); menuTimeline.finished.then(() => { overlay.style.pointerEvents = 'none'; menuTimeline.reverse(); }); } menuOpen = !menuOpen; }); }
         
-        // CURSOR & GLOW
-        const cDot = document.getElementById('cursor-dot'); const cOut = document.getElementById('cursor-outline'); window.addEventListener('mousemove', e => { if(window.innerWidth > 900) { cDot.style.left = `${e.clientX}px`; cDot.style.top = `${e.clientY}px`; cOut.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 150, fill: "forwards" }); } });
-        document.querySelectorAll('.hover-target').forEach(el => { el.addEventListener('mouseenter', () => document.body.classList.add('hovering')); el.addEventListener('mouseleave', () => document.body.classList.remove('hovering')); });
+        // PURE CSS SCROLL REVEALS & DYNAMIC COUNTERS
+        const observer = new IntersectionObserver((entries) => { 
+            entries.forEach(e => { 
+                if (e.isIntersecting && !e.target.classList.contains('revealed')) { 
+                    e.target.classList.add('revealed'); 
+                    e.target.querySelectorAll('.reveal-up, .reveal-scale, .reveal-right').forEach(el => el.classList.add('is-visible'));
+                    
+                    e.target.querySelectorAll('.count-up').forEach(el => {
+                        let val = { v: 0 }; let target = parseFloat(el.getAttribute('data-val')); let isFloat = target % 1 !== 0; let prefix = el.getAttribute('data-prefix') || ''; let suffix = el.getAttribute('data-suffix') || '';
+                        anime({ targets: val, v: target, duration: 2500, easing: 'easeOutExpo', update: function() { el.innerHTML = prefix + (isFloat ? val.v.toFixed(1) : Math.round(val.v)) + suffix; } });
+                        el.classList.remove('count-up');
+                    });
+                    observer.unobserve(e.target); 
+                } 
+            }); 
+        }, { threshold: 0.1 }); 
         
-        // SCROLL REVEAL
-        const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { anime({ targets: e.target.querySelectorAll('.reveal'), translateY: [40, 0], opacity: [0, 1], delay: anime.stagger(150), duration: 1200, easing: 'easeOutExpo' }); observer.unobserve(e.target); } }); }, { threshold: 0.15 }); document.querySelectorAll('section:not(#hero), footer').forEach(s => observer.observe(s));
+        // Only observe elements not in hero (hero animates on load)
+        document.querySelectorAll('.reveal-zone').forEach(s => {
+            if(s.id !== 'hero') observer.observe(s);
+        });
     </script>
 </body>
 </html>
