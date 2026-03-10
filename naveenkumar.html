@@ -21,9 +21,9 @@
     <style>
         :root { --bg-primary: #0B0F19; --bg-secondary: #111827; --accent: #8FB6CC; --accent-soft: rgba(143,182,204,0.1); --text-light: #F9FAFB; --text-muted: #9CA3AF; --border: rgba(143, 182, 204, 0.15); --header-height: 80px; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg-primary); color: var(--text-light); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        body { background-color: var(--bg-primary); color: var(--text-light); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh;}
         a, button { cursor: pointer; }
-        body.intro-locked { overflow: hidden; height: 100vh; }
+        body.intro-locked { overflow: hidden !important; height: 100vh !important; }
         
         html.internal-route #intro-overlay { display: none !important; }
         html.fresh-route #loader { display: none !important; }
@@ -32,11 +32,7 @@
         .reveal-right { opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
         .reveal-scale { opacity: 0; transform: scale(0.95) translateY(20px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
         .is-visible { opacity: 1 !important; transform: translate(0) scale(1) !important; }
-        
-        .delay-1 { transition-delay: 0.1s; } 
-        .delay-2 { transition-delay: 0.2s; } 
-        .delay-3 { transition-delay: 0.3s; } 
-        .delay-4 { transition-delay: 0.4s; }
+        .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; } .delay-4 { transition-delay: 0.4s; }
 
         .bg-grid { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; background-image: radial-gradient(rgba(143,182,204,0.15) 1px, transparent 1px); background-size: 30px 30px; mask-image: linear-gradient(to bottom, black 0%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%); pointer-events: none; }
         .ambient-glow { position: absolute; top: -10%; left: 50%; transform: translateX(-50%); width: 80vw; height: 80vw; background: radial-gradient(circle, rgba(143,182,204,0.06) 0%, transparent 60%); z-index: -1; pointer-events: none; }
@@ -63,12 +59,16 @@
         
         .back-link { display: inline-flex; align-items: center; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; margin-bottom: 2rem; transition: 0.3s; } .back-link:hover { letter-spacing: 0.05em; }
 
-        footer { background: var(--bg-primary); padding: 80px 0 40px 0; border-top: 1px solid var(--border); } .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 60px; } .footer-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; color: var(--text-light); } .footer-col ul { list-style: none; } .footer-col li { margin-bottom: 0.75rem; } .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: color 0.3s; } .footer-col a:hover { color: var(--accent); } .copyright { padding-top: 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.85rem; color: #4B5563; }
+        /* SKILL PILLS */
+        .skill-grid { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; margin-bottom: 3rem;}
+        .skill-pill { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; background: rgba(143,182,204,0.1); border: 1px solid rgba(143,182,204,0.2); color: var(--accent); padding: 8px 16px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+        footer { background: var(--bg-primary); padding: 80px 0 40px 0; border-top: 1px solid var(--border); margin-top: 80px;} .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 60px; } .footer-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; color: var(--text-light); } .footer-col ul { list-style: none; } .footer-col li { margin-bottom: 0.75rem; } .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: color 0.3s; } .footer-col a:hover { color: var(--accent); } .copyright { padding-top: 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.85rem; color: #4B5563; }
         
         @media (max-width: 900px) { .menu-btn { display: flex; } .desktop-nav { display: none; } .footer-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
-<body style="overflow: hidden;">
+<body class="intro-locked">
     <div id="loader">
         <div class="loader-text">DEXYS</div>
         <div class="loader-line-container"><div class="loader-line" id="loader-line"></div></div>
@@ -128,11 +128,17 @@
                 <span class="kicker reveal-up delay-1">Co-Founder & Head of Operations</span>
                 <h1 class="reveal-up delay-2" style="margin-bottom: 2rem;">Naveenkumar</h1>
                 
-                <h3 class="reveal-up delay-3" style="color: var(--text-light); font-size: 1.5rem; margin-bottom: 1rem; margin-top: 3rem;">Strategic Execution</h3>
-                <p class="reveal-up delay-4">As the Co-Founder and Head of Operations, Naveenkumar is the engine that drives DEXYS forward. He specializes in translating complex, deep-tech engineering concepts into clear, actionable business strategies for our incoming enterprise clients.</p>
+                <div class="skill-grid reveal-up delay-3">
+                    <span class="skill-pill">Enterprise Strategy</span>
+                    <span class="skill-pill">Agile Deployment</span>
+                    <span class="skill-pill">Domestic Scaling</span>
+                </div>
+
+                <h3 class="reveal-up delay-4" style="color: var(--text-light); font-size: 1.5rem; margin-bottom: 1rem; margin-top: 3rem;">Strategic Execution</h3>
+                <p class="reveal-up delay-4">As the Co-Founder and Head of Operations, Naveenkumar is the engine that drives DEXYS forward. He specializes in translating complex, deep-tech engineering concepts into clear, actionable business strategies for our incoming founding clients.</p>
                 
                 <h3 class="reveal-up" style="color: var(--text-light); font-size: 1.5rem; margin-bottom: 1rem; margin-top: 3rem;">Bridging the Gap</h3>
-                <p class="reveal-up">Naveenkumar will ensure that our engineering teams perfectly align with the operational goals of our founding partners. By maintaining rigorous, agile deployment methodologies, he guarantees that DEXYS solutions are delivered on time, securely, and seamlessly integrated into live business environments.</p>
+                <p class="reveal-up">Naveenkumar will ensure that our engineering teams perfectly align with the operational goals of our enterprise partners. By maintaining rigorous, agile deployment methodologies, he guarantees that DEXYS solutions are delivered on time, securely, and seamlessly integrated into live business environments.</p>
 
                 <h3 class="reveal-up" style="color: var(--text-light); font-size: 1.5rem; margin-bottom: 1rem; margin-top: 3rem;">Scaling the Ecosystem</h3>
                 <p class="reveal-up">His focus is on sustainable growth—scaling our operational capacity to match the power of our architecture, and fostering the vital industry relationships that will allow DEXYS to thrive within India's rapidly evolving digital economy.</p>
@@ -171,7 +177,7 @@
 
     <script>
         // HARD FAILSAFE: Always unlock scrolling no matter what
-        window.addEventListener('load', () => { setTimeout(() => { document.body.classList.remove('intro-locked'); }, 2000); });
+        window.addEventListener('load', () => { setTimeout(() => { document.body.style.overflow = 'auto'; document.body.classList.remove('intro-locked'); }, 2000); });
 
         document.addEventListener("DOMContentLoaded", () => {
             const isInternal = document.documentElement.classList.contains('internal-route');
@@ -184,6 +190,7 @@
                   .add({ targets: '#intro-progress', width: ['0%', '100%'], duration: 800, easing: 'easeInOutSine' }, '-=400')
                   .add({ targets: '#intro-overlay', opacity: 0, duration: 600, delay: 200, easing: 'linear', complete: () => { 
                       document.getElementById('intro-overlay').style.display = 'none'; 
+                      document.body.style.overflow = 'auto';
                       document.body.classList.remove('intro-locked'); 
                   }})
                   .add({ targets: '#main-header', translateY: ['-100%', '0%'], opacity: [0,1], duration: 1000 }, '-=600')
@@ -200,6 +207,7 @@
                     .add({ targets: '#loader-line', height: ['0%', '100%'], duration: 600 }, '-=200')
                     .add({ targets: '#loader', opacity: 0, duration: 300, easing: 'linear', complete: () => { 
                         document.getElementById('loader').style.display = 'none'; 
+                        document.body.style.overflow = 'auto';
                         document.body.classList.remove('intro-locked'); 
                     }})
                     .add({ targets: '#main-header', translateY: ['-100%', '0%'], opacity: [0, 1], duration: 800, easing: 'easeOutExpo' }, '-=100')
@@ -225,6 +233,7 @@
             }); 
         }, { threshold: 0.1 }); 
         
+        // Observe all zones EXCEPT hero
         document.querySelectorAll('.reveal-zone').forEach(s => {
             if(s.id !== 'hero') observer.observe(s);
         });
