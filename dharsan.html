@@ -21,9 +21,9 @@
     <style>
         :root { --bg-primary: #0B0F19; --bg-secondary: #111827; --accent: #8FB6CC; --accent-soft: rgba(143,182,204,0.1); --text-light: #F9FAFB; --text-muted: #9CA3AF; --border: rgba(143, 182, 204, 0.15); --header-height: 80px; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg-primary); color: var(--text-light); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        body { background-color: var(--bg-primary); color: var(--text-light); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh;}
         a, button { cursor: pointer; }
-        body.intro-locked { overflow: hidden; height: 100vh; }
+        body.intro-locked { overflow: hidden !important; height: 100vh !important; }
         
         html.internal-route #intro-overlay { display: none !important; }
         html.fresh-route #loader { display: none !important; }
@@ -32,16 +32,13 @@
         .reveal-right { opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
         .reveal-scale { opacity: 0; transform: scale(0.95) translateY(20px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
         .is-visible { opacity: 1 !important; transform: translate(0) scale(1) !important; }
-        
-        .delay-1 { transition-delay: 0.1s; } 
-        .delay-2 { transition-delay: 0.2s; } 
-        .delay-3 { transition-delay: 0.3s; } 
-        .delay-4 { transition-delay: 0.4s; }
+        .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; } .delay-4 { transition-delay: 0.4s; }
 
         .bg-grid { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; background-image: radial-gradient(rgba(143,182,204,0.15) 1px, transparent 1px); background-size: 30px 30px; mask-image: linear-gradient(to bottom, black 0%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%); pointer-events: none; }
         .ambient-glow { position: absolute; top: -10%; left: 50%; transform: translateX(-50%); width: 80vw; height: 80vw; background: radial-gradient(circle, rgba(143,182,204,0.06) 0%, transparent 60%); z-index: -1; pointer-events: none; }
 
         .dexys-svg-logo { height: 28px; width: auto; display: block; transition: transform 0.3s ease; } .dexys-svg-logo:hover { transform: scale(1.05); } 
+        header .dexys-svg-logo { color: var(--bg-primary); } footer .dexys-svg-logo { color: var(--text-light); }
         .logo-light-plate { background-color: #F9FAFB; padding: 10px 18px; border-radius: 8px; display: inline-block; transition: transform 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); } .logo-light-plate svg { height: 24px; width: auto; display: block; }
 
         #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 999999; display: flex; align-items: center; justify-content: center; flex-direction: column; } .loader-text { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 500; color: var(--text-light); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 2rem; opacity: 0; transform: translateY(10px); } .loader-line-container { width: 1px; height: 100px; background: rgba(255,255,255,0.05); overflow: hidden; position: relative; } .loader-line { width: 100%; height: 0%; background: var(--accent); position: absolute; bottom: 0; }
@@ -57,12 +54,16 @@
         .desktop-nav { display: flex; gap: 3rem; align-items: center; } .desktop-nav a { position: relative; color: var(--bg-primary); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 0.5rem 0; transition: color 0.3s ease; } .desktop-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); } .desktop-nav a:hover, .desktop-nav a.active { color: var(--accent); } .desktop-nav a:hover::after, .desktop-nav a.active::after { transform: scaleX(1); transform-origin: left; }
         .menu-btn { background: none; border: none; width: 40px; height: 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 6px; z-index: 1001; position: relative; display: none; } .menu-line { height: 2px; background: var(--bg-primary); transition: 0.3s ease; } .menu-line:nth-child(1) { width: 24px; } .menu-line:nth-child(2) { width: 16px; } .menu-btn:hover .menu-line { width: 24px; background: var(--accent); } .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 999; display: flex; flex-direction: column; justify-content: center; padding-left: 10%; pointer-events: none; opacity: 0; } .menu-link { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 800; color: var(--text-light); text-decoration: none; letter-spacing: -0.04em; margin-bottom: 1.5rem; opacity: 0; transform: translateY(40px); display: block; width: fit-content; transition: color 0.3s;} .menu-link:hover { color: var(--accent); }
 
-        .container { max-width: 900px; margin: 0 auto; padding: 0 5%; position: relative; } section { padding: clamp(100px, 12vw, 160px) 0; border-bottom: 1px solid var(--border); position: relative; }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 5%; position: relative; } 
         .kicker { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 1.5rem; display: block; } h1 { font-size: clamp(3.5rem, 8vw, 5.5rem); font-weight: 900; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 1.5rem; } p { color: var(--text-muted); font-size: clamp(1.05rem, 2vw, 1.2rem); margin-bottom: 2rem; line-height: 1.8; }
         
         .back-link { display: inline-flex; align-items: center; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; margin-bottom: 2rem; transition: 0.3s; } .back-link:hover { letter-spacing: 0.05em; }
 
-        footer { background: var(--bg-primary); padding: 80px 0 40px 0; border-top: 1px solid var(--border); } .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 60px; } .footer-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; color: var(--text-light); } .footer-col ul { list-style: none; } .footer-col li { margin-bottom: 0.75rem; } .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: color 0.3s; } .footer-col a:hover { color: var(--accent); } .copyright { padding-top: 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.85rem; color: #4B5563; }
+        /* SKILL PILLS */
+        .skill-grid { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; margin-bottom: 3rem;}
+        .skill-pill { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; background: rgba(143,182,204,0.1); border: 1px solid rgba(143,182,204,0.2); color: var(--accent); padding: 8px 16px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+        footer { background: var(--bg-primary); padding: 80px 0 40px 0; border-top: 1px solid var(--border); margin-top: 80px;} .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 60px; } .footer-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; color: var(--text-light); } .footer-col ul { list-style: none; } .footer-col li { margin-bottom: 0.75rem; } .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: color 0.3s; } .footer-col a:hover { color: var(--accent); } .copyright { padding-top: 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.85rem; color: #4B5563; }
         
         @media (max-width: 900px) { .menu-btn { display: flex; } .desktop-nav { display: none; } .footer-grid { grid-template-columns: 1fr; } }
     </style>
@@ -117,18 +118,23 @@
         <a href="about.html" class="menu-link">About Us</a>
     </div>
 
-    <div class="ambient-glow"></div>
-    <div class="bg-grid"></div>
+    <div class="ambient-glow"></div><div class="bg-grid"></div>
 
-    <section id="hero" style="padding-top: 200px; border: none; min-height: 90vh;" class="reveal-zone">
+    <section style="padding-top: 200px; border: none; min-height: 90vh;" id="hero" class="reveal-zone">
         <div class="container">
             <a href="about.html" class="back-link reveal-up">&larr; Back to Leadership</a>
             <div>
                 <span class="kicker reveal-up delay-1">Founder & Chief Architect</span>
                 <h1 class="reveal-up delay-2" style="margin-bottom: 2rem;">Dharsan</h1>
                 
-                <h3 class="reveal-up delay-3" style="color: var(--text-light); font-size: 1.5rem; margin-bottom: 1rem; margin-top: 3rem;">Engineering the Core</h3>
-                <p class="reveal-up delay-4">As the Founder and Chief Architect of DEXYS, Dharsan is the primary visionary behind our enterprise-grade system logic. His focus lies in macro-architecture, data localization, and ensuring that the foundational codebases of our future clients will be mathematically sound and infinitely scalable.</p>
+                <div class="skill-grid reveal-up delay-3">
+                    <span class="skill-pill">Macro-Architecture</span>
+                    <span class="skill-pill">Data Pipelines</span>
+                    <span class="skill-pill">Sovereign Cloud (DPDP)</span>
+                </div>
+
+                <h3 class="reveal-up delay-4" style="color: var(--text-light); font-size: 1.5rem; margin-bottom: 1rem; margin-top: 3rem;">Engineering the Core</h3>
+                <p class="reveal-up delay-4">As the Founder and Chief Architect of DEXYS, Dharsan is the primary visionary behind our enterprise-grade system logic. His absolute focus lies in macro-architecture, data localization, and ensuring that the foundational codebases of our founding clients will be mathematically sound and infinitely scalable.</p>
                 
                 <h3 class="reveal-up" style="color: var(--text-light); font-size: 1.5rem; margin-bottom: 1rem; margin-top: 3rem;">A Zero-Tolerance Approach</h3>
                 <p class="reveal-up">Dharsan believes that standard industry workarounds often lead to crippling technical debt. Under his technical leadership, DEXYS operates on a strict philosophy of "Algorithmic Purity"—stripping complex enterprise problems down to their fundamental logic and solving them at the computational root.</p>
@@ -141,7 +147,7 @@
 
     <footer>
         <div class="container">
-            <div class="footer-grid">
+            <div class="footer-grid reveal-zone">
                 <div class="footer-col reveal-up">
                     <div class="logo-light-plate" style="margin-bottom: 1.5rem; width: fit-content;">
                         <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
@@ -157,13 +163,13 @@
                 <div class="footer-col reveal-up delay-1"><h4>Company</h4><ul><li><a href="index.html">Home</a></li><li><a href="products-services.html">Capabilities</a></li><li><a href="contact.html">Contact Us</a></li><li><a href="about.html">About Us</a></li></ul></div>
                 <div class="footer-col reveal-up delay-2"><h4>Connect</h4><ul><li><a href="contact.html">Partnerships</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
             </div>
-            <div class="copyright reveal-up delay-3"><span>© 2026 DEXYS Technologies. Made in India.</span></div>
+            <div class="copyright reveal-zone"><span class="reveal-up delay-3">© 2026 DEXYS Technologies. Made in India.</span></div>
         </div>
     </footer>
 
     <script>
         // HARD FAILSAFE: Always unlock scrolling no matter what
-        window.addEventListener('load', () => { setTimeout(() => { document.body.classList.remove('intro-locked'); }, 2000); });
+        window.addEventListener('load', () => { setTimeout(() => { document.body.style.overflow = 'auto'; document.body.classList.remove('intro-locked'); }, 2000); });
 
         document.addEventListener("DOMContentLoaded", () => {
             const isInternal = document.documentElement.classList.contains('internal-route');
@@ -176,6 +182,7 @@
                   .add({ targets: '#intro-progress', width: ['0%', '100%'], duration: 800, easing: 'easeInOutSine' }, '-=400')
                   .add({ targets: '#intro-overlay', opacity: 0, duration: 600, delay: 200, easing: 'linear', complete: () => { 
                       document.getElementById('intro-overlay').style.display = 'none'; 
+                      document.body.style.overflow = 'auto';
                       document.body.classList.remove('intro-locked'); 
                   }})
                   .add({ targets: '#main-header', translateY: ['-100%', '0%'], opacity: [0,1], duration: 1000 }, '-=600')
@@ -192,6 +199,7 @@
                     .add({ targets: '#loader-line', height: ['0%', '100%'], duration: 600 }, '-=200')
                     .add({ targets: '#loader', opacity: 0, duration: 300, easing: 'linear', complete: () => { 
                         document.getElementById('loader').style.display = 'none'; 
+                        document.body.style.overflow = 'auto';
                         document.body.classList.remove('intro-locked'); 
                     }})
                     .add({ targets: '#main-header', translateY: ['-100%', '0%'], opacity: [0, 1], duration: 800, easing: 'easeOutExpo' }, '-=100')
@@ -217,6 +225,7 @@
             }); 
         }, { threshold: 0.1 }); 
         
+        // Observe all zones EXCEPT hero
         document.querySelectorAll('.reveal-zone').forEach(s => {
             if(s.id !== 'hero') observer.observe(s);
         });
