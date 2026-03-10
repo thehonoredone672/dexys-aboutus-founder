@@ -3,171 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Naveenkumar - Ops | DEXYS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Naveenkumar - Co-Founder & Head of Operations at DEXYS Technologies.">
+    <title>Naveenkumar | DEXYS Technologies</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='150 -10 200 140' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='200' height='140' x='150' y='-10' fill='%23ffffff' rx='24'/%3E%3Cpolygon points='170,10 210,10 330,110 290,110' fill='%23cfd8df'/%3E%3Cpolygon points='290,10 330,10 210,110 170,110' fill='%231a1a1a'/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     
+    <script>
+        (function() {
+            const isInternal = document.referrer.includes(location.hostname) && document.referrer !== "";
+            const isReload = performance.navigation.type === 1 || (performance.getEntriesByType && performance.getEntriesByType("navigation")[0]?.type === "reload");
+            if (!isInternal || isReload) { document.documentElement.classList.add('fresh-route'); } 
+            else { document.documentElement.classList.add('internal-route'); }
+        })();
+    </script>
+
     <style>
-        :root { --bg-primary: #0B0F19; --bg-secondary: #111827; --accent: #8FB6CC; --accent-soft: rgba(143,182,204,0.15); --text-light: #E5E7EB; --text-muted: #9CA3AF; --border: rgba(143, 182, 204, 0.2); --header-height: 80px; }
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        body { background-color: var(--bg-primary); color: var(--text-light); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; transition: background-color 0.3s ease; }
+        :root { --bg-primary: #0B0F19; --bg-secondary: #111827; --accent: #8FB6CC; --accent-soft: rgba(143,182,204,0.1); --text-light: #F9FAFB; --text-muted: #9CA3AF; --border: rgba(143, 182, 204, 0.15); --header-height: 80px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-primary); color: var(--text-light); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        a, button { cursor: pointer; }
+        body.intro-locked { overflow: hidden; height: 100vh; }
         
-        /* PRELOADER */
-        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 99999; display: flex; align-items: center; justify-content: center; flex-direction: column; }
-        .loader-text { font-family: 'JetBrains Mono', monospace; font-size: 3rem; font-weight: 700; color: var(--accent); }
-        .loader-bar-container { width: 200px; height: 2px; background: rgba(255,255,255,0.1); margin-top: 1rem; overflow: hidden; }
-        .loader-bar { width: 0%; height: 100%; background: var(--accent); }
+        html.internal-route #intro-overlay { display: none !important; }
+        html.fresh-route #loader { display: none !important; }
 
-        /* CURSOR & HEADER */
-        .cursor-dot { width: 8px; height: 8px; background-color: var(--accent); position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s; }
-        .cursor-outline { width: 32px; height: 32px; border: 1px solid var(--accent); position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s; }
-        body.hovering .cursor-outline { width: 50px; height: 50px; background-color: var(--accent-soft); } body.hovering .cursor-dot { width: 0; height: 0; }
-        header { position: fixed; top: 0; width: 100%; height: var(--header-height); background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); z-index: 1000; display: flex; align-items: center; }
-        .nav-container { width: 100%; max-width: 1300px; margin: 0 auto; padding: 0 5%; display: flex; justify-content: space-between; align-items: center; }
-        header .logo-img { height: 26px; z-index: 1001; }
-        .desktop-nav { display: flex; gap: 3rem; align-items: center; }
-        .desktop-nav a { position: relative; color: var(--bg-primary); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 0.5rem 0; transition: color 0.3s ease; }
-        .desktop-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .desktop-nav a:hover, .desktop-nav a.active { color: var(--accent); } .desktop-nav a:hover::after, .desktop-nav a.active::after { transform: scaleX(1); transform-origin: left; }
-
-        /* MINIMALIST SIDE-BY-SIDE LAYOUT */
-        .container { max-width: 1300px; margin: 0 auto; padding: 140px 5% 80px; }
-        .split-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 5rem; align-items: start; }
+        .reveal-up { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
+        .reveal-right { opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
+        .reveal-scale { opacity: 0; transform: scale(0.95) translateY(20px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
+        .is-visible { opacity: 1 !important; transform: translate(0) scale(1) !important; }
         
-        /* LEFT COL: CODE UI & METRICS */
-        .code-window { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 2.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: #abb2bf; margin-bottom: 3rem; }
-        .c-kw { color: #C678DD; } .c-str { color: #98C379; } .c-prop { color: #E5C07B; } .c-punc { color: var(--text-muted); }
-        .json-block { margin-top: 1rem; padding-left: 1.5rem; border-left: 1px solid rgba(255,255,255,0.05); }
-        .json-item { margin-bottom: 0.5rem; transition: transform 0.3s ease; }
-        .json-item:hover { transform: translateX(10px); color: var(--text-light); }
+        .delay-1 { transition-delay: 0.1s; } 
+        .delay-2 { transition-delay: 0.2s; } 
+        .delay-3 { transition-delay: 0.3s; } 
+        .delay-4 { transition-delay: 0.4s; }
 
-        /* HUMOR UI: INCIDENT COUNTER */
-        .humor-box { padding: 2.5rem; border: 1px solid var(--border); border-radius: 12px; background: rgba(0,0,0,0.2); display: flex; justify-content: space-between; align-items: center; }
-        .counter-val { font-family: 'JetBrains Mono', monospace; font-size: 3rem; font-weight: 800; color: #27C93F; line-height: 1; transition: color 0.3s; }
-        .crash-btn { background: rgba(255, 95, 86, 0.1); border: 1px solid #FF5F56; color: #FF5F56; padding: 10px 20px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; transition: 0.3s; }
-        .crash-btn:hover { background: #FF5F56; color: white; }
+        .bg-grid { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; background-image: radial-gradient(rgba(143,182,204,0.15) 1px, transparent 1px); background-size: 30px 30px; mask-image: linear-gradient(to bottom, black 0%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%); pointer-events: none; }
+        .ambient-glow { position: absolute; top: -10%; left: 50%; transform: translateX(-50%); width: 80vw; height: 80vw; background: radial-gradient(circle, rgba(143,182,204,0.06) 0%, transparent 60%); z-index: -1; pointer-events: none; }
 
-        /* RIGHT COL: PHOTO & BIO */
-        .photo-box { width: 100%; aspect-ratio: 4/5; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; }
-        .photo-box img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 0; }
-        .photo-fallback { font-size: 5rem; font-weight: 900; color: rgba(255,255,255,0.05); letter-spacing: -0.05em; }
+        .dexys-svg-logo { height: 28px; width: auto; display: block; transition: transform 0.3s ease; } .dexys-svg-logo:hover { transform: scale(1.05); } 
+        header .dexys-svg-logo { color: var(--bg-primary); } footer .dexys-svg-logo { color: var(--text-light); }
+        .logo-light-plate { background-color: #F9FAFB; padding: 10px 18px; border-radius: 8px; display: inline-block; transition: transform 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); } .logo-light-plate svg { height: 24px; width: auto; display: block; }
+
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 999999; display: flex; align-items: center; justify-content: center; flex-direction: column; } .loader-text { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 500; color: var(--text-light); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 2rem; opacity: 0; transform: translateY(10px); } .loader-line-container { width: 1px; height: 100px; background: rgba(255,255,255,0.05); overflow: hidden; position: relative; } .loader-line { width: 100%; height: 0%; background: var(--accent); position: absolute; bottom: 0; }
+
+        #intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 999999; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        #intro-logo-wrapper { position: relative; z-index: 3; opacity: 0; transform: scale(1.1); display: flex; flex-direction: column; align-items: center;}
+        #intro-logo-wrapper .logo-light-plate { padding: 15px 30px; border-radius: 12px; filter: drop-shadow(0 0 20px rgba(143,182,204,0.2));}
+        #intro-logo-wrapper .logo-light-plate svg { height: 40px; }
+        .intro-progress-bar { width: 120px; height: 2px; background: rgba(255,255,255,0.1); margin-top: 40px; border-radius: 2px; overflow: hidden; position: relative;}
+        .intro-progress-fill { width: 0%; height: 100%; background: var(--accent); position: absolute; left: 0; top: 0;}
+
+        header { position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height); background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); z-index: 1000; display: flex; align-items: center; opacity: 0; transform: translateY(-100%); } .nav-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 6%; display: flex; justify-content: space-between; align-items: center; }
+        .desktop-nav { display: flex; gap: 3rem; align-items: center; } .desktop-nav a { position: relative; color: var(--bg-primary); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 0.5rem 0; transition: color 0.3s ease; } .desktop-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); } .desktop-nav a:hover, .desktop-nav a.active { color: var(--accent); } .desktop-nav a:hover::after, .desktop-nav a.active::after { transform: scaleX(1); transform-origin: left; }
+        .menu-btn { background: none; border: none; width: 40px; height: 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 6px; z-index: 1001; position: relative; display: none; } .menu-line { height: 2px; background: var(--bg-primary); transition: 0.3s ease; } .menu-line:nth-child(1) { width: 24px; } .menu-line:nth-child(2) { width: 16px; } .menu-btn:hover .menu-line { width: 24px; background: var(--accent); } .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 999; display: flex; flex-direction: column; justify-content: center; padding-left: 10%; pointer-events: none; opacity: 0; } .menu-link { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 800; color: var(--text-light); text-decoration: none; letter-spacing: -0.04em; margin-bottom: 1.5rem; opacity: 0; transform: translateY(40px); display: block; width: fit-content; transition: color 0.3s;} .menu-link:hover { color: var(--accent); }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 5%; position: relative; } section { padding: clamp(100px, 12vw, 160px) 0; border-bottom: 1px solid var(--border); position: relative; }
+        .kicker { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 1.5rem; display: block; } h1 { font-size: clamp(3.5rem, 8vw, 5.5rem); font-weight: 900; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 1.5rem; } p { color: var(--text-muted); font-size: clamp(1.05rem, 2vw, 1.2rem); margin-bottom: 2rem; line-height: 1.8; }
         
-        h1 { font-size: clamp(3rem, 5vw, 4.5rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-bottom: 0.5rem; }
-        .role-tag { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.85rem; margin-bottom: 1.5rem; display: inline-block; padding: 6px 12px; background: var(--accent-soft); border-radius: 4px; }
-        p { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 1.5rem; }
+        .back-link { display: inline-flex; align-items: center; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; margin-bottom: 2rem; transition: 0.3s; } .back-link:hover { letter-spacing: 0.05em; }
 
-        .reveal { opacity: 0; transform: translateY(20px); }
-        @media (max-width: 900px) { .split-layout { grid-template-columns: 1fr; gap: 3rem; } .desktop-nav { display: none; } * { cursor: auto; } .cursor-dot, .cursor-outline { display: none; } .right-col { order: -1; } }
+        footer { background: var(--bg-primary); padding: 80px 0 40px 0; border-top: 1px solid var(--border); } .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 60px; } .footer-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; color: var(--text-light); } .footer-col ul { list-style: none; } .footer-col li { margin-bottom: 0.75rem; } .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: color 0.3s; } .footer-col a:hover { color: var(--accent); } .copyright { padding-top: 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.85rem; color: #4B5563; }
+        
+        @media (max-width: 900px) { .menu-btn { display: flex; } .desktop-nav { display: none; } .footer-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
-<body>
-    <div id="loader"><div class="loader-text"><span id="loader-progress">0</span>%</div><div class="loader-bar-container"><div class="loader-bar" id="loader-bar"></div></div></div>
-    <div class="cursor-outline" id="cursor-outline"></div><div class="cursor-dot" id="cursor-dot"></div>
+<body style="overflow: hidden;">
+    <div id="loader">
+        <div class="loader-text">DEXYS</div>
+        <div class="loader-line-container"><div class="loader-line" id="loader-line"></div></div>
+    </div>
 
-    <header>
-        <div class="nav-container">
-            <a href="about.html" class="hover-target"><img src="image_b1db0d.png" alt="DEXYS Logo" class="logo-img"></a>
-            <nav class="desktop-nav">
-                <a href="about.html#about" class="hover-target">Company</a>
-                <a href="dharsan.html" class="hover-target">Dharsan</a>
-                <a href="naveenkumar.html" class="hover-target active">Naveenkumar</a>
-            </nav>
-        </div>
-    </header>
-
-    <div class="container">
-        <div class="split-layout">
-            
-            <div class="left-col reveal">
-                <div class="code-window hover-target">
-                    <span class="c-kw">const</span> <span class="c-prop">opsMetrics</span> <span class="c-punc">=</span> <span class="c-punc">{</span>
-                    
-                    <div class="json-block">
-                        <div class="json-item">
-                            <span class="c-prop">uptimeSLA</span><span class="c-punc">:</span> <span class="c-str">"99.99%"</span><span class="c-punc">,</span>
-                        </div>
-                        <div class="json-item">
-                            <span class="c-prop">deploymentStatus</span><span class="c-punc">:</span> <span class="c-str">"Automated"</span><span class="c-punc">,</span>
-                        </div>
-                        <div class="json-item">
-                            <span class="c-prop">serverIntegrity</span><span class="c-punc">:</span> <span class="c-str">"Stable"</span><span class="c-punc">,</span>
-                        </div>
-                        <div class="json-item">
-                            <span class="c-prop">fridayDeploys</span><span class="c-punc">:</span> <span class="c-kw">false</span><span class="c-punc">,</span>
-                        </div>
-                        <div class="json-item">
-                            <span class="c-prop">unhandledExceptions</span><span class="c-punc">:</span> <span class="c-kw">0</span>
-                        </div>
-                    </div>
-                    
-                    <span class="c-punc">};</span>
-                </div>
-
-                <div class="humor-box hover-target">
-                    <div>
-                        <h3 style="font-size: 1rem; margin-bottom: 0.25rem; color: var(--text-light);">Days without a Prod Crash</h3>
-                        <p style="font-size: 0.85rem; color: var(--text-muted);" id="crash-subtext">Everything is running smoothly.</p>
-                    </div>
-                    <div style="text-align: right;">
-                        <span class="counter-val" id="days-counter">142</span>
-                        <br>
-                        <button class="crash-btn hover-target" id="crash-btn" style="margin-top: 10px;">Simulate Crash</button>
-                    </div>
-                </div>
+    <div id="intro-overlay">
+        <div id="intro-logo-wrapper">
+            <div class="logo-light-plate">
+                <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+                    <style> .text{ font-family: Arial, Helvetica, sans-serif; font-weight: 700; font-size: 90px; fill: #1a1a1a; } </style>
+                    <text x="0" y="90" class="text">DE</text>
+                    <polygon points="170,10 210,10 330,110 290,110" fill="#cfd8df"/>
+                    <polygon points="290,10 330,10 210,110 170,110" fill="#1a1a1a"/>
+                    <text x="340" y="90" class="text">YS</text>
+                </svg>
             </div>
-
-            <div class="right-col">
-                <div class="photo-box reveal hover-target">
-                    <span class="photo-fallback">NK</span>
-                    <img src="" alt="Naveenkumar Photo"> 
-                </div>
-                <h1 class="reveal">Naveenkumar</h1>
-                <span class="role-tag reveal">Co-Founder & Head of Operations</span>
-                <p class="reveal">Naveenkumar ensures that theoretical architecture becomes functional reality. He operates at the critical intersection of code execution and business scaling.</p>
-                <p class="reveal">While the architects design the blueprint, Naveen manages the deployment pipelines, the server states, and the critical handoff from development to production—ensuring the ecosystem never sleeps, so the founders can.</p>
-            </div>
-
+            <div class="intro-progress-bar"><div class="intro-progress-fill" id="intro-progress"></div></div>
         </div>
     </div>
 
+    <header id="main-header">
+        <div class="nav-container">
+            <a href="index.html" class="dexys-svg-logo">
+                <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+                    <style> .text-header{ font-family: Arial, Helvetica, sans-serif; font-weight: 700; font-size: 90px; fill: #0B0F19; } </style>
+                    <text x="0" y="90" class="text-header">DE</text>
+                    <polygon points="170,10 210,10 330,110 290,110" fill="var(--accent)"/>
+                    <polygon points="290,10 330,10 210,110 170,110" fill="#0B0F19"/>
+                    <text x="340" y="90" class="text-header">YS</text>
+                </svg>
+            </a>
+            <nav class="desktop-nav">
+                <a href="index.html">Home</a>
+                <a href="products-services.html">Capabilities</a>
+                <a href="contact.html">Contact Us</a>
+                <a href="about.html" class="active">About Us</a>
+            </nav>
+            <button class="menu-btn" id="menu-toggle"><div class="menu-line" id="line1"></div><div class="menu-line" id="line2"></div></button>
+        </div>
+    </header>
+
+    <div class="menu-overlay" id="menu-overlay">
+        <span class="kicker" style="opacity: 0; transform: translateY(20px);" id="menu-kicker">Navigation</span>
+        <a href="index.html" class="menu-link">Home</a>
+        <a href="products-services.html" class="menu-link">Capabilities</a>
+        <a href="contact.html" class="menu-link">Contact Us</a>
+        <a href="about.html" class="menu-link">About Us</a>
+    </div>
+
+    <div class="ambient-glow"></div>
+    <div class="bg-grid"></div>
+
+    <section style="padding-top: 200px; border: none; min-height: 90vh;" id="hero" class="reveal-zone">
+        <div class="container">
+            <a href="about.html" class="back-link reveal-up">&larr; Back to Leadership</a>
+            <div>
+                <span class="kicker reveal-up delay-1">Co-Founder & Head of Operations</span>
+                <h1 class="reveal-up delay-2" style="margin-bottom: 2rem;">Naveenkumar</h1>
+                
+                <h3 class="reveal-up delay-3" style="color: var(--text-light); font-size: 1.5rem; margin-bottom: 1rem; margin-top: 3rem;">Strategic Execution</h3>
+                <p class="reveal-up delay-4">As the Co-Founder and Head of Operations, Naveenkumar is the engine that drives DEXYS forward. He specializes in translating complex, deep-tech engineering concepts into clear, actionable business strategies for our incoming enterprise clients.</p>
+                
+                <h3 class="reveal-up" style="color: var(--text-light); font-size: 1.5rem; margin-bottom: 1rem; margin-top: 3rem;">Bridging the Gap</h3>
+                <p class="reveal-up">Naveenkumar will ensure that our engineering teams perfectly align with the operational goals of our founding partners. By maintaining rigorous, agile deployment methodologies, he guarantees that DEXYS solutions are delivered on time, securely, and seamlessly integrated into live business environments.</p>
+
+                <h3 class="reveal-up" style="color: var(--text-light); font-size: 1.5rem; margin-bottom: 1rem; margin-top: 3rem;">Scaling the Ecosystem</h3>
+                <p class="reveal-up">His focus is on sustainable growth—scaling our operational capacity to match the power of our architecture, and fostering the vital industry relationships that will allow DEXYS to thrive within India's rapidly evolving digital economy.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col reveal-up">
+                    <div class="logo-light-plate" style="margin-bottom: 1.5rem; width: fit-content;">
+                        <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+                            <style>
+                            .text-light{
+                            font-family: Arial, Helvetica, sans-serif;
+                            font-weight: 700;
+                            font-size: 90px;
+                            fill:#1a1a1a;
+                            }
+                            </style>
+                            <text x="0" y="90" class="text-light">DE</text>
+                            <polygon points="170,10 210,10 330,110 290,110" fill="#cfd8df"/>
+                            <polygon points="290,10 330,10 210,110 170,110" fill="#1a1a1a"/>
+                            <text x="340" y="90" class="text-light">YS</text>
+                        </svg>
+                    </div>
+                    <p style="font-size: 0.95rem; max-width: 300px;">Architecting the resilient digital infrastructure for India's enterprises.</p>
+                </div>
+                <div class="footer-col reveal-up delay-1"><h4>Company</h4><ul><li><a href="index.html">Home</a></li><li><a href="products-services.html">Capabilities</a></li><li><a href="contact.html">Contact Us</a></li><li><a href="about.html">About Us</a></li></ul></div>
+                <div class="footer-col reveal-up delay-2"><h4>Connect</h4><ul><li><a href="contact.html">Partnerships</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
+            </div>
+            <div class="copyright reveal-up delay-3"><span>© 2026 DEXYS Technologies. Made in India.</span></div>
+        </div>
+    </footer>
+
     <script>
-        // Loader
-        const progressObj = { val: 0 };
-        anime({ targets: progressObj, val: 100, round: 1, easing: 'easeInOutExpo', duration: 1500, update: function() { document.getElementById('loader-progress').innerHTML = progressObj.val; document.getElementById('loader-bar').style.width = progressObj.val + '%'; }, complete: function() { anime({ targets: '#loader', translateY: '-100%', duration: 800, easing: 'easeInOutExpo' }); }});
-        
-        // Cursor
-        const cursorDot = document.getElementById('cursor-dot'); const cursorOutline = document.getElementById('cursor-outline');
-        window.addEventListener('mousemove', e => { cursorDot.style.left = `${e.clientX}px`; cursorDot.style.top = `${e.clientY}px`; cursorOutline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 150, fill: "forwards" }); });
-        document.querySelectorAll('.hover-target, button').forEach(el => { el.addEventListener('mouseenter', () => document.body.classList.add('hovering')); el.addEventListener('mouseleave', () => document.body.classList.remove('hovering')); });
-        
-        // Reveal
-        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { anime({ targets: entry.target, translateY: [40, 0], opacity: [0, 1], duration: 1000, easing: 'easeOutCubic' }); observer.unobserve(entry.target); } }); }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(s => { s.style.opacity = 0; observer.observe(s); });
+        // HARD FAILSAFE: Always unlock scrolling no matter what
+        window.addEventListener('load', () => { setTimeout(() => { document.body.classList.remove('intro-locked'); }, 2000); });
 
-        // Humor Interactive Logic: The Crash Counter
-        const crashBtn = document.getElementById('crash-btn');
-        const counter = document.getElementById('days-counter');
-        const subtext = document.getElementById('crash-subtext');
-        const counterObj = { val: 142 };
-
-        crashBtn.addEventListener('click', () => {
-            // Flash red background
-            document.body.style.backgroundColor = 'rgba(255, 95, 86, 0.2)';
-            setTimeout(() => { document.body.style.backgroundColor = 'var(--bg-primary)'; }, 300);
+        document.addEventListener("DOMContentLoaded", () => {
+            const isInternal = document.documentElement.classList.contains('internal-route');
             
-            // Shake the counter
-            anime({ targets: counter, translateX: [10, -10, 10, -10, 0], duration: 400, easing: 'easeInOutSine' });
+            if (!isInternal) {
+                // FRESH LOAD: CINEMATIC FOCUS REVEAL
+                document.getElementById('loader').style.display = 'none';
+                const tl = anime.timeline({ easing: 'easeOutExpo' });
+                tl.add({ targets: '#intro-logo-wrapper', opacity: [0, 1], scale: [0.95, 1], duration: 1200 })
+                  .add({ targets: '#intro-progress', width: ['0%', '100%'], duration: 800, easing: 'easeInOutSine' }, '-=400')
+                  .add({ targets: '#intro-overlay', opacity: 0, duration: 600, delay: 200, easing: 'linear', complete: () => { 
+                      document.getElementById('intro-overlay').style.display = 'none'; 
+                      document.body.classList.remove('intro-locked'); 
+                  }})
+                  .add({ targets: '#main-header', translateY: ['-100%', '0%'], opacity: [0,1], duration: 1000 }, '-=600')
+                  .add({ targets: '#hero', duration: 10, complete: function() { 
+                      document.querySelectorAll('#hero .reveal-up, #hero .reveal-scale, #hero .reveal-right').forEach(a => a.classList.add('is-visible'));
+                  }}, '-=800');
+            } else {
+                // INTERNAL NAV: PAGE SWITCH LOADER
+                document.getElementById('intro-overlay').style.display = 'none';
+                document.getElementById('loader').style.display = 'flex';
+                
+                anime.timeline({ easing: 'easeInOutExpo' })
+                    .add({ targets: '.loader-text', opacity: [0, 1], translateY: [10, 0], duration: 400, easing: 'easeOutSine' })
+                    .add({ targets: '#loader-line', height: ['0%', '100%'], duration: 600 }, '-=200')
+                    .add({ targets: '#loader', opacity: 0, duration: 300, easing: 'linear', complete: () => { 
+                        document.getElementById('loader').style.display = 'none'; 
+                        document.body.classList.remove('intro-locked'); 
+                    }})
+                    .add({ targets: '#main-header', translateY: ['-100%', '0%'], opacity: [0, 1], duration: 800, easing: 'easeOutExpo' }, '-=100')
+                    .add({ targets: '#hero', duration: 10, complete: function() { 
+                        document.querySelectorAll('#hero .reveal-up, #hero .reveal-scale, #hero .reveal-right').forEach(a => a.classList.add('is-visible'));
+                    }}, '-=600');
+            }
+        });
 
-            // Roll number to 0
-            anime({
-                targets: counterObj, val: 0, round: 1, duration: 800, easing: 'easeOutExpo',
-                update: function() { counter.innerHTML = counterObj.val; counter.style.color = '#FF5F56'; },
-                complete: function() { 
-                    subtext.innerHTML = "Why did you click that?"; 
-                    subtext.style.color = '#FF5F56';
-                    crashBtn.style.display = 'none'; // Hide button after crash
-                }
-            });
+        // Mobile Menu
+        const menuBtn = document.getElementById('menu-toggle'); const overlay = document.getElementById('menu-overlay'); const line1 = document.getElementById('line1'); const line2 = document.getElementById('line2'); let menuOpen = false; let menuTimeline = anime.timeline({ autoplay: false });
+        menuTimeline.add({ targets: overlay, opacity: [0, 1], duration: 400, easing: 'easeInOutSine', begin: () => { overlay.style.pointerEvents = 'auto'; } }).add({ targets: '#menu-kicker', opacity: [0, 1], translateY: [20, 0], duration: 600, easing: 'easeOutExpo' }, '-=200').add({ targets: '.menu-link', opacity: [0, 1], translateY: [40, 0], duration: 800, delay: anime.stagger(100), easing: 'easeOutExpo' }, '-=500');
+        if(menuBtn){ menuBtn.addEventListener('click', () => { if(!menuOpen){ line1.style.transform = 'translateY(4px) rotate(45deg)'; line2.style.transform = 'translateY(-4px) rotate(-45deg)'; line1.style.width = '24px'; line2.style.width = '24px'; line1.style.backgroundColor = '#fff'; line2.style.backgroundColor = '#fff'; menuTimeline.play(); menuTimeline.finished.then(() => menuTimeline.reverse()); } else { line1.style.transform = 'none'; line2.style.transform = 'none'; line2.style.width = '16px'; line1.style.backgroundColor = 'var(--bg-primary)'; line2.style.backgroundColor = 'var(--bg-primary)'; menuTimeline.play(); menuTimeline.finished.then(() => { overlay.style.pointerEvents = 'none'; menuTimeline.reverse(); }); } menuOpen = !menuOpen; }); }
+
+        // PURE CSS SCROLL REVEALS
+        const observer = new IntersectionObserver((entries) => { 
+            entries.forEach(e => { 
+                if (e.isIntersecting && !e.target.classList.contains('revealed')) { 
+                    e.target.classList.add('revealed'); 
+                    e.target.querySelectorAll('.reveal-up, .reveal-scale, .reveal-right').forEach(el => el.classList.add('is-visible'));
+                    observer.unobserve(e.target); 
+                } 
+            }); 
+        }, { threshold: 0.1 }); 
+        
+        document.querySelectorAll('.reveal-zone').forEach(s => {
+            if(s.id !== 'hero') observer.observe(s);
         });
     </script>
 </body>
