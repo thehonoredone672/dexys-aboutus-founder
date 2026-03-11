@@ -21,16 +21,18 @@
     <style>
         :root { --bg-primary: #0B0F19; --bg-secondary: #111827; --accent: #8FB6CC; --text-light: #F9FAFB; --text-muted: #9CA3AF; --border: rgba(143, 182, 204, 0.15); --header-height: 80px; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg-primary); color: var(--text-light); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh;}
+        body { background-color: var(--bg-primary); color: var(--text-light); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; min-height: 100vh;}
+        main { flex: 1 0 auto; display: flex; flex-direction: column; }
+        footer { flex-shrink: 0; margin-top: auto; }
+        body.intro-locked { overflow: hidden !important; height: 100vh !important; }
         a, button { cursor: pointer; }
-        body.intro-locked { overflow: hidden; height: 100vh; }
         
         html.internal-route #intro-overlay { display: none !important; }
         html.fresh-route #loader { display: none !important; }
 
-        .reveal-up { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
-        .reveal-right { opacity: 0; transform: translateX(-40px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
-        .reveal-scale { opacity: 0; transform: scale(0.95) translateY(20px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
+        .reveal-up { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
+        .reveal-right { opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
+        .reveal-scale { opacity: 0; transform: scale(0.95) translateY(20px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
         .is-visible { opacity: 1 !important; transform: translate(0) scale(1) !important; }
         .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; } .delay-4 { transition-delay: 0.4s; }
 
@@ -39,23 +41,22 @@
 
         .dexys-svg-logo { height: 28px; width: auto; display: block; transition: transform 0.3s ease; } .dexys-svg-logo:hover { transform: scale(1.05); } 
         .logo-light-plate { background-color: #F9FAFB; padding: 10px 18px; border-radius: 8px; display: inline-block; transition: transform 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); } .logo-light-plate svg { height: 24px; width: auto; display: block; }
-
+        
         #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 999999; display: flex; align-items: center; justify-content: center; flex-direction: column; } .loader-text { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 500; color: var(--text-light); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 2rem; opacity: 0; transform: translateY(10px); } .loader-line-container { width: 1px; height: 100px; background: rgba(255,255,255,0.05); overflow: hidden; position: relative; } .loader-line { width: 100%; height: 0%; background: var(--accent); position: absolute; bottom: 0; }
         
         #intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 999999; display: flex; align-items: center; justify-content: center; flex-direction: column; }
         #intro-logo-wrapper { position: relative; z-index: 3; opacity: 0; transform: scale(1.1); display: flex; flex-direction: column; align-items: center;}
-        #intro-logo-wrapper .logo-light-plate { padding: 15px 30px; border-radius: 12px; filter: drop-shadow(0 0 20px rgba(143,182,204,0.2)); }
+        #intro-logo-wrapper .logo-light-plate { padding: 15px 30px; border-radius: 12px; }
         #intro-logo-wrapper .logo-light-plate svg { height: 40px; }
         .intro-progress-bar { width: 120px; height: 2px; background: rgba(255,255,255,0.1); margin-top: 40px; border-radius: 2px; overflow: hidden; position: relative;}
         .intro-progress-fill { width: 0%; height: 100%; background: var(--accent); position: absolute; left: 0; top: 0;}
 
-        header { position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height); background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); z-index: 1000; display: flex; align-items: center; opacity: 0; transform: translateY(-100%); } .nav-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 6%; display: flex; justify-content: space-between; align-items: center; }
-        .desktop-nav { display: flex; gap: 3rem; align-items: center; } .desktop-nav a { position: relative; color: var(--bg-primary); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 0.5rem 0; transition: color 0.3s ease; } .desktop-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); } .desktop-nav a:hover, .desktop-nav a.active { color: var(--accent); } .desktop-nav a:hover::after, .desktop-nav a.active::after { transform: scaleX(1); transform-origin: left; }
+        header { position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height); background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); z-index: 1000; display: flex; align-items: center; opacity: 0; transform: translateY(-100%); } .nav-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 6%; display: flex; justify-content: space-between; align-items: center; color: var(--bg-primary); }
+        .desktop-nav { display: flex; gap: 3rem; align-items: center; } .desktop-nav a { position: relative; color: var(--bg-primary); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 0.5rem 0; transition: color 0.3s ease; } .desktop-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform 0.4s ease; } .desktop-nav a:hover, .desktop-nav a.active { color: var(--accent); } .desktop-nav a:hover::after, .desktop-nav a.active::after { transform: scaleX(1); transform-origin: left; }
         .menu-btn { background: none; border: none; width: 40px; height: 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 6px; z-index: 1001; position: relative; display: none; } .menu-line { height: 2px; background: var(--bg-primary); transition: 0.3s ease; } .menu-line:nth-child(1) { width: 24px; } .menu-line:nth-child(2) { width: 16px; } .menu-btn:hover .menu-line { width: 24px; background: var(--accent); } .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 999; display: flex; flex-direction: column; justify-content: center; padding-left: 10%; pointer-events: none; opacity: 0; } .menu-link { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 800; color: var(--text-light); text-decoration: none; letter-spacing: -0.04em; margin-bottom: 1.5rem; opacity: 0; transform: translateY(40px); display: block; width: fit-content; transition: color 0.3s; } .menu-link:hover { color: var(--accent); }
         
         .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; position: relative; } section { padding: clamp(100px, 12vw, 160px) 0; border-bottom: 1px solid var(--border); position: relative; } .bg-secondary-section { background-color: var(--bg-secondary); } .kicker { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 1.5rem; display: block; } h1 { font-size: clamp(3.5rem, 8vw, 6.5rem); font-weight: 900; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 1.5rem; } h2 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1.5rem; line-height: 1.1; color: var(--text-light); } p { color: var(--text-muted); font-size: clamp(1.05rem, 2vw, 1.2rem); max-width: 65ch; margin-bottom: 2rem; line-height: 1.7; } .text-gradient { background: linear-gradient(135deg, #FFF 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         
-        /* BENTO GRID */
         .bento-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
         .bento-card { position: relative; background: rgba(255, 255, 255, 0.015); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 2.5rem; transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; } 
         .bento-card.large { grid-column: span 2; }
@@ -67,28 +68,42 @@
         .section-divider { width: 100%; height: 1px; background: var(--border); margin: 6rem 0 3rem 0; position: relative;}
         .section-divider::after { content: attr(data-label); position: absolute; top: -10px; left: 0; background: var(--bg-secondary); padding-right: 15px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; }
 
+        .grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+
         .algo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 4rem; } .algo-card { background: #0B0F19; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 2.5rem; box-shadow: inset 0 0 40px rgba(0,0,0,0.5); transition: 0.3s; } .algo-card:hover { border-color: var(--accent); transform: translateY(-5px); } .algo-card h3 { font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; color: #98C379; margin-bottom: 1rem; } .tech-badge { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700; background: rgba(143,182,204,0.15); color: var(--accent); padding: 4px 10px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; display: inline-block; }
 
-        footer { background: var(--bg-primary); padding: 80px 0 40px 0; border-top: 1px solid var(--border); } .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 60px; } .footer-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; color: var(--text-light); } .footer-col ul { list-style: none; } .footer-col li { margin-bottom: 0.75rem; } .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: color 0.3s; } .footer-col a:hover { color: var(--accent); } .copyright { padding-top: 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.85rem; color: #4B5563; }
-        @media (max-width: 900px) { .menu-btn { display: flex; } .desktop-nav { display: none; } .footer-grid, .algo-grid { grid-template-columns: 1fr; } .bento-card.large { grid-column: span 1; } }
+        /* NEW FOOTER CSS */
+        footer { background: var(--bg-primary); padding: 80px 0 40px 0; border-top: 1px solid var(--border); margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 4rem; margin-bottom: 60px; }
+        .footer-brand p { font-size: 0.95rem; max-width: 300px; margin-top: 1.5rem; color: var(--text-muted); }
+        .footer-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; color: var(--accent); }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 0.75rem; }
+        .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: color 0.3s; }
+        .footer-col a:hover { color: var(--text-light); }
+        .footer-status { background: rgba(39, 201, 63, 0.05); border: 1px solid rgba(39, 201, 63, 0.2); padding: 20px; border-radius: 12px; }
+        .status-indicator { display: inline-block; width: 8px; height: 8px; background: #27C93F; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 10px #27C93F; }
+        .copyright { padding-top: 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.85rem; color: #4B5563; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; }
+        
+        @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 900px) { .menu-btn { display: flex; } .desktop-nav { display: none; } }
+        @media (max-width: 640px) { .footer-grid { grid-template-columns: 1fr; } .bento-card.large { grid-column: span 1; } .copyright { flex-direction: column; gap: 1rem; text-align: center; } }
     </style>
 </head>
 <body class="intro-locked">
-
     <div id="loader">
         <div class="loader-text">DEXYS</div>
         <div class="loader-line-container"><div class="loader-line" id="loader-line"></div></div>
     </div>
-    
+
     <div id="intro-overlay">
         <div id="intro-logo-wrapper">
             <div class="logo-light-plate">
                 <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
-                    <style> .text{ font-family: Arial, Helvetica, sans-serif; font-weight: 700; font-size: 90px; fill: #1a1a1a; } </style>
-                    <text x="0" y="90" class="text">DE</text>
+                    <text x="0" y="90" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="90px" fill="#1a1a1a">DE</text>
                     <polygon points="170,10 210,10 330,110 290,110" fill="#cfd8df"/>
                     <polygon points="290,10 330,10 210,110 170,110" fill="#1a1a1a"/>
-                    <text x="340" y="90" class="text">YS</text>
+                    <text x="340" y="90" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="90px" fill="#1a1a1a">YS</text>
                 </svg>
             </div>
             <div class="intro-progress-bar"><div class="intro-progress-fill" id="intro-progress"></div></div>
@@ -99,11 +114,10 @@
         <div class="nav-container">
             <a href="index.html" class="dexys-svg-logo">
                 <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
-                    <style> .text{ font-family: Arial, Helvetica, sans-serif; font-weight: 700; font-size: 90px; fill: #0B0F19; } </style>
-                    <text x="0" y="90" class="text">DE</text>
+                    <text x="0" y="90" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="90px" fill="#0B0F19">DE</text>
                     <polygon points="170,10 210,10 330,110 290,110" fill="var(--accent)"/>
                     <polygon points="290,10 330,10 210,110 170,110" fill="#0B0F19"/>
-                    <text x="340" y="90" class="text">YS</text>
+                    <text x="340" y="90" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="90px" fill="#0B0F19">YS</text>
                 </svg>
             </a>
             <nav class="desktop-nav">
@@ -127,191 +141,219 @@
     <div class="ambient-glow"></div>
     <div class="bg-grid"></div>
 
-    <section id="hero" style="padding-top: 180px; border: none;" class="reveal-zone">
-        <div class="container">
-            <span class="kicker reveal-up">Our Expertise</span>
-            <h1 class="reveal-up delay-1">Full-Stack<br><span class="text-gradient">Capabilities.</span></h1>
-            <p class="reveal-up delay-2">We deliver 14 specialized engineering services. By committing to only a few select enterprise partners, DEXYS ensures absolute focus, optimizing for computational speed and scaling for India's evolving digital future.</p>
-        </div>
-    </section>
+    <main>
+        <section id="hero" style="padding-top: 180px; border: none;" class="reveal-zone">
+            <div class="container">
+                <span class="kicker reveal-up">Our Expertise</span>
+                <h1 class="reveal-up delay-1">Full-Stack<br><span class="text-gradient">Capabilities.</span></h1>
+                <p class="reveal-up delay-2">We deliver 14 specialized engineering services. By committing to only a few select enterprise partners, DEXYS ensures absolute focus, optimizing for computational speed and scaling for India's evolving digital future.</p>
+            </div>
+        </section>
 
-    <section id="services" class="bg-secondary-section reveal-zone" style="border-bottom: none;">
-        <div class="container">
-            
-            <div class="section-divider reveal-right" data-label="I. Core Engineering"></div>
-            <div class="bento-grid">
-                <div class="bento-card large reveal-scale delay-1" style="border-top: 2px solid var(--accent);">
-                    <div class="card-icon">01</div>
-                    <h3>Web Development</h3>
-                    <p>High-fidelity, responsive web applications built on modern JavaScript frameworks. We engineer omnichannel experiences that prioritize zero-latency interactions across diverse Indian network conditions.</p>
+        <section id="services" class="bg-secondary-section reveal-zone" style="border-bottom: none;">
+            <div class="container">
+                
+                <div class="section-divider reveal-right delay-1" data-label="I. Core Engineering"></div>
+                <div class="bento-grid">
+                    <div class="bento-card large reveal-scale delay-1" style="border-top: 2px solid var(--accent);">
+                        <div class="card-icon">01</div>
+                        <h3>Web Development</h3>
+                        <p>High-fidelity, responsive web applications built on modern JavaScript frameworks. We engineer omnichannel experiences that prioritize zero-latency interactions across diverse Indian network conditions.</p>
+                    </div>
+                    <div class="bento-card reveal-scale delay-2">
+                        <div class="card-icon">02</div>
+                        <h3>Mobile App Development</h3>
+                        <p>Native and cross-platform mobile architectures designed for maximum user retention and deep hardware optimization.</p>
+                    </div>
+                    <div class="bento-card reveal-scale delay-3">
+                        <div class="card-icon">03</div>
+                        <h3>UI/UX Design</h3>
+                        <p>Data-driven interfaces that perfectly balance aesthetic minimalism with profound functional depth.</p>
+                    </div>
+                    <div class="bento-card reveal-scale delay-4">
+                        <div class="card-icon">04</div>
+                        <h3>MVP Development</h3>
+                        <p>Rapid, scalable prototyping to transition your ideas from zero to production without incurring technical debt.</p>
+                    </div>
                 </div>
-                <div class="bento-card reveal-scale delay-2">
-                    <div class="card-icon">02</div>
-                    <h3>Mobile App Development</h3>
-                    <p>Native and cross-platform mobile architectures designed for maximum user retention and deep hardware optimization.</p>
+
+                <div class="section-divider reveal-right delay-1" data-label="II. Intelligent Systems & Data"></div>
+                <div class="bento-grid">
+                    <div class="bento-card reveal-scale delay-1">
+                        <div class="card-icon">05</div>
+                        <h3>AI/ML Solutions</h3>
+                        <p>Proprietary cognitive logic, neural networks, and predictive modeling algorithms injected directly into your business workflows.</p>
+                    </div>
+                    <div class="bento-card reveal-scale delay-2">
+                        <div class="card-icon">06</div>
+                        <h3>Chatbots & Automation</h3>
+                        <p>Intelligent conversational agents tailored for multilingual Indian contexts, completely eliminating manual operational friction.</p>
+                    </div>
+                    <div class="bento-card reveal-scale delay-3">
+                        <div class="card-icon">07</div>
+                        <h3>Database Management</h3>
+                        <p>Secure, highly available data storage solutions tailored specifically to comply with Indian data localization laws (DPDP Act).</p>
+                    </div>
+                    <div class="bento-card reveal-scale delay-4">
+                        <div class="card-icon">08</div>
+                        <h3>API Dev & Integration</h3>
+                        <p>Seamless microservices (including UPI and KYC portals) connecting disparate platforms into a single, unified ecosystem.</p>
+                    </div>
                 </div>
-                <div class="bento-card reveal-scale delay-3">
-                    <div class="card-icon">03</div>
-                    <h3>UI/UX Design</h3>
-                    <p>Data-driven interfaces that perfectly balance aesthetic minimalism with profound functional depth.</p>
+
+                <div class="section-divider reveal-right delay-1" data-label="III. Growth & Digital Ecosystem"></div>
+                <div class="bento-grid">
+                    <div class="bento-card large reveal-scale delay-1">
+                        <div class="card-icon">09</div>
+                        <h3>E-commerce Solutions</h3>
+                        <p>Highly converting, robust digital storefronts and payment gateways capable of handling extreme transaction volumes during peak festive seasons.</p>
+                    </div>
+                    <div class="bento-card reveal-scale delay-2">
+                        <div class="card-icon">10</div>
+                        <h3>Digital Presence</h3>
+                        <p>Strategic omnichannel positioning and technical SEO to establish and maintain absolute domestic market authority.</p>
+                    </div>
+                    <div class="bento-card reveal-scale delay-3">
+                        <div class="card-icon">11</div>
+                        <h3>Digital Marketing Tools</h3>
+                        <p>Custom-built data aggregation and tracking suites for precision growth analytics and ROI optimization.</p>
+                    </div>
+                    <div class="bento-card reveal-scale delay-4">
+                        <div class="card-icon">12</div>
+                        <h3>EdTech Solutions</h3>
+                        <p>Unified digital learning environments and resource planning engines built for modern Indian academic institutions.</p>
+                    </div>
                 </div>
-                <div class="bento-card reveal-scale delay-4">
-                    <div class="card-icon">04</div>
-                    <h3>MVP Development</h3>
-                    <p>Rapid, scalable prototyping to transition your ideas from zero to production without incurring technical debt.</p>
+
+                <div class="section-divider reveal-right delay-1" data-label="IV. Assurance & Lifecycle"></div>
+                <div class="bento-grid" style="margin-bottom: 5rem;">
+                    <div class="bento-card reveal-scale delay-1">
+                        <div class="card-icon">13</div>
+                        <h3>Testing & QA</h3>
+                        <p>Rigorous automated scripting and manual stress-testing protocols to guarantee zero-defect production deployments.</p>
+                    </div>
+                    <div class="bento-card reveal-scale delay-2">
+                        <div class="card-icon">14</div>
+                        <h3>Maintenance & Support</h3>
+                        <p>Dedicated local engineering support, infrastructure monitoring, and continuous codebase optimization.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="platforms" class="reveal-zone">
+            <div class="container">
+                <span class="kicker reveal-up">Proprietary Assets</span>
+                <h2 class="reveal-up delay-1">Systems in Development.</h2>
+                <p class="reveal-up delay-2">Beyond boutique client services, DEXYS is currently researching and building our own internal software suite.</p>
+                
+                <div class="grid-layout">
+                    <div class="bento-card reveal-scale delay-1" style="border-top: 2px solid var(--accent); background: transparent;">
+                        <h3>Spatial Computing Environments</h3>
+                        <p>Immersive, hardware-accelerated tools bridging complex data with interactive spatial visualization for real-time review.</p>
+                    </div>
+                    <div class="bento-card reveal-scale delay-2" style="background: transparent;">
+                        <h3>Enterprise Resource Architecture</h3>
+                        <p>Automated, data-driven management architectures powered by our proprietary planning engines.</p>
+                    </div>
+                    <div class="bento-card reveal-scale delay-3" style="background: transparent;">
+                        <h3>Unified Ecosystems</h3>
+                        <p>Zero-latency collaborative digital workspaces engineered specifically to synchronize distributed Indian corporate structures.</p>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="section-divider reveal-right" data-label="II. Intelligent Systems & Data"></div>
-            <div class="bento-grid">
-                <div class="bento-card reveal-scale delay-1">
-                    <div class="card-icon">05</div>
-                    <h3>AI/ML Solutions</h3>
-                    <p>Proprietary cognitive logic, neural networks, and predictive modeling algorithms injected directly into your business workflows.</p>
-                </div>
-                <div class="bento-card reveal-scale delay-2">
-                    <div class="card-icon">06</div>
-                    <h3>Chatbots & Automation</h3>
-                    <p>Intelligent conversational agents tailored for multilingual Indian contexts, completely eliminating manual operational friction.</p>
-                </div>
-                <div class="bento-card reveal-scale delay-3">
-                    <div class="card-icon">07</div>
-                    <h3>Database Management</h3>
-                    <p>Secure, highly available data storage solutions tailored specifically to comply with Indian data localization laws (DPDP Act).</p>
-                </div>
-                <div class="bento-card reveal-scale delay-4">
-                    <div class="card-icon">08</div>
-                    <h3>API Dev & Integration</h3>
-                    <p>Seamless microservices (including UPI and KYC portals) connecting disparate platforms into a single, unified ecosystem.</p>
+        <section id="deeptech" class="bg-secondary-section reveal-zone" style="border-bottom: none;">
+            <div class="container">
+                <span class="kicker reveal-up">Deep Tech R&D</span>
+                <h2 class="reveal-up delay-1">Proprietary Algorithms.</h2>
+                <p class="reveal-up delay-2">We do not just integrate applications; we invent foundational technologies. Explore our core data engines currently in the R&D pipeline.</p>
+                
+                <div class="algo-grid">
+                    <div class="algo-card reveal-up delay-1">
+                        <span class="tech-badge">Core Logic</span>
+                        <h3>Data Compression Protocols</h3>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Our proprietary lossless data compression algorithms, mathematically designed to outperform standard open-source equivalents in execution speed.</p>
+                    </div>
+                    <div class="algo-card reveal-up delay-2">
+                        <span class="tech-badge">Media Codecs</span>
+                        <h3>Advanced Processing Engines</h3>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">High-efficiency media and data codecs specifically optimized for continuous, high-throughput enterprise feeds, drastically reducing server overhead.</p>
+                    </div>
                 </div>
             </div>
-
-            <div class="section-divider reveal-right" data-label="III. Growth & Digital Ecosystem"></div>
-            <div class="bento-grid">
-                <div class="bento-card large reveal-scale delay-1">
-                    <div class="card-icon">09</div>
-                    <h3>E-commerce Solutions</h3>
-                    <p>Highly converting, robust digital storefronts and payment gateways capable of handling extreme transaction volumes during peak festive seasons.</p>
-                </div>
-                <div class="bento-card reveal-scale delay-2">
-                    <div class="card-icon">10</div>
-                    <h3>Digital Presence</h3>
-                    <p>Strategic omnichannel positioning and technical SEO to establish and maintain absolute domestic market authority.</p>
-                </div>
-                <div class="bento-card reveal-scale delay-3">
-                    <div class="card-icon">11</div>
-                    <h3>Digital Marketing Tools</h3>
-                    <p>Custom-built data aggregation and tracking suites for precision growth analytics and ROI optimization.</p>
-                </div>
-                <div class="bento-card reveal-scale delay-4">
-                    <div class="card-icon">12</div>
-                    <h3>EdTech Solutions</h3>
-                    <p>Unified digital learning environments and resource planning engines built for modern Indian academic institutions.</p>
-                </div>
-            </div>
-
-            <div class="section-divider reveal-right" data-label="IV. Assurance & Lifecycle"></div>
-            <div class="bento-grid" style="margin-bottom: 5rem;">
-                <div class="bento-card reveal-scale delay-1">
-                    <div class="card-icon">13</div>
-                    <h3>Testing & QA</h3>
-                    <p>Rigorous automated scripting and manual stress-testing protocols to guarantee zero-defect production deployments.</p>
-                </div>
-                <div class="bento-card reveal-scale delay-2">
-                    <div class="card-icon">14</div>
-                    <h3>Maintenance & Support</h3>
-                    <p>Dedicated local engineering support, infrastructure monitoring, and continuous codebase optimization.</p>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <section id="platforms" class="reveal-zone">
-        <div class="container">
-            <span class="kicker reveal-up">Proprietary Assets</span>
-            <h2 class="reveal-up delay-1">Systems in Development.</h2>
-            <p class="reveal-up delay-2">Beyond boutique client services, DEXYS is currently researching and building our own internal software suite.</p>
-            
-            <div class="grid-layout">
-                <div class="bento-card reveal-scale delay-1" style="border-top: 2px solid var(--accent); background: transparent;">
-                    <h3>Spatial Computing Environments</h3>
-                    <p>Immersive, hardware-accelerated tools bridging complex data with interactive spatial visualization for real-time review.</p>
-                </div>
-                <div class="bento-card reveal-scale delay-2" style="background: transparent;">
-                    <h3>Enterprise Resource Architecture</h3>
-                    <p>Automated, data-driven management architectures powered by our proprietary planning engines.</p>
-                </div>
-                <div class="bento-card reveal-scale delay-3" style="background: transparent;">
-                    <h3>Unified Ecosystems</h3>
-                    <p>Zero-latency collaborative digital workspaces engineered specifically to synchronize distributed Indian corporate structures.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="deeptech" class="bg-secondary-section reveal-zone" style="border-bottom: none;">
-        <div class="container">
-            <span class="kicker reveal-up">Deep Tech R&D</span>
-            <h2 class="reveal-up delay-1">Proprietary Algorithms.</h2>
-            <p class="reveal-up delay-2">We do not just integrate applications; we invent foundational technologies. Explore our core data engines currently in the R&D pipeline.</p>
-            
-            <div class="algo-grid">
-                <div class="algo-card reveal-up delay-1">
-                    <span class="tech-badge">Core Logic</span>
-                    <h3>Data Compression Protocols</h3>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Our proprietary lossless data compression algorithms, mathematically designed to outperform standard open-source equivalents in execution speed.</p>
-                </div>
-                <div class="algo-card reveal-up delay-2">
-                    <span class="tech-badge">Media Codecs</span>
-                    <h3>Advanced Processing Engines</h3>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">High-efficiency media and data codecs specifically optimized for continuous, high-throughput enterprise feeds, drastically reducing server overhead.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <footer>
         <div class="container">
             <div class="footer-grid reveal-zone">
-                <div class="footer-col reveal-up">
+                <div class="footer-brand reveal-up">
                     <div class="logo-light-plate" style="margin-bottom: 1.5rem; width: fit-content;">
                         <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
-                            <style> .text{ font-family: Arial, Helvetica, sans-serif; font-weight: 700; font-size: 90px; fill: #1a1a1a; } </style>
-                            <text x="0" y="90" class="text">DE</text>
+                            <text x="0" y="90" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="90px" fill="#1a1a1a">DE</text>
                             <polygon points="170,10 210,10 330,110 290,110" fill="#cfd8df"/>
                             <polygon points="290,10 330,10 210,110 170,110" fill="#1a1a1a"/>
-                            <text x="340" y="90" class="text">YS</text>
+                            <text x="340" y="90" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="90px" fill="#1a1a1a">YS</text>
                         </svg>
                     </div>
-                    <p style="font-size: 0.95rem; max-width: 300px;">Architecting the resilient digital infrastructure for India's enterprises.</p>
+                    <p>Architecting secure, intelligent, and sovereign digital ecosystems for the subcontinent's most ambitious enterprises.</p>
                 </div>
-                <div class="footer-col reveal-up delay-1"><h4>Company</h4><ul><li><a href="index.html">Home</a></li><li><a href="products-services.html">Capabilities</a></li><li><a href="contact.html">Contact Us</a></li><li><a href="about.html">About Us</a></li></ul></div>
-                <div class="footer-col reveal-up delay-2"><h4>Connect</h4><ul><li><a href="contact.html">Partnerships</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
+                <div class="footer-col reveal-up delay-1">
+                    <h4>Sitemap</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products-services.html">Capabilities</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col reveal-up delay-2">
+                    <h4>Intelligence</h4>
+                    <ul>
+                        <li><a href="products-services.html#deeptech">Deep Tech R&D</a></li>
+                        <li><a href="products-services.html#platforms">Proprietary Assets</a></li>
+                        <li><a href="mailto:hello@dexys.in">hello@dexys.in</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col reveal-up delay-3">
+                    <div class="footer-status">
+                        <h4 style="margin-bottom: 1rem; color: var(--text-light); font-size: 0.9rem;">System Status</h4>
+                        <div style="margin-bottom: 0.5rem; font-size: 0.85rem;">
+                            <span class="status-indicator"></span> 
+                            <span style="color: #27C93F;">Operational Momentum</span>
+                        </div>
+                        <p style="font-size: 0.8rem; margin: 0; color: var(--text-muted);">Currently accepting select enterprise mandates for 2026/27 deployments.</p>
+                    </div>
+                </div>
             </div>
-            <div class="copyright reveal-zone"><span class="reveal-up delay-3">© 2026 DEXYS Technologies. Made in India.</span></div>
+            <div class="copyright reveal-zone">
+                <span class="reveal-up delay-3">© 2026 DEXYS Technologies. Engineered in Chennai.</span>
+                <span class="reveal-up delay-4" style="color: var(--accent);">Secure Environment</span>
+            </div>
         </div>
     </footer>
 
     <script>
+        // HARD FAILSAFE
+        window.addEventListener('load', () => { setTimeout(() => { document.body.style.overflow = 'auto'; document.body.classList.remove('intro-locked'); }, 2000); });
+
         document.addEventListener("DOMContentLoaded", () => {
             const isInternal = document.documentElement.classList.contains('internal-route');
             
-            setTimeout(() => { document.body.classList.remove('intro-locked'); }, 2500);
-
             if (!isInternal) {
                 document.getElementById('loader').style.display = 'none';
                 const tl = anime.timeline({ easing: 'easeOutExpo' });
-                tl.add({ targets: '#intro-logo-wrapper', opacity: [0, 1], scale: [0.9, 1], duration: 1200 })
+                tl.add({ targets: '#intro-logo-wrapper', opacity: [0, 1], scale: [0.95, 1], duration: 1200 })
                   .add({ targets: '#intro-progress', width: ['0%', '100%'], duration: 800, easing: 'easeInOutSine' }, '-=400')
                   .add({ targets: '#intro-overlay', opacity: 0, duration: 600, delay: 200, easing: 'linear', complete: () => { 
                       document.getElementById('intro-overlay').style.display = 'none'; 
-                      document.body.classList.remove('intro-locked'); 
+                      document.body.style.overflow = 'auto'; document.body.classList.remove('intro-locked'); 
                   }})
                   .add({ targets: '#main-header', translateY: ['-100%', '0%'], opacity: [0,1], duration: 1000 }, '-=600')
-                  .add({ targets: '#hero', duration: 10, complete: () => {
-                      document.querySelectorAll('#hero .reveal-up, #hero .reveal-scale, #hero .reveal-right').forEach(el => el.classList.add('is-visible'));
-                  }}, '-=800');
+                  .add({ targets: '#hero .reveal-up, #hero .reveal-scale, #hero .reveal-right', opacity: 1, translateY: 0, translateX: 0, scale: 1, duration: 10, complete: function(anim) { anim.animatables.forEach(a => a.target.classList.add('is-visible')); } }, '-=800');
             } else {
                 document.getElementById('intro-overlay').style.display = 'none';
                 document.getElementById('loader').style.display = 'flex';
@@ -321,19 +363,19 @@
                     .add({ targets: '#loader-line', height: ['0%', '100%'], duration: 600 }, '-=200')
                     .add({ targets: '#loader', opacity: 0, duration: 300, easing: 'linear', complete: () => { 
                         document.getElementById('loader').style.display = 'none'; 
+                        document.body.style.overflow = 'auto';
                         document.body.classList.remove('intro-locked'); 
                     }})
                     .add({ targets: '#main-header', translateY: ['-100%', '0%'], opacity: [0, 1], duration: 800, easing: 'easeOutExpo' }, '-=100')
-                    .add({ targets: '#hero', duration: 10, complete: () => {
-                        document.querySelectorAll('#hero .reveal-up, #hero .reveal-scale, #hero .reveal-right').forEach(el => el.classList.add('is-visible'));
-                    }}, '-=600');
+                    .add({ targets: '#hero .reveal-up, #hero .reveal-scale, #hero .reveal-right', opacity: 1, translateY: 0, translateX: 0, scale: 1, duration: 10, complete: function(anim) { anim.animatables.forEach(a => a.target.classList.add('is-visible')); } }, '-=600');
             }
         });
 
         const menuBtn = document.getElementById('menu-toggle'); const overlay = document.getElementById('menu-overlay'); const line1 = document.getElementById('line1'); const line2 = document.getElementById('line2'); let menuOpen = false; let menuTimeline = anime.timeline({ autoplay: false });
         menuTimeline.add({ targets: overlay, opacity: [0, 1], duration: 400, easing: 'easeInOutSine', begin: () => { overlay.style.pointerEvents = 'auto'; } }).add({ targets: '#menu-kicker', opacity: [0, 1], translateY: [20, 0], duration: 600, easing: 'easeOutExpo' }, '-=200').add({ targets: '.menu-link', opacity: [0, 1], translateY: [40, 0], duration: 800, delay: anime.stagger(100), easing: 'easeOutExpo' }, '-=500');
         if(menuBtn){ menuBtn.addEventListener('click', () => { if(!menuOpen){ line1.style.transform = 'translateY(4px) rotate(45deg)'; line2.style.transform = 'translateY(-4px) rotate(-45deg)'; line1.style.width = '24px'; line2.style.width = '24px'; line1.style.backgroundColor = '#fff'; line2.style.backgroundColor = '#fff'; menuTimeline.play(); menuTimeline.finished.then(() => menuTimeline.reverse()); } else { line1.style.transform = 'none'; line2.style.transform = 'none'; line2.style.width = '16px'; line1.style.backgroundColor = 'var(--bg-primary)'; line2.style.backgroundColor = 'var(--bg-primary)'; menuTimeline.play(); menuTimeline.finished.then(() => { overlay.style.pointerEvents = 'none'; menuTimeline.reverse(); }); } menuOpen = !menuOpen; }); }
-        
+
+        // PURE CSS SCROLL REVEALS
         const observer = new IntersectionObserver((entries) => { 
             entries.forEach(e => { 
                 if (e.isIntersecting && !e.target.classList.contains('revealed')) { 
@@ -343,7 +385,10 @@
                 } 
             }); 
         }, { threshold: 0.1 }); 
-        document.querySelectorAll('.reveal-zone').forEach(s => { if(s.id !== 'hero') observer.observe(s); });
+        
+        document.querySelectorAll('.reveal-zone').forEach(s => {
+            if(s.id !== 'hero') observer.observe(s);
+        });
     </script>
 </body>
 </html>
