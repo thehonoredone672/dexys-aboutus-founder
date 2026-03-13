@@ -2,174 +2,41 @@
 <html lang="en" style="scroll-behavior: smooth;">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Naveenkumar - Co-Founder & Head of Operations at DEXYS Technologies.">
-    <title>Naveenkumar | DEXYS Technologies</title>
+    <title>Naveenkumar | Portfolio</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='150 -10 200 140' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='200' height='140' x='150' y='-10' fill='%23ffffff' rx='24'/%3E%3Cpolygon points='170,10 210,10 330,110 290,110' fill='%23cfd8df'/%3E%3Cpolygon points='290,10 330,10 210,110 170,110' fill='%231a1a1a'/%3E%3C/svg%3E">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <script>
-        (function() {
-            const isInternal = document.referrer.includes(location.hostname) && document.referrer !== "";
-            const isReload = performance.navigation.type === 1 || (performance.getEntriesByType && performance.getEntriesByType("navigation")[0]?.type === "reload");
-            if (!isInternal || isReload) { document.documentElement.classList.add('fresh-route'); } 
-            else { document.documentElement.classList.add('internal-route'); }
-        })();
-    </script>
     <style>
-        :root { --bg-primary: #0B0F19; --bg-secondary: #111827; --accent: #8FB6CC; --text-light: #F9FAFB; --text-muted: #9CA3AF; --border: rgba(143, 182, 204, 0.15); --header-height: 80px; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        ::selection { background: var(--accent); color: var(--bg-primary); }
-        ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-track { background: var(--bg-primary); } ::-webkit-scrollbar-thumb { background: rgba(143,182,204,0.3); border-radius: 4px; } ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-        
-        body { background-color: var(--bg-primary); color: var(--text-light); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.7; -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; min-height: 100vh;}
-        main { flex: 1 0 auto; display: flex; flex-direction: column; }
-        footer { flex-shrink: 0; margin-top: auto; position: relative; z-index: 10; }
-        a, button { cursor: pointer; }
-        body.intro-locked { overflow: hidden !important; height: 100vh !important; }
-        html.internal-route #intro-overlay { display: none !important; }
-        html.fresh-route #loader { display: none !important; }
-        
-        .reveal-up { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
-        .reveal-right { opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
-        .reveal-scale { opacity: 0; transform: scale(0.95) translateY(20px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
-        .is-visible { opacity: 1 !important; transform: translate(0) scale(1) !important; }
-        .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.15s; } .delay-3 { transition-delay: 0.2s; }
-        
-        .bg-grid { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; background-image: radial-gradient(rgba(143,182,204,0.12) 1px, transparent 1px); background-size: 40px 40px; mask-image: linear-gradient(to bottom, black 0%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%); pointer-events: none; }
-        @keyframes pulse-glow { 0% { opacity: 0.6; transform: translateX(-50%) scale(1); } 100% { opacity: 1; transform: translateX(-50%) scale(1.05); } }
-        .ambient-glow { position: absolute; top: -10%; left: 50%; transform: translateX(-50%); width: 80vw; height: 80vw; background: radial-gradient(circle, rgba(143,182,204,0.05) 0%, transparent 60%); z-index: -1; pointer-events: none; animation: pulse-glow 10s ease-in-out infinite alternate; }
-        
-        /* Navbar */
-        header { position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height); background: rgba(11, 15, 25, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); z-index: 1000; display: flex; align-items: center; opacity: 0; transform: translateY(-100%); transition: background 0.4s;} 
-        .nav-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 6%; display: flex; justify-content: space-between; align-items: center; }
-        .dexys-svg-logo { height: 28px; width: auto; display: block; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); } .dexys-svg-logo:hover { transform: scale(1.05) rotate(-2deg); }
-        .desktop-nav { display: flex; gap: 3rem; align-items: center; } .desktop-nav a { position: relative; color: var(--text-light); text-decoration: none; font-size: 0.85rem; font-weight: 500; padding: 0.5rem 0; transition: color 0.3s ease; opacity: 0.8;} .desktop-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); } .desktop-nav a:hover, .desktop-nav a.active { color: var(--text-light); opacity: 1; } .desktop-nav a:hover::after, .desktop-nav a.active::after { transform: scaleX(1); transform-origin: left; }
-        .menu-btn { background: none; border: none; width: 40px; height: 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 6px; z-index: 1001; position: relative; display: none; } .menu-line { height: 2px; background: var(--text-light); transition: 0.3s ease; } .menu-line:nth-child(1) { width: 24px; } .menu-line:nth-child(2) { width: 16px; } .menu-btn:hover .menu-line { width: 24px; background: var(--accent); } .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(11,15,25,0.98); backdrop-filter: blur(20px); z-index: 999; display: flex; flex-direction: column; justify-content: center; padding-left: 10%; pointer-events: none; opacity: 0; } .menu-link { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; color: var(--text-light); text-decoration: none; letter-spacing: -0.03em; margin-bottom: 1.5rem; opacity: 0; transform: translateY(40px); display: block; width: fit-content; transition: color 0.3s, transform 0.3s;} .menu-link:hover { color: var(--accent); transform: translateX(10px) !important;}
-        
-        /* Loaders */
-        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 999999; display: flex; align-items: center; justify-content: center; flex-direction: column; } .loader-text { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 500; color: var(--text-light); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 2rem; opacity: 0; transform: translateY(10px); } .loader-line-container { width: 1px; height: 100px; background: rgba(255,255,255,0.05); overflow: hidden; position: relative; } .loader-line { width: 100%; height: 0%; background: var(--accent); position: absolute; bottom: 0; }
-        #intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--bg-primary); z-index: 999999; display: flex; align-items: center; justify-content: center; flex-direction: column; } #intro-logo-wrapper { position: relative; z-index: 3; opacity: 0; transform: scale(1.1); display: flex; flex-direction: column; align-items: center;} .logo-light-plate { background-color: transparent; padding: 0; box-shadow: none; } .logo-light-plate svg { height: 40px; } .intro-progress-bar { width: 120px; height: 2px; background: rgba(255,255,255,0.1); margin-top: 40px; border-radius: 2px; overflow: hidden; position: relative;} .intro-progress-fill { width: 0%; height: 100%; background: var(--accent); position: absolute; left: 0; top: 0;}
-        
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; position: relative; } 
-        section { padding: clamp(120px, 15vw, 160px) 0; border-bottom: 1px solid var(--border); position: relative; }
-        .kicker { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 1rem; display: block; } 
-        h1 { font-size: clamp(3rem, 6vw, 4.5rem); font-weight: 900; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 1.5rem; } 
-        p { color: var(--text-muted); font-size: clamp(1.05rem, 2vw, 1.1rem); margin-bottom: 1.5rem; line-height: 1.8; }
-        .back-link { display: inline-flex; align-items: center; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; margin-bottom: 2.5rem; transition: all 0.3s ease; } .back-link:hover { color: var(--accent); transform: translateX(-4px); }
-        
-        /* TRUE SIDE-BY-SIDE PROFILE SPLIT */
-        .profile-split { display: grid; grid-template-columns: 280px 1fr; gap: 4rem; align-items: start; position: relative;}
-        
-        /* Sticky Left Column */
-        .profile-left { position: sticky; top: 120px; }
-        .profile-photo-container { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid rgba(143,182,204,0.2); box-shadow: 0 20px 40px rgba(0,0,0,0.5); background: var(--bg-secondary); }
-        .profile-photo-container::after { content: ''; position: absolute; inset: 0; box-shadow: inset 0 0 30px rgba(0,0,0,0.8); pointer-events: none; }
-        .profile-photo { width: 100%; height: auto; display: block; object-fit: cover; aspect-ratio: 3/4; filter: grayscale(100%) contrast(1.1); transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-        .profile-photo-container:hover .profile-photo { filter: grayscale(0%) contrast(1); transform: scale(1.03); }
-        .skill-grid { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.5rem;}
-        .skill-pill { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 700; background: rgba(143,182,204,0.05); border: 1px solid rgba(143,182,204,0.15); color: var(--accent); padding: 6px 12px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em;} 
+        /* Identical CSS to dharsan.html */
+        :root { --bg-primary: #0B0F19; --bg-secondary: #111827; --accent: #8FB6CC; --text-light: #F9FAFB; --text-muted: #9CA3AF; --border: rgba(143, 182, 204, 0.15); --header-height: 70px; } * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; } ::selection { background: var(--accent); color: var(--bg-primary); } ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: rgba(143,182,204,0.3); border-radius: 10px; } ::-webkit-scrollbar-thumb:hover { background: var(--accent); } body { background-color: var(--bg-primary); color: var(--text-light); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; } a, button { cursor: pointer; text-decoration: none;} body.intro-locked { overflow: hidden !important; height: 100vh !important; } .bg-grid { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; background-image: radial-gradient(rgba(143,182,204,0.1) 1px, transparent 1px); background-size: 30px 30px; mask-image: linear-gradient(to bottom, black 0%, transparent 100%); pointer-events: none; } @keyframes pulse { 0% { opacity: 0.4; transform: translateX(-50%) scale(1); } 100% { opacity: 0.7; transform: translateX(-50%) scale(1.05); } } .ambient-glow { position: absolute; top: -10%; left: 50%; transform: translateX(-50%); width: 80vw; height: 80vw; background: radial-gradient(circle, rgba(143,182,204,0.06) 0%, transparent 60%); z-index: -1; pointer-events: none; animation: pulse 10s ease-in-out infinite alternate; } #loader { position: fixed; inset: 0; background: var(--bg-primary); z-index: 999999; display: flex; align-items: center; justify-content: center; flex-direction: column; } .loader-text { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 500; color: var(--text-light); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 2rem; opacity: 0;} .loader-line-container { width: 1px; height: 100px; background: rgba(255,255,255,0.05); overflow: hidden; position: relative; } .loader-line { width: 100%; height: 0%; background: var(--accent); position: absolute; bottom: 0; } header { position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height); background: rgba(11, 15, 25, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); z-index: 1000; display: flex; align-items: center; opacity: 0; transform: translateY(-100%); transition: background 0.4s;} .nav-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 5%; display: flex; justify-content: space-between; align-items: center; } .dexys-svg-logo { height: 24px; width: auto; display: block; transition: transform 0.4s ease; } .dexys-svg-logo:hover { transform: scale(1.05); } .desktop-nav { display: flex; gap: 3rem; align-items: center; } .desktop-nav a { position: relative; color: var(--text-light); font-size: 0.85rem; font-weight: 500; padding: 0.5rem 0; opacity: 0.8; transition: opacity 0.3s;} .desktop-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform 0.4s ease; } .desktop-nav a:hover, .desktop-nav a.active { opacity: 1; } .desktop-nav a:hover::after, .desktop-nav a.active::after { transform: scaleX(1); transform-origin: left; } .menu-btn { background: none; border: none; width: 40px; height: 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 6px; z-index: 1001; position: relative; display: none; } .menu-line { height: 2px; background: var(--text-light); transition: 0.3s ease; } .menu-line:nth-child(1) { width: 24px; } .menu-line:nth-child(2) { width: 16px; } .menu-overlay { position: fixed; inset: 0; background: rgba(11,15,25,0.98); backdrop-filter: blur(20px); z-index: 999; display: flex; flex-direction: column; justify-content: center; padding-left: 10%; pointer-events: none; opacity: 0; } .menu-link { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; color: var(--text-light); letter-spacing: -0.03em; margin-bottom: 1.5rem; opacity: 0; transform: translateY(40px); display: block; width: fit-content; transition: color 0.3s, transform 0.3s;} .menu-link:hover { color: var(--accent); transform: translateX(10px) !important;} .reveal-up { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); } .reveal-right { opacity: 0; transform: translateX(-30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); } .is-visible { opacity: 1 !important; transform: translate(0) !important; } .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.15s; } .delay-3 { transition-delay: 0.2s; } main { flex: 1 0 auto; } .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; position: relative; } .bio-section { padding-top: calc(var(--header-height) + 60px); padding-bottom: 40px; } .back-link { display: inline-flex; align-items: center; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 2rem; transition: all 0.3s ease; } .back-link:hover { color: var(--accent); transform: translateX(-4px); } h1 { font-size: clamp(2.8rem, 6vw, 4rem); font-weight: 900; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 0.5rem; color: #fff; } .role-title { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 1.5rem; } .bio-text { color: var(--text-muted); font-size: 1.05rem; line-height: 1.8; max-width: 85ch; margin-bottom: 0;} .portfolio-section { padding-bottom: 80px; } .section-kicker { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2.5rem; display: flex; align-items: center; gap: 1rem; font-weight: 600;} .section-kicker::after { content: ''; height: 1px; flex: 1; background: var(--border); } .portfolio-split { display: grid; grid-template-columns: 320px 1fr; gap: 4rem; align-items: start; } .portfolio-left { position: sticky; top: 100px; display: flex; flex-direction: column; align-items: flex-start; width: 100%; } .photo-wrapper { width: 100%; aspect-ratio: 3/4; border-radius: 16px; overflow: hidden; border: 1px solid rgba(143,182,204,0.2); box-shadow: 0 20px 40px rgba(0,0,0,0.5); margin-bottom: 1.5rem; position: relative; } .profile-photo { width: 100%; height: 100%; display: block; object-fit: cover; filter: grayscale(100%) contrast(1.1); transition: filter 0.6s ease, transform 0.6s ease; } .photo-wrapper:hover .profile-photo { filter: grayscale(0%) contrast(1); transform: scale(1.03); } .photo-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px 20px 20px 20px; background: linear-gradient(to top, rgba(5,8,14,0.95) 0%, rgba(5,8,14,0.6) 60%, transparent 100%); display: flex; flex-direction: column; align-items: flex-start; text-align: left; } .photo-overlay .name { font-size: 1.5rem; font-weight: 800; color: #fff; line-height: 1; margin-bottom: 4px; letter-spacing: -0.02em;} .photo-overlay .loc { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 4px;} .profile-extras { display: flex; flex-direction: column; gap: 1rem; width: 100%; align-items: flex-start; } .extras-label { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0; width: 100%; text-align: left;} .skill-grid { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-start; width: 100%; } .skill-pill { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 700; background: rgba(143,182,204,0.05); border: 1px solid rgba(143,182,204,0.15); color: var(--accent); padding: 6px 12px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.3s ease;} .skill-pill:hover { background: rgba(143,182,204,0.15); border-color: var(--accent); transform: translateY(-2px); } .linkedin-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--text-light); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.3s ease; } .linkedin-btn:hover { background: #0A66C2; border-color: #0A66C2; color: #fff; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(10, 102, 194, 0.3); } .portfolio-right { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; } .venture-card { background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.005) 100%); border: 1px solid rgba(143,182,204,0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; display: flex; flex-direction: column; cursor: default; } .venture-card:hover { transform: translateY(-5px); border-color: rgba(143,182,204,0.4); box-shadow: 0 15px 30px rgba(0,0,0,0.4); } .v-header { display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 1rem; } .v-name { font-size: 1.25rem; color: var(--text-light); font-weight: 700; letter-spacing: -0.02em; line-height: 1.3; margin-bottom: 0.3rem;} .v-role { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;} .v-toggle { display: none; } .v-details { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; } footer { background: #070A11; padding: 60px 0 30px 0; border-top: 1px solid var(--border); position: relative; z-index: 10; } .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 40px; } .footer-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1.5rem; color: var(--text-light); } .footer-col ul { list-style: none; } .footer-col li { margin-bottom: 0.85rem; } .footer-col a { color: var(--text-muted); font-size: 0.9rem; transition: color 0.3s; } .footer-col a:hover { color: var(--accent); padding-left: 4px; } .copyright { padding-top: 30px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.75rem; color: #4B5563; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; }
 
-        /* Right Column Bio */
-        .profile-right { padding-bottom: 4rem; }
-        
-        /* Enhanced Venture Cards Base (Desktop) */
-        .venture-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-        .venture-card { background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.005) 100%); border: 1px solid rgba(143,182,204,0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: inset 0 0 15px rgba(143,182,204,0.01); display: flex; flex-direction: column; }
-        .venture-card:hover { transform: translateY(-5px); border-color: rgba(143,182,204,0.4); box-shadow: 0 15px 30px rgba(0,0,0,0.4), inset 0 0 20px rgba(143,182,204,0.05); }
-        
-        .venture-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; gap: 1rem;}
-        .venture-title-group { display: flex; flex-direction: column; gap: 0.2rem; align-items: flex-start; }
-        .venture-card h4 { font-size: 1.25rem; color: var(--text-light); letter-spacing: -0.02em; line-height: 1.3; margin: 0;}
-        .venture-role { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;}
-        .venture-card p { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 0; line-height: 1.6; }
-        
-        /* Desktop: Details always visible, toggle hidden */
-        .venture-toggle { display: none; }
-        .venture-details { display: grid; grid-template-rows: 1fr; }
-        .venture-details-inner { overflow: hidden; }
-
-        /* Footer */
-        footer { background: #070A11; padding: 80px 0 40px 0; border-top: 1px solid var(--border); }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 60px; }
-        .footer-brand p { font-size: 0.95rem; max-width: 350px; margin-top: 1.5rem; color: var(--text-muted); line-height: 1.7; }
-        .footer-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1.5rem; color: var(--text-light); }
-        .footer-col ul { list-style: none; } .footer-col li { margin-bottom: 0.85rem; }
-        .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: all 0.3s ease; display: inline-block; } .footer-col a:hover { color: var(--accent); transform: translateX(4px); }
-        .copyright { padding-top: 40px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: #4B5563; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; }
-        
-        /* MOBILE APP-LIKE LAYOUT: Side-by-side + Accordion */
         @media (max-width: 900px) { 
             .menu-btn { display: flex; } .desktop-nav { display: none; } 
-            section { padding: clamp(100px, 15vw, 120px) 0 40px 0;}
-            
-            /* Enforce side-by-side view with narrow photo */
-            .profile-split { display: flex; flex-direction: row; gap: 1.5rem; }
-            
-            /* Sticky Photo Frame */
-            .profile-left { width: 32%; position: sticky; top: 100px; height: calc(100vh - 120px); display: flex; flex-direction: column; }
-            .profile-photo-container { height: 100%; border-radius: 12px; }
-            .profile-photo { height: 100%; width: 100%; object-fit: cover; }
-            .skill-grid { display: none; } 
-            
-            /* Scrollable Right Area */
-            .profile-right { width: 68%; padding-bottom: 2rem; }
-            h1 { font-size: 2rem; margin-bottom: 0.5rem; }
-            .kicker { font-size: 0.65rem; }
-            .profile-right h3 { font-size: 1.1rem; margin-top: 1.5rem; }
-            .profile-right p { font-size: 0.85rem; line-height: 1.6; }
-            
-            /* Venture Cards - Accordion Style for Mobile */
-            .venture-grid { grid-template-columns: 1fr; gap: 1rem; margin-top: 1.5rem;}
-            .venture-card { padding: 1.2rem; border-radius: 12px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-            .venture-card:hover { transform: none; box-shadow: inset 0 0 15px rgba(143,182,204,0.01); border-color: rgba(143,182,204,0.15); }
-            .venture-card.expanded { border-color: rgba(143,182,204,0.4); background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%); }
-
-            .venture-header { align-items: center; margin-bottom: 0; }
-            .venture-title-group { gap: 0.2rem; pointer-events: none; }
-            .venture-card h4 { font-size: 1rem; margin-bottom: 0;}
-            .venture-role { font-size: 0.6rem; }
-            
-            /* Toggle Button */
-            .venture-toggle { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; min-width: 30px; background: rgba(143,182,204,0.1); border: 1px solid rgba(143,182,204,0.2); border-radius: 50%; color: var(--accent); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none; }
-            .venture-card.expanded .venture-toggle { transform: rotate(135deg); background: var(--accent); color: var(--bg-primary); }
-            
-            /* Details Animation */
-            .venture-details { grid-template-rows: 0fr; transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-            .venture-card.expanded .venture-details { grid-template-rows: 1fr; }
-            .venture-details-inner { padding-top: 0; transition: padding-top 0.4s ease; pointer-events: none; }
-            .venture-card.expanded .venture-details-inner { padding-top: 1rem; }
-            .venture-card p { font-size: 0.8rem; line-height: 1.5; }
-            
-            .footer-grid { grid-template-columns: 1fr; gap: 3rem; } 
+            .bio-section { padding-top: calc(var(--header-height) + 20px); padding-bottom: 20px; } h1 { font-size: 2rem; } .bio-text { font-size: 0.85rem; line-height: 1.6; }
+            .portfolio-section { padding-top: 10px; padding-bottom: 40px; } .section-kicker { font-size: 0.7rem; margin-bottom: 1rem; }
+            .portfolio-split { display: flex; flex-direction: row; align-items: flex-start; gap: 1rem; height: 65vh; min-height: 480px; max-height: 600px; }
+            .portfolio-left { position: relative; top: 0; width: 40%; height: 100%; display: flex; flex-direction: column; align-items: flex-start; flex-shrink: 0; overflow-y: auto; overflow-x: hidden; padding-bottom: 10px;} .portfolio-left::-webkit-scrollbar { display: none; }
+            .photo-wrapper { width: 100%; aspect-ratio: 3/4; border-radius: 12px; margin-bottom: 0.8rem; border: 1px solid rgba(143,182,204,0.3); flex-shrink: 0;} .photo-overlay { padding: 40px 10px 10px 10px; align-items: flex-start; text-align: left;} .photo-overlay .name { font-size: 1.1rem; }
+            .profile-extras { margin-top: 0.5rem; gap: 0.6rem; width: 100%; align-items: flex-start;} .extras-label { display: block; font-size: 0.6rem; color: var(--text-muted); margin-bottom: 0;} .skill-grid { justify-content: flex-start; gap: 0.3rem; width: 100%;} .skill-pill { font-size: 0.55rem; padding: 4px 6px; letter-spacing: 0;} .linkedin-btn { font-size: 0.65rem; padding: 8px; margin-top: 0.2rem; width: 100%; justify-content: center;}
+            .portfolio-right { width: 60%; height: 100%; display: flex; flex-direction: column; gap: 0.6rem; overflow-y: auto; padding-right: 4px; padding-bottom: 10px; }
+            .venture-card { padding: 0.8rem 1rem; border-radius: 10px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: all 0.3s ease; display: flex; flex-direction: column; box-shadow: none;} .venture-card.active { background: rgba(143,182,204,0.08); border-color: rgba(143,182,204,0.3); }
+            .v-header { display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 0; width: 100%;} .v-title-group { display: flex; flex-direction: column; gap: 0.2rem; pointer-events: none; width: calc(100% - 30px); align-items: flex-start;} .v-name { font-size: 0.95rem; line-height: 1.2; white-space: normal; margin-bottom: 0;} .v-role { font-size: 0.55rem; margin-top: 0; white-space: normal;}
+            .v-toggle { display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; min-width: 24px; background: rgba(255,255,255,0.05); border-radius: 50%; color: var(--text-light); transition: all 0.3s ease; pointer-events: none;} .venture-card.active .v-toggle { transform: rotate(135deg); background: var(--accent); color: var(--bg-primary); }
+            .v-details { max-height: 0; overflow: hidden; transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), margin-top 0.3s ease; font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; } .venture-card.active .v-details { max-height: 150px; margin-top: 0.6rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.6rem;}
+            .footer-grid { grid-template-columns: 1fr; gap: 3rem; } .copyright { flex-direction: column; gap: 1rem; text-align: center; }
         }
-        
-        @media (max-width: 480px) { 
-            .profile-split { gap: 1rem; }
-            .copyright { flex-direction: column; gap: 1rem; text-align: center; } 
-        }
+        @media (max-width: 400px) { .portfolio-left { width: 38%; } .portfolio-right { width: 62%; } }
     </style>
 </head>
 <body class="intro-locked">
     <div id="loader"><div class="loader-text">DEXYS</div><div class="loader-line-container"><div class="loader-line" id="loader-line"></div></div></div>
-    <div id="intro-overlay">
-        <div id="intro-logo-wrapper">
-            <div class="logo-light-plate" style="background: transparent; box-shadow: none;">
-                <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg"><text x="0" y="90" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="90px" fill="#F9FAFB">DE</text><polygon points="170,10 210,10 330,110 290,110" fill="var(--accent)"/><polygon points="290,10 330,10 210,110 170,110" fill="#F9FAFB"/><text x="340" y="90" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="90px" fill="#F9FAFB">YS</text></svg>
-            </div>
-            <div class="intro-progress-bar"><div class="intro-progress-fill" id="intro-progress"></div></div>
-        </div>
-    </div>
     
     <header id="main-header">
         <div class="nav-container">
             <a href="index.html" class="dexys-svg-logo">
-                <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
-                    <text x="0" y="90" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="90px" fill="#F9FAFB">DE</text>
-                    <polygon points="170,10 210,10 330,110 290,110" fill="var(--accent)"/>
-                    <polygon points="290,10 330,10 210,110 170,110" fill="#F9FAFB"/>
-                    <text x="340" y="90" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="90px" fill="#F9FAFB">YS</text>
-                </svg>
+                <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg"><text x="0" y="90" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="90px" fill="#F9FAFB">DE</text><polygon points="170,10 210,10 330,110 290,110" fill="var(--accent)"/><polygon points="290,10 330,10 210,110 170,110" fill="#F9FAFB"/><text x="340" y="90" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="90px" fill="#F9FAFB">YS</text></svg>
             </a>
             <nav class="desktop-nav">
                 <a href="index.html">Home</a>
@@ -193,120 +60,117 @@
     <div class="bg-grid"></div>
 
     <main>
-        <section id="hero" class="reveal-zone">
+        <section class="bio-section">
             <div class="container">
-                <a href="about.html#leadership" class="back-link reveal-up">&larr; Back to Leadership</a>
+                <a href="about.html#leadership" class="back-link reveal-up">&larr; Back to Board</a>
                 
-                <div class="profile-split">
-                    <div class="profile-left reveal-right delay-1">
-                        <div class="profile-photo-container">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" alt="Naveenkumar" class="profile-photo">
+                <h1 class="reveal-up delay-1">Naveenkumar</h1>
+                <div class="role-title reveal-up delay-1">Co-Founder & Head of Operations</div>
+                
+                <div class="bio-text reveal-up delay-2">
+                    <p>As the Co-Founder and Head of Operations at DEXYS, I ensure our high-level engineering logic translates perfectly into functional reality. I constantly audit for efficiency, bridging the complex gap between deep-tech engineering concepts and real-world corporate demands.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="portfolio-section reveal-zone">
+            <div class="container">
+                <div class="section-kicker reveal-up">Venture Portfolio (2)</div>
+                
+                <div class="portfolio-split">
+                    <div class="portfolio-left reveal-right delay-1">
+                        <div class="photo-wrapper">
+                            <img src="1000088522.jpg" alt="Naveenkumar" class="profile-photo">
+                            <div class="photo-overlay">
+                                <span class="name">Naveenkumar</span>
+                                <span class="loc"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> Chennai, IN</span>
+                            </div>
                         </div>
-                        <div class="skill-grid">
-                            <span class="skill-pill">Enterprise Strategy</span>
-                            <span class="skill-pill">Agile Deployment</span>
-                            <span class="skill-pill">Domestic Scaling</span>
+
+                        <div class="profile-extras">
+                            <div class="extras-label">Core Expertise</div>
+                            <div class="skill-grid">
+                                <span class="skill-pill">Enterprise Strategy</span>
+                                <span class="skill-pill">Agile Deployment</span>
+                                <span class="skill-pill">Domestic Scaling</span>
+                            </div>
+                            <a href="#" class="linkedin-btn">
+                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                                Connect
+                            </a>
                         </div>
                     </div>
 
-                    <div class="profile-right reveal-up delay-2">
-                        <span class="kicker">Co-Founder & Head of Operations</span>
-                        <h1>Naveenkumar</h1>
+                    <div class="portfolio-right reveal-up delay-2">
                         
-                        <h3 style="color: var(--text-light); letter-spacing: -0.02em;">Strategic Execution</h3>
-                        <p>As the Co-Founder and Head of Operations at DEXYS, Naveenkumar ensures our high-level engineering logic translates perfectly into functional reality. His absolute focus lies in operational strategy, team agility, and ensuring that our codebase implementations run flawlessly on the client side.</p>
-                        
-                        <h3 style="color: var(--text-light); letter-spacing: -0.02em;">Bridging the Gap</h3>
-                        <p>Naveenkumar believes that a brilliant architecture is only as good as its deployment. He effectively bridges the complex gap between our deep-tech engineering concepts and real-world enterprise implementation, constantly auditing for efficiency and smooth delivery.</p>
-
-                        <div style="margin-top: 3rem; padding-top: 3rem; border-top: 1px solid var(--border);">
-                            <span class="kicker">Venture Portfolio</span>
-                            <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem;">Involved Startups (2)</h2>
-                            
-                            <div class="venture-grid">
-                                <div class="venture-card" onclick="this.classList.toggle('expanded')">
-                                    <div class="venture-header">
-                                        <div class="venture-title-group">
-                                            <h4>DEXYS Technologies</h4>
-                                            <span class="venture-role">Co-Founder & Head of Ops</span>
-                                        </div>
-                                        <div class="venture-toggle">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                        </div>
-                                    </div>
-                                    <div class="venture-details">
-                                        <div class="venture-details-inner">
-                                            <p>Founding enterprise IT collective specializing in AI logic and sovereign digital architectures.</p>
-                                        </div>
-                                    </div>
+                        <div class="venture-card" onclick="toggleMobileCard(this)">
+                            <div class="v-header">
+                                <div class="v-title-group">
+                                    <div class="v-name">DEXYS Technologies</div>
+                                    <div class="v-role">Co-Founder & Head of Ops</div>
                                 </div>
-                                <div class="venture-card" onclick="this.classList.toggle('expanded')">
-                                    <div class="venture-header">
-                                        <div class="venture-title-group">
-                                            <h4>Synapse Operations</h4>
-                                            <span class="venture-role">Founder & CEO</span>
-                                        </div>
-                                        <div class="venture-toggle">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                        </div>
-                                    </div>
-                                    <div class="venture-details">
-                                        <div class="venture-details-inner">
-                                            <p>A B2B infrastructure consulting firm building agile deployment frameworks for large-scale IT matrices.</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="v-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></div>
+                            </div>
+                            <div class="v-details">
+                                <div class="venture-details-inner">Founding enterprise IT collective specializing in AI logic and sovereign digital architectures.</div>
                             </div>
                         </div>
+
+                        <div class="venture-card" onclick="toggleMobileCard(this)">
+                            <div class="v-header">
+                                <div class="v-title-group">
+                                    <div class="v-name">Synapse Operations</div>
+                                    <div class="v-role">Founder & CEO</div>
+                                </div>
+                                <div class="v-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></div>
+                            </div>
+                            <div class="v-details">
+                                <div class="venture-details-inner">A B2B infrastructure consulting firm building agile deployment frameworks for large-scale IT matrices.</div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </section>
     </main>
     
-    <footer>
-        <div class="container">
-            <div class="footer-grid reveal-zone">
-                <div class="footer-brand reveal-up">
-                    <div class="logo-light-plate" style="margin-bottom: 1.5rem; width: fit-content; background: transparent; box-shadow: none; padding: 0;">
-                        <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg"><text x="0" y="90" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="90px" fill="#F9FAFB">DE</text><polygon points="170,10 210,10 330,110 290,110" fill="var(--accent)"/><polygon points="290,10 330,10 210,110 170,110" fill="#F9FAFB"/><text x="340" y="90" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="90px" fill="#F9FAFB">YS</text></svg>
-                    </div>
-                    <p>Architecting secure, intelligent, and sovereign digital ecosystems for the subcontinent's most ambitious enterprises.</p>
+    <footer class="reveal-zone">
+        <div class="container reveal-up">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <svg viewBox="0 0 500 120" style="height: 24px; margin-bottom: 1rem;"><text x="0" y="90" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="90px" fill="#F9FAFB">DE</text><polygon points="170,10 210,10 330,110 290,110" fill="var(--accent)"/><polygon points="290,10 330,10 210,110 170,110" fill="#F9FAFB"/><text x="340" y="90" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="90px" fill="#F9FAFB">YS</text></svg>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Architecting secure, intelligent, and sovereign digital ecosystems.</p>
                 </div>
-                <div class="footer-col reveal-up delay-1">
-                    <h4>Sitemap</h4><ul><li><a href="index.html">Home</a></li><li><a href="products-services.html">Capabilities</a></li><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact Us</a></li></ul>
-                </div>
-                <div class="footer-col reveal-up delay-2">
-                    <h4>Intelligence</h4><ul><li><a href="products-services.html#deeptech">Deep Tech R&D</a></li><li><a href="products-services.html#platforms">Proprietary Assets</a></li><li><a href="mailto:hello@dexys.in">hello@dexys.in</a></li></ul>
-                </div>
+                <div class="footer-col"><h4>Sitemap</h4><ul><li><a href="index.html">Home</a></li><li><a href="products-services.html">Capabilities</a></li><li><a href="about.html">About Us</a></li></ul></div>
+                <div class="footer-col"><h4>Connect</h4><ul><li><a href="contact.html">Contact Us</a></li><li><a href="mailto:hello@dexys.in">hello@dexys.in</a></li></ul></div>
             </div>
-            <div class="copyright reveal-zone">
-                <span class="reveal-up delay-3">© 2026 DEXYS Technologies. Engineered in Chennai.</span>
-                <span class="reveal-up delay-4" style="color: var(--accent);">Secure Environment</span>
-            </div>
+            <div class="copyright"><span>© 2026 DEXYS Technologies. Engineered in Chennai.</span></div>
         </div>
     </footer>
 
     <script>
-        window.addEventListener('load', () => { setTimeout(() => { document.body.style.overflow = 'auto'; document.body.classList.remove('intro-locked'); }, 1500); });
-        document.addEventListener("DOMContentLoaded", () => {
-            const isInternal = document.documentElement.classList.contains('internal-route');
-            if (!isInternal) {
-                document.getElementById('loader').style.display = 'none';
-                const tl = anime.timeline({ easing: 'easeOutExpo' });
-                tl.add({ targets: '#intro-logo-wrapper', opacity: [0, 1], scale: [0.95, 1], duration: 1000 }).add({ targets: '#intro-progress', width: ['0%', '100%'], duration: 600, easing: 'easeInOutSine' }, '-=400').add({ targets: '#intro-overlay', opacity: 0, duration: 400, delay: 200, easing: 'linear', complete: () => { document.getElementById('intro-overlay').style.display = 'none'; document.body.style.overflow = 'auto'; document.body.classList.remove('intro-locked'); }}).add({ targets: '#main-header', translateY: ['-100%', '0%'], opacity: [0,1], duration: 800 }, '-=400').add({ targets: '#hero .reveal-up, .reveal-scale, .reveal-right', opacity: 1, translateY: 0, translateX: 0, scale: 1, duration: 800, delay: anime.stagger(100), complete: function(anim) { anim.animatables.forEach(a => a.target.classList.add('is-visible')); } }, '-=600');
-            } else {
-                document.getElementById('intro-overlay').style.display = 'none';
-                document.getElementById('loader').style.display = 'flex';
-                anime.timeline({ easing: 'easeInOutExpo' }).add({ targets: '.loader-text', opacity: [0, 1], translateY: [10, 0], duration: 400, easing: 'easeOutSine' }).add({ targets: '#loader-line', height: ['0%', '100%'], duration: 500 }, '-=200').add({ targets: '#loader', opacity: 0, duration: 300, easing: 'linear', complete: () => { document.getElementById('loader').style.display = 'none'; document.body.style.overflow = 'auto'; document.body.classList.remove('intro-locked'); }}).add({ targets: '#main-header', translateY: ['-100%', '0%'], opacity: [0, 1], duration: 600, easing: 'easeOutExpo' }, '-=100').add({ targets: '#hero .reveal-up, .reveal-scale, .reveal-right', opacity: 1, translateY: 0, translateX: 0, scale: 1, duration: 800, delay: anime.stagger(100), complete: function(anim) { anim.animatables.forEach(a => a.target.classList.add('is-visible')); } }, '-=400');
+        function toggleMobileCard(card) {
+            if(window.innerWidth <= 900) {
+                const wasActive = card.classList.contains('active');
+                document.querySelectorAll('.venture-card.active').forEach(c => c.classList.remove('active'));
+                if(!wasActive) card.classList.add('active');
+                if(!wasActive) { setTimeout(() => { card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 300); }
             }
+        }
+        document.addEventListener("DOMContentLoaded", () => {
+            const tl = anime.timeline({ easing: 'easeOutExpo' });
+            tl.add({ targets: '.loader-text', opacity: [0, 1], translateY: [10, 0], duration: 600 })
+              .add({ targets: '#loader-line', height: ['0%', '100%'], duration: 700, easing: 'easeInOutQuad' }, '-=200')
+              .add({ targets: '#loader', opacity: 0, duration: 400, easing: 'linear', complete: () => { document.getElementById('loader').style.display = 'none'; document.body.classList.remove('intro-locked'); }})
+              .add({ targets: '#main-header', translateY: ['-100%', '0%'], opacity: [0,1], duration: 600 }, '-=100')
+              .add({ targets: '.reveal-right', opacity: [0, 1], translateX: [-20, 0], duration: 800 }, '-=400')
+              .add({ targets: '.reveal-up', opacity: [0, 1], translateY: [20, 0], duration: 800, delay: anime.stagger(100) }, '-=600');
         });
-        
-        const menuBtn = document.getElementById('menu-toggle'); const overlay = document.getElementById('menu-overlay'); const line1 = document.getElementById('line1'); const line2 = document.getElementById('line2'); let menuOpen = false; let menuTimeline = anime.timeline({ autoplay: false });
-        menuTimeline.add({ targets: overlay, opacity: [0, 1], duration: 400, easing: 'easeInOutSine', begin: () => { overlay.style.pointerEvents = 'auto'; } }).add({ targets: '#menu-kicker', opacity: [0, 1], translateY: [20, 0], duration: 600, easing: 'easeOutExpo' }, '-=200').add({ targets: '.menu-link', opacity: [0, 1], translateY: [40, 0], duration: 800, delay: anime.stagger(100), easing: 'easeOutExpo' }, '-=500');
-        if(menuBtn){ menuBtn.addEventListener('click', () => { if(!menuOpen){ line1.style.transform = 'translateY(4px) rotate(45deg)'; line2.style.transform = 'translateY(-4px) rotate(-45deg)'; line1.style.width = '24px'; line2.style.width = '24px'; line1.style.backgroundColor = '#fff'; line2.style.backgroundColor = '#fff'; menuTimeline.play(); menuTimeline.finished.then(() => menuTimeline.reverse()); } else { line1.style.transform = 'none'; line2.style.transform = 'none'; line2.style.width = '16px'; line1.style.backgroundColor = 'var(--text-light)'; line2.style.backgroundColor = 'var(--text-light)'; menuTimeline.play(); menuTimeline.finished.then(() => { overlay.style.pointerEvents = 'none'; menuTimeline.reverse(); }); } menuOpen = !menuOpen; }); }
-
-        const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting && !e.target.classList.contains('revealed')) { e.target.classList.add('revealed'); e.target.querySelectorAll('.reveal-up, .reveal-scale, .reveal-right').forEach(el => el.classList.add('is-visible')); observer.unobserve(e.target); } }); }, { threshold: 0.1 }); document.querySelectorAll('.reveal-zone').forEach(s => { if(s.id !== 'hero') observer.observe(s); });
+        const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.querySelectorAll('.reveal-up').forEach(el => el.classList.add('is-visible')); observer.unobserve(e.target); } }); }, { threshold: 0.1 }); document.querySelectorAll('.reveal-zone').forEach(s => observer.observe(s));
+        const menuBtn = document.getElementById('menu-toggle'); const overlay = document.getElementById('menu-overlay'); let menuOpen = false; let menuTimeline = anime.timeline({ autoplay: false });
+        menuTimeline.add({ targets: overlay, opacity: [0, 1], duration: 300, easing: 'easeInOutSine', begin: () => { overlay.style.pointerEvents = 'auto'; } }).add({ targets: '.menu-link', opacity: [0, 1], translateY: [20, 0], duration: 400, delay: anime.stagger(50), easing: 'easeOutExpo' }, '-=200');
+        if(menuBtn){ menuBtn.addEventListener('click', () => { if(!menuOpen){ menuBtn.children[0].style.transform = 'translateY(4px) rotate(45deg)'; menuBtn.children[1].style.transform = 'translateY(-4px) rotate(-45deg)'; menuBtn.children[0].style.width = '24px'; menuBtn.children[1].style.width = '24px'; menuTimeline.play(); menuTimeline.finished.then(() => menuTimeline.reverse()); } else { menuBtn.children[0].style.transform = 'none'; menuBtn.children[1].style.transform = 'none'; menuBtn.children[1].style.width = '16px'; menuTimeline.play(); menuTimeline.finished.then(() => { overlay.style.pointerEvents = 'none'; menuTimeline.reverse(); }); } menuOpen = !menuOpen; }); }
     </script>
 </body>
 </html>
